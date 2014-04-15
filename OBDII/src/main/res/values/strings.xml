@@ -3,6 +3,10 @@
 
     <string name="app_name">OBDII</string>
 
+    <!-- drawer -->
+    <string name="drawer_open">打开侧边栏</string>
+    <string name="drawer_close">关闭侧边栏</string>
+
     <!-- Network -->
     <string name="connection_fail">无法连接网络</string>
 
@@ -13,5 +17,15 @@
     <string name="username_empty">请输入用户名</string>
     <string name="password_empty">请输入密码</string>
     <string name="sign_in_fail">用户名或密码错误</string>
+
+    <!-- Navigation Drawer-->
+    <string name="car_route">行车轨迹</string>
+    <string name="OBD_data">OBD数据</string>
+    <string name="travel_info">行驶信息</string>
+    <string name="statistics">数据统计</string>
+    <string name="oil_consume_average">平均油耗</string>
+    <string name="speed_average">平均速度</string>
+    <string name="mileage">里程统计</string>
+    <string name="check_alert">检测指标</string>
 
 </resources>
