@@ -21,9 +21,10 @@ import cn.edu.nju.software.obdii.R;
 import cn.edu.nju.software.obdii.network.HttpClient;
 import cn.edu.nju.software.obdii.network.Url;
 import cn.edu.nju.software.obdii.util.Utilities;
+import cn.jpush.android.api.InstrumentedActivity;
 import cn.jpush.android.api.JPushInterface;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends InstrumentedActivity {
     private EditText mUsernameEdit;
     private EditText mPasswordEdit;
 
@@ -75,7 +76,7 @@ public class LoginActivity extends Activity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    return "1,";
+                    return "1, ";
                 }
 
                 @Override
@@ -92,7 +93,7 @@ public class LoginActivity extends Activity {
                         Utilities.showMessage(LoginActivity.this, R.string.sign_in_fail);
                     }
                 }
-            }.execute();
+            };
         }
     }
 }
