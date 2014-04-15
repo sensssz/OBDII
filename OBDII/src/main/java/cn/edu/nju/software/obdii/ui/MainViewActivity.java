@@ -7,6 +7,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -43,16 +44,22 @@ public class MainViewActivity extends Activity {
                 R.drawable.ic_launcher,
                 R.drawable.ic_launcher,
                 R.drawable.ic_launcher,
+                R.drawable.ic_launcher,
+                R.drawable.ic_launcher,
+                R.drawable.ic_launcher,
                 R.drawable.ic_launcher};
         mDrawerOptions = new String[] { //set title of each drawer item
                 getString(R.string.car_route),
                 getString(R.string.OBD_data),
                 getString(R.string.travel_info),
                 getString(R.string.statistics),
+                getString(R.string.oil_consume_average),
+                getString(R.string.speed_average),
+                getString(R.string.mileage),
                 getString(R.string.check_alert),
         };
         mDrawerList.setAdapter(new MyAdapter(
-                getActionBar().getThemedContext(), R.layout.fragment_drawer_item,
+                getActionBar().getThemedContext(), R.layout.drawer_item_title,
                 mDrawerIcons, mDrawerOptions));
 
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -67,11 +74,13 @@ public class MainViewActivity extends Activity {
                 R.string.drawer_close  /* "close drawer" description for accessibility */
         ) {
             public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
                 getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
                 getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
@@ -82,7 +91,18 @@ public class MainViewActivity extends Activity {
             selectItem(0);
         }
 
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        // Handle your other action bar items...
+
+        return super.onOptionsItemSelected(item);
     }
 
     public class MyAdapter extends ArrayAdapter<String> {
@@ -100,18 +120,27 @@ public class MainViewActivity extends Activity {
         }
         @Override
         public View getView(int position, View convertView, ViewGroup parent){
-            convertView = mInflater.inflate(mViewSourceId, null);
-            ImageView imageView = (ImageView)convertView.findViewById(R.id.option_icon);
-            imageView.setImageResource(mImgs[position]);
-            TextView textView = (TextView)convertView.findViewById(R.id.option_text);
-            textView.setText(mTexts[position]);
+
+            if(position > 3 && position < 7) {
+                convertView = mInflater.inflate(R.layout.drawer_item_subtitle, null);
+                TextView textView = (TextView)convertView.findViewById(R.id.subtitle_text);
+                textView.setText(mTexts[position]);
+            }
+            else {
+                convertView = mInflater.inflate(mViewSourceId, null);
+                ImageView imageView = (ImageView)convertView.findViewById(R.id.option_icon);
+                imageView.setImageResource(mImgs[position]);
+                TextView textView = (TextView)convertView.findViewById(R.id.option_text);
+                textView.setText(mTexts[position]);
+            }
+
             return convertView;
         }
     }
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            selectItem(position);
         }
     }
 
