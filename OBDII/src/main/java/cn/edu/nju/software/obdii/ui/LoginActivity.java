@@ -1,5 +1,6 @@
 package cn.edu.nju.software.obdii.ui;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,15 +28,21 @@ import cn.jpush.android.api.JPushInterface;
 public class LoginActivity extends InstrumentedActivity {
     private EditText mUsernameEdit;
     private EditText mPasswordEdit;
+    private Button mSignInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.sign_in);
+        }
+
         mUsernameEdit = (EditText) findViewById(R.id.username);
         mPasswordEdit = (EditText) findViewById(R.id.password);
-        Button signInButton = (Button) findViewById(R.id.sign_in_button);
+        mSignInButton = (Button) findViewById(R.id.sign_in_button);
 
         mPasswordEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -47,7 +54,7 @@ public class LoginActivity extends InstrumentedActivity {
             }
         });
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
+        mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signIn();
@@ -65,22 +72,29 @@ public class LoginActivity extends InstrumentedActivity {
         } else {
             new AsyncTask<Void, Void, String>() {
                 @Override
+                protected void onPreExecute() {
+                    signInInProgress();
+                }
+
+                @Override
                 protected String doInBackground(Void... voids) {
+                    String result = "1, ";
                     String MD5edUsername = Utilities.MD5(username);
                     String MD5edPassword = Utilities.MD5(password);
                     List<NameValuePair> parameters = new ArrayList<NameValuePair>(2);
                     parameters.add(new BasicNameValuePair("username", MD5edUsername));
                     parameters.add(new BasicNameValuePair("password", MD5edPassword));
                     try {
-                        return HttpClient.getInstance().httpPost(Url.LOGIN_URL, parameters);
+                        HttpClient.getInstance().httpPost(Url.LOGIN_URL, parameters);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    return "1, ";
+                    return result;
                 }
 
                 @Override
                 protected void onPostExecute(String signInResult) {
+                    signInFinished();
                     if (signInResult == null) {
                         Utilities.showMessage(LoginActivity.this, R.string.connection_fail);
                         return;
@@ -89,7 +103,7 @@ public class LoginActivity extends InstrumentedActivity {
                     if (results[0].equals("1")) {
                         JPushInterface.setAlias(LoginActivity.this, results[1], null);
                         Intent intent = new Intent(LoginActivity.this, MainViewActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     } else {
                         Utilities.showMessage(LoginActivity.this, R.string.sign_in_fail);
@@ -97,5 +111,19 @@ public class LoginActivity extends InstrumentedActivity {
                 }
             }.execute();
         }
+    }
+
+    private void signInInProgress() {
+        mUsernameEdit.setEnabled(false);
+        mPasswordEdit.setEnabled(false);
+        mSignInButton.setEnabled(false);
+        mSignInButton.setText(R.string.sign_in_executing);
+    }
+
+    private void signInFinished() {
+        mUsernameEdit.setEnabled(true);
+        mPasswordEdit.setEnabled(true);
+        mSignInButton.setEnabled(true);
+        mSignInButton.setText(R.string.sign_in);
     }
 }
