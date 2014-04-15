@@ -1,4 +1,4 @@
-package cn.edu.nju.software.obdii;
+package cn.edu.nju.software.obdii.ui;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.edu.nju.software.obdii.R;
 import cn.edu.nju.software.obdii.network.HttpClient;
 import cn.edu.nju.software.obdii.network.Url;
 import cn.edu.nju.software.obdii.util.Utilities;
