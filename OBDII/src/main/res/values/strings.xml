@@ -2,6 +2,10 @@
 <resources>
 
     <string name="app_name">OBDII</string>
-    <string name="hello_world">Hello world!</string>
+
+    <!-- Sign in -->
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+    <string name="sign_in">登录</string>
 
 </resources>
