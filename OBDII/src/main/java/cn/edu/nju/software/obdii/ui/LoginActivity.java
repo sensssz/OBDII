@@ -1,6 +1,6 @@
 package cn.edu.nju.software.obdii.ui;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -58,9 +58,9 @@ public class LoginActivity extends InstrumentedActivity {
     private void signIn() {
         final String username = mUsernameEdit.getText().toString();
         final String password = mPasswordEdit.getText().toString();
-        if (username.length() < 0) {
+        if (username.length() < 1) {
             Utilities.showMessage(this, R.string.username_empty);
-        } else if (password.length() < 0) {
+        } else if (password.length() < 1) {
             Utilities.showMessage(this, R.string.password_empty);
         } else {
             new AsyncTask<Void, Void, String>() {
@@ -87,13 +87,15 @@ public class LoginActivity extends InstrumentedActivity {
                     }
                     String[] results = signInResult.split(",");
                     if (results[0].equals("1")) {
-                        // TODO Add sign in logic
                         JPushInterface.setAlias(LoginActivity.this, results[1], null);
+                        Intent intent = new Intent(LoginActivity.this, MainViewActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                     } else {
                         Utilities.showMessage(LoginActivity.this, R.string.sign_in_fail);
                     }
                 }
-            };
+            }.execute();
         }
     }
 }

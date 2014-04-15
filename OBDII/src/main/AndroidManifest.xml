@@ -30,13 +30,17 @@
 
         <activity
             android:name=".ui.LoginActivity"
-            android:label="@string/app_name">
-            <intent-filter>
+            android:label="@string/sign_in">
+        <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.MainViewActivity"
+            android:label="@string/app_name" />
 
         <receiver
             android:name="cn.edu.nju.software.obdii.network.DataReceiver"
@@ -105,7 +109,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
         <!-- Required SDK核心功能 -->
         <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
 
