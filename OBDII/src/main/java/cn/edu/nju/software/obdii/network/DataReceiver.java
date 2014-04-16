@@ -21,12 +21,16 @@ public class DataReceiver extends BroadcastReceiver {
         if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
             if (bundle != null) {
                 String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-                if (message != null && message.contains(":")) {
-                    Log.d(TAG, message);
-                    String[] messageParts = message.split(":");
-                    String dataType = messageParts[0];
-                    String dataValue = messageParts[1];
-                    DataMap.getInstance().onDataReceived(dataType, dataValue);
+                if (message != null) {
+                    if (message.contains(":")) {
+                        Log.d(TAG, message);
+                        String[] messageParts = message.split(":");
+                        String dataType = messageParts[0];
+                        String dataValue = messageParts[1];
+                        DataMap.getInstance().onNameDataReceived(dataType, dataValue);
+                    } else {
+                        DataMap.getInstance().onUnnamedDataReceived(message);
+                    }
                 }
             }
         }

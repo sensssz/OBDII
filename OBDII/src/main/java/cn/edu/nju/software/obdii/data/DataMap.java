@@ -12,11 +12,11 @@ public class DataMap {
     private static DataMap sInstance = new DataMap();
 
     private Map<String, String> mDataMap;
-    private List<OnDataListener> mOnDataListeners;
+    private List<OnNamedDataListener> mOnNamedDataListeners;
 
     private DataMap() {
         mDataMap = new HashMap<String, String>();
-        mOnDataListeners = new ArrayList<OnDataListener>();
+        mOnNamedDataListeners = new ArrayList<OnNamedDataListener>();
     }
 
     public static DataMap getInstance() {
@@ -36,21 +36,24 @@ public class DataMap {
         return 0;
     }
 
-    public void addOnDataListener(OnDataListener onDataListener) {
-        if (!mOnDataListeners.contains(onDataListener)) {
-            mOnDataListeners.add(onDataListener);
+    public void addOnDataListener(OnNamedDataListener onNamedDataListener) {
+        if (!mOnNamedDataListeners.contains(onNamedDataListener)) {
+            mOnNamedDataListeners.add(onNamedDataListener);
         }
     }
 
-    public void removeOnDataListener(OnDataListener onDataListener) {
-        mOnDataListeners.remove(onDataListener);
+    public void removeOnDataListener(OnNamedDataListener onNamedDataListener) {
+        mOnNamedDataListeners.remove(onNamedDataListener);
     }
 
-    public void onDataReceived(String dataType, String dataValue) {
+    public void onNameDataReceived(String dataType, String dataValue) {
         mDataMap.put(dataType, dataValue);
-        for (OnDataListener onDataListener : mOnDataListeners) {
-            onDataListener.onDataReceived(dataType, dataValue);
+        for (OnNamedDataListener onNamedDataListener : mOnNamedDataListeners) {
+            onNamedDataListener.onNamedDataReceived(dataType, dataValue);
         }
+    }
+
+    public void onUnnamedDataReceived(String data) {
     }
 
     public String getData(DataType dataType) {
@@ -62,7 +65,7 @@ public class DataMap {
         return mDataMap.get(dataType);
     }
 
-    public interface OnDataListener {
-        public void onDataReceived(String dataType, String dataValue);
+    public interface OnNamedDataListener {
+        public void onNamedDataReceived(String dataType, String dataValue);
     }
 }
