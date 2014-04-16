@@ -4,9 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:textSize="16sp"
         android:id="@+id/subtitle_text"
-        android:paddingLeft="40dp"/>
-
+        android:gravity="center|left"
+        android:layout_marginLeft="44dp"
+        android:textColor="#000000" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/subtitle_text"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/dividerHorizontal" />
 </RelativeLayout>

@@ -40,23 +40,25 @@ public class MainViewActivity extends Activity {
         mDrawerList = (ListView)findViewById(R.id.left_drawer);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerIcons = new int[] { //set icon of each drawer item
-                R.drawable.ic_launcher,
-                R.drawable.ic_launcher,
-                R.drawable.ic_launcher,
-                R.drawable.ic_launcher,
-                R.drawable.ic_launcher,
-                R.drawable.ic_launcher,
-                R.drawable.ic_launcher,
-                R.drawable.ic_launcher};
+                R.drawable.drawer_car_route,
+                R.drawable.drawer_obd_data,
+                R.drawable.drawer_travel_info,
+                R.drawable.drawer_alert_check,
+                R.drawable.drawer_statistic,
+                R.drawable.drawer_statistic,
+                R.drawable.drawer_statistic,
+                R.drawable.drawer_statistic
+                };
         mDrawerOptions = new String[] { //set title of each drawer item
                 getString(R.string.car_route),
                 getString(R.string.OBD_data),
                 getString(R.string.travel_info),
+                getString(R.string.check_alert),
                 getString(R.string.statistics),
                 getString(R.string.oil_consume_average),
                 getString(R.string.speed_average),
                 getString(R.string.mileage),
-                getString(R.string.check_alert),
+
         };
         mDrawerList.setAdapter(new MyAdapter(
                 getActionBar().getThemedContext(), R.layout.drawer_item_title,
@@ -121,7 +123,7 @@ public class MainViewActivity extends Activity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent){
 
-            if(position > 3 && position < 7) {
+            if(position > 4) {
                 convertView = mInflater.inflate(R.layout.drawer_item_subtitle, null);
                 TextView textView = (TextView)convertView.findViewById(R.id.subtitle_text);
                 textView.setText(mTexts[position]);

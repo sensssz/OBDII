@@ -19,9 +19,13 @@
         android:textSize="16sp"
         android:id="@+id/option_text"
         android:textColor="#2e2427"
-        android:paddingLeft="0dp"
+        android:paddingLeft="10dp"
         android:gravity="center|left"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/option_icon"
-        android:layout_marginLeft="20dp" />
+        android:layout_toRightOf="@+id/option_icon" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/dividerHorizontal" />
 </RelativeLayout>
