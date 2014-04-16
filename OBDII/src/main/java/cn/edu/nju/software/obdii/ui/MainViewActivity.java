@@ -1,9 +1,11 @@
 package cn.edu.nju.software.obdii.ui;
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -21,25 +23,28 @@ import cn.edu.nju.software.obdii.R;
 /**
  * Created by rogers on 4/15/14.
  */
-public class MainViewActivity extends Activity {
+public class MainViewActivity extends FragmentActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private int[] mDrawerIcons;
     private String[] mDrawerOptions;
     private ActionBarDrawerToggle mDrawerToggle;
 
+    private int currentPosition;
+    private Fragment[] fragments;
+
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainview);
         mTitle = mDrawerTitle = getTitle();
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView)findViewById(R.id.left_drawer);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        mDrawerIcons = new int[] { //set icon of each drawer item
+        mDrawerIcons = new int[]{ //set icon of each drawer item
                 R.drawable.drawer_car_route,
                 R.drawable.drawer_obd_data,
                 R.drawable.drawer_travel_info,
@@ -48,8 +53,8 @@ public class MainViewActivity extends Activity {
                 R.drawable.drawer_statistic,
                 R.drawable.drawer_statistic,
                 R.drawable.drawer_statistic
-                };
-        mDrawerOptions = new String[] { //set title of each drawer item
+        };
+        mDrawerOptions = new String[]{ //set title of each drawer item
                 getString(R.string.car_route),
                 getString(R.string.OBD_data),
                 getString(R.string.travel_info),
@@ -89,6 +94,11 @@ public class MainViewActivity extends Activity {
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+        currentPosition = -1;
+        fragments = new Fragment[mDrawerIcons.length];
+        fragments[0] = new TrajectoryFragment();
+        fragments[1] = new TrajectoryFragment();
+
         if (savedInstanceState == null) {
             selectItem(0);
         }
@@ -107,55 +117,31 @@ public class MainViewActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class MyAdapter extends ArrayAdapter<String> {
-        private int[] mImgs;
-        private String[] mTexts;
-        private int mViewSourceId;
-        private LayoutInflater mInflater;
-        public MyAdapter(Context context, int viewResourceId, int[] imgs, String[] texts) {
-            super(context, viewResourceId, texts);
-            mImgs = imgs;
-            mTexts = texts;
-            mViewSourceId = viewResourceId;
-            mInflater = (LayoutInflater)context.getSystemService(
-                    Context.LAYOUT_INFLATER_SERVICE);
-        }
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent){
-
-            if(position > 4) {
-                convertView = mInflater.inflate(R.layout.drawer_item_subtitle, null);
-                TextView textView = (TextView)convertView.findViewById(R.id.subtitle_text);
-                textView.setText(mTexts[position]);
-            }
-            else {
-                convertView = mInflater.inflate(mViewSourceId, null);
-                ImageView imageView = (ImageView)convertView.findViewById(R.id.option_icon);
-                imageView.setImageResource(mImgs[position]);
-                TextView textView = (TextView)convertView.findViewById(R.id.option_text);
-                textView.setText(mTexts[position]);
-            }
-
-            return convertView;
-        }
-    }
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
-
     private void selectItem(int position) {
         mDrawerList.setItemChecked(position, true);
         setTitle(mDrawerOptions[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
+
+        changeFragment(position);
     }
+
+    private void changeFragment(int position) {
+        if (currentPosition != position) {
+            if (fragments[position] != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, fragments[position]).commit();
+
+                currentPosition = position;
+            }
+        }
+    }
+
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
         getActionBar().setTitle(mTitle);
     }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -166,7 +152,48 @@ public class MainViewActivity extends Activity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggls
+        // Pass any configuration change to the drawer toggles
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    public class MyAdapter extends ArrayAdapter<String> {
+        private int[] mImgs;
+        private String[] mTexts;
+        private int mViewSourceId;
+        private LayoutInflater mInflater;
+
+        public MyAdapter(Context context, int viewResourceId, int[] imgs, String[] texts) {
+            super(context, viewResourceId, texts);
+            mImgs = imgs;
+            mTexts = texts;
+            mViewSourceId = viewResourceId;
+            mInflater = (LayoutInflater) context.getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            if (position > 4) {
+                convertView = mInflater.inflate(R.layout.drawer_item_subtitle, null);
+                TextView textView = (TextView) convertView.findViewById(R.id.subtitle_text);
+                textView.setText(mTexts[position]);
+            } else {
+                convertView = mInflater.inflate(mViewSourceId, null);
+                ImageView imageView = (ImageView) convertView.findViewById(R.id.option_icon);
+                imageView.setImageResource(mImgs[position]);
+                TextView textView = (TextView) convertView.findViewById(R.id.option_text);
+                textView.setText(mTexts[position]);
+            }
+
+            return convertView;
+        }
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
     }
 }
