@@ -1,14 +1,14 @@
 package cn.edu.nju.software.obdii.ui;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baidu.mapapi.map.MapFragment;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.SupportMapFragment;
 
 import cn.edu.nju.software.obdii.R;
 
@@ -16,7 +16,7 @@ import cn.edu.nju.software.obdii.R;
  * Show the trajectory of the user's car
  */
 public class TrajectoryFragment extends Fragment {
-    private SupportMapFragment mMapFragment;
+    private MapFragment mMapFragment;
     private MapView mMapView;
 
     @Override
@@ -24,7 +24,7 @@ public class TrajectoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trajectory, container, false);
 
-        mMapFragment = SupportMapFragment.newInstance();
+        mMapFragment = MapFragment.newInstance();
 
         view.findViewById(R.id.map_container).postDelayed(new Runnable() {
             @Override

@@ -1,11 +1,11 @@
 package cn.edu.nju.software.obdii.ui;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -23,7 +23,7 @@ import cn.edu.nju.software.obdii.R;
 /**
  * Created by rogers on 4/15/14.
  */
-public class MainViewActivity extends FragmentActivity {
+public class MainViewActivity extends Activity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private int[] mDrawerIcons;
@@ -128,7 +128,7 @@ public class MainViewActivity extends FragmentActivity {
     private void changeFragment(int position) {
         if (currentPosition != position) {
             if (fragments[position] != null) {
-                getSupportFragmentManager().beginTransaction()
+                getFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, fragments[position]).commit();
 
                 currentPosition = position;
