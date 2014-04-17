@@ -98,7 +98,7 @@ public class MainViewActivity extends Activity {
         fragments = new Fragment[mDrawerIcons.length];
         fragments[0] = new TrajectoryFragment();
         fragments[1] = new TrajectoryFragment();
-
+        fragments[5] = new OilStatisticsFragment();
         if (savedInstanceState == null) {
             selectItem(0);
         }
