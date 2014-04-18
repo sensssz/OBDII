@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2011 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2011 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,24 +15,24 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/TabAppTheme"
     android:layout_height="@dimen/tab_host_default_height"
-    android:gravity="center"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    style="@style/TabAppTheme"
+    android:gravity="center">
 
     <ImageView
         android:id="@android:id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:contentDescription="@null"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:contentDescription="@null" />
 
     <TextView
         android:id="@android:id/title"
-        style="@style/TabTextAppTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical" />
+        android:layout_gravity="center_vertical"
+        style="@style/TabTextAppTheme" />
 
 </LinearLayout>
