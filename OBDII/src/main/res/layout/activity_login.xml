@@ -42,6 +42,6 @@
         android:layout_alignParentBottom="true"
         android:background="?android:attr/selectableItemBackground"
         android:text="@string/sign_in"
-        android:textColor="@color/main_color" />
+        android:textColor="@color/apptheme_color" />
 
 </RelativeLayout>

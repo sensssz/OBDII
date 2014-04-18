@@ -3,24 +3,31 @@
 <!-- Generated with http://android-holo-colors.com -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <style name="AppTheme" parent="@style/_AppTheme"/>
+    <style name="AppTheme" parent="@style/_AppTheme"/>
 
-  <style name="_AppTheme" parent="android:Theme.Holo.Light">
+    <style name="_AppTheme" parent="android:Theme.Holo.Light">
 
-    <item name="android:editTextBackground">@drawable/apptheme_edit_text_holo_light</item>
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
 
-    <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewAppTheme</item>
+        <item name="android:editTextBackground">@drawable/apptheme_edit_text_holo_light</item>
 
-    <item name="android:listChoiceIndicatorMultiple">@drawable/apptheme_btn_check_holo_light</item>
+        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewAppTheme</item>
 
-    <item name="android:progressBarStyleHorizontal">@style/ProgressBarAppTheme</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/apptheme_btn_check_holo_light
+        </item>
 
-    <item name="android:listChoiceBackgroundIndicator">@drawable/apptheme_list_selector_holo_light</item>
+        <item name="android:progressBarStyleHorizontal">@style/ProgressBarAppTheme</item>
 
-    <item name="android:activatedBackgroundIndicator">@drawable/apptheme_activated_background_holo_light</item>
+        <item name="android:listChoiceBackgroundIndicator">
+            @drawable/apptheme_list_selector_holo_light
+        </item>
 
-    <item name="android:fastScrollThumbDrawable">@drawable/apptheme_fastscroll_thumb_holo</item>
+        <item name="android:activatedBackgroundIndicator">
+            @drawable/apptheme_activated_background_holo_light
+        </item>
 
-  </style>
+        <item name="android:fastScrollThumbDrawable">@drawable/apptheme_fastscroll_thumb_holo</item>
+
+    </style>
 
 </resources>

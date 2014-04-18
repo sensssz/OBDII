@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baidu.mapapi.map.ItemizedOverlay;
 import com.baidu.mapapi.map.MapFragment;
 import com.baidu.mapapi.map.MapView;
 
 import cn.edu.nju.software.obdii.R;
+import cn.edu.nju.software.obdii.data.DataMap;
 
 /**
  * Show the trajectory of the user's car
@@ -18,6 +20,21 @@ import cn.edu.nju.software.obdii.R;
 public class TrajectoryFragment extends Fragment {
     private MapFragment mMapFragment;
     private MapView mMapView;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        DataMap.getInstance().addOnLocationUpdateListener(new DataMap.OnLocationUpdateListener() {
+            @Override
+            public void onLocationUpdate(double latitude, double longitude) {
+                if (isVisible() && mMapView != null) {
+                    ItemizedOverlay overlay = new ItemizedOverlay(getResources().getDrawable(R.drawable.marker),
+                            mMapView);
+                }
+            }
+        });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
