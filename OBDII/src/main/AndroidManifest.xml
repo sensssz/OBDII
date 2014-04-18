@@ -26,6 +26,9 @@
     <!-- Baidu Map API -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
 
+    <!--Shinobicharts-->
+    <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
+
     <application
         android:name=".ui.OBDApplication"
         android:allowBackup="true"
