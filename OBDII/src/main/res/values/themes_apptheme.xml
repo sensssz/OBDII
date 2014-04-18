@@ -13,8 +13,6 @@
 
     <item name="android:listChoiceIndicatorMultiple">@drawable/apptheme_btn_check_holo_light</item>
 
-    <item name="android:listChoiceIndicatorSingle">@drawable/apptheme_btn_radio_holo_light</item>
-
     <item name="android:progressBarStyleHorizontal">@style/ProgressBarAppTheme</item>
 
     <item name="android:listChoiceBackgroundIndicator">@drawable/apptheme_list_selector_holo_light</item>
