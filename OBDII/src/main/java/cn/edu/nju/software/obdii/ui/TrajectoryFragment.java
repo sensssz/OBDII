@@ -3,6 +3,7 @@ package cn.edu.nju.software.obdii.ui;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +11,26 @@ import android.view.ViewGroup;
 import com.baidu.mapapi.map.ItemizedOverlay;
 import com.baidu.mapapi.map.MapFragment;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.OverlayItem;
+import com.baidu.platform.comapi.basestruct.GeoPoint;
 
 import cn.edu.nju.software.obdii.R;
 import cn.edu.nju.software.obdii.data.DataMap;
+import cn.edu.nju.software.obdii.location.LocationData;
+import cn.edu.nju.software.obdii.location.Point2D;
 
 /**
  * Show the trajectory of the user's car
  */
 public class TrajectoryFragment extends Fragment {
-    private MapFragment mMapFragment;
     private MapView mMapView;
+    private ItemizedOverlay mOverlay;
+    private LocationData mLocationData;
+    private String mUsername;
+
+    public TrajectoryFragment(String username) {
+        mUsername = username;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,12 +39,22 @@ public class TrajectoryFragment extends Fragment {
         DataMap.getInstance().addOnLocationUpdateListener(new DataMap.OnLocationUpdateListener() {
             @Override
             public void onLocationUpdate(double latitude, double longitude) {
-                if (isVisible() && mMapView != null) {
-                    ItemizedOverlay overlay = new ItemizedOverlay(getResources().getDrawable(R.drawable.marker),
-                            mMapView);
+                if (isVisible() && mMapView != null && mOverlay != null) {
+                    GeoPoint point = new GeoPoint(toBaiduFormat(latitude), toBaiduFormat(longitude));
+                    OverlayItem item = new OverlayItem(point, "", "");
+                    mOverlay.addItem(item);
+                    mMapView.refresh();
                 }
             }
         });
+    }
+
+    private int toBaiduFormat(double coordinate) {
+        return (int) (coordinate * 1E6);
+    }
+
+    private OverlayItem toOverlayItem(GeoPoint point) {
+        return new OverlayItem(point, "", "");
     }
 
     @Override
@@ -41,31 +62,32 @@ public class TrajectoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trajectory, container, false);
 
-        mMapFragment = MapFragment.newInstance();
+        if (mLocationData == null) {
+            mLocationData = new LocationData(getActivity(), mUsername);
+        }
 
-        view.findViewById(R.id.map_container).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                FragmentManager manager = getFragmentManager();
-                manager.beginTransaction().replace(R.id.map_container, mMapFragment, "map_fragment").commit();
-                mMapView = mMapFragment.getMapView();
-                if (mMapView != null) {
-                    mMapView.getController().setZoom(12);
-                }
-            }
-        }, 300);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mMapView = (MapView) view.findViewById(R.id.map);
+        mMapView.getController().setZoom(12);
+        mOverlay = new ItemizedOverlay(getResources().getDrawable(R.drawable.marker),
+                mMapView);
+        for (Point2D point : mLocationData.getLocationData()) {
+            mOverlay.addItem(toOverlayItem(point.toGeoPoint()));
+        }
+        mMapView.refresh();
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
+        Log.d("", "onResume");
         if (mMapView != null) {
             mMapView.onResume();
         }
@@ -75,6 +97,7 @@ public class TrajectoryFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
+        Log.d("", "onPause");
         if (mMapView != null) {
             mMapView.onPause();
         }

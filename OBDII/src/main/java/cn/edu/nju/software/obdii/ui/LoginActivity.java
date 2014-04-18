@@ -79,8 +79,8 @@ public class LoginActivity extends InstrumentedActivity {
                 @Override
                 protected String doInBackground(Void... voids) {
                     String result = "1, ";
-                    String MD5edUsername = Utilities.MD5(username);
-                    String MD5edPassword = Utilities.MD5(password);
+                    String MD5edUsername = Utilities.md5(username);
+                    String MD5edPassword = Utilities.md5(password);
                     List<NameValuePair> parameters = new ArrayList<NameValuePair>(2);
                     parameters.add(new BasicNameValuePair("username", MD5edUsername));
                     parameters.add(new BasicNameValuePair("password", MD5edPassword));
@@ -103,6 +103,7 @@ public class LoginActivity extends InstrumentedActivity {
                     if (results[0].equals("1")) {
                         JPushInterface.setAlias(LoginActivity.this, results[1], null);
                         Intent intent = new Intent(LoginActivity.this, MainViewActivity.class);
+                        intent.putExtra("username", username);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     } else {

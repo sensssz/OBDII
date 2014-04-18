@@ -11,7 +11,7 @@
     <string name="connection_fail">无法连接网络</string>
 
     <!-- Sign in -->
-    <string name="username">用户名</string>
+    <string name="username">电子邮箱</string>
     <string name="password">密码</string>
     <string name="sign_in">登录</string>
     <string name="username_empty">请输入用户名</string>

@@ -96,8 +96,9 @@ public class MainViewActivity extends Activity {
 
         currentPosition = -1;
         fragments = new Fragment[mDrawerIcons.length];
-        fragments[0] = new TrajectoryFragment();
-        fragments[1] = new TrajectoryFragment();
+
+        String username = getIntent().getStringExtra("username");
+        fragments[0] = new TrajectoryFragment(username);
         fragments[5] = new OilStatisticsFragment();
         if (savedInstanceState == null) {
             selectItem(0);

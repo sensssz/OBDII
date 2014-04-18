@@ -1,13 +1,15 @@
-package cn.edu.nju.software.obdii.data;
+package cn.edu.nju.software.obdii.location;
+
+import com.baidu.platform.comapi.basestruct.GeoPoint;
 
 /**
  * Represent a geographical point with a latitude and a longitude
  */
-public class GeoPoint {
+public class Point2D {
     private double mLatitude;
     private double mLongitude;
 
-    public GeoPoint(double mLatitude, double mLongitude) {
+    public Point2D(double mLatitude, double mLongitude) {
         this.mLatitude = mLatitude;
         this.mLongitude = mLongitude;
     }
@@ -26,5 +28,13 @@ public class GeoPoint {
 
     public void setLongitude(double mLongitude) {
         this.mLongitude = mLongitude;
+    }
+
+    public GeoPoint toGeoPoint() {
+        return new GeoPoint(toBaiduFormat(mLatitude), toBaiduFormat(mLongitude));
+    }
+
+    private int toBaiduFormat(double coordinate) {
+        return (int) (coordinate * 1E6);
     }
 }
