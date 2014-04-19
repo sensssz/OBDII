@@ -2,7 +2,6 @@ package cn.edu.nju.software.obdii.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,17 +74,13 @@ public class TrajectoryFragment extends Fragment {
     }
 
     private void configMapView() {
-        Log.d("map", "config");
         List<Point2D> points = mLocationData.getLocationData();
         if (mCenter != null) {
-            Log.d("map", "center not null");
             mMapView.getController().setCenter(mCenter);
             mMapView.getController().setZoom(mZoomLevel);
         } else if (points.size() == 0) {
-            Log.d("map", "size is 0");
             mMapView.getController().setZoom(12);
         } else {
-            Log.d("map", "size > 0");
             mOverlay = new ItemizedOverlay(getResources().getDrawable(R.drawable.marker),
                     mMapView);
             double latitudeSum = 0;
@@ -130,7 +125,6 @@ public class TrajectoryFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        Log.d("", "onResume");
         if (mMapView != null) {
             mMapView.onResume();
         }
@@ -140,7 +134,6 @@ public class TrajectoryFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
-        Log.d("", "onPause");
         if (mMapView != null) {
             mMapView.onPause();
 

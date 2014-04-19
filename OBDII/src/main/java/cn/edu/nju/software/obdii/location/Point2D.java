@@ -37,4 +37,9 @@ public class Point2D {
     private int toBaiduFormat(double coordinate) {
         return (int) (coordinate * 1E6);
     }
+
+    @Override
+    public String toString() {
+        return mLatitude + "," + mLongitude;
+    }
 }

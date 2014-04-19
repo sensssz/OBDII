@@ -6,7 +6,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class LocationData {
             public void onLocationUpdate(double latitude, double longitude) {
                 Point2D point2D = new Point2D(latitude, longitude);
                 mLocations.add(point2D);
+                writeData();
             }
         });
     }
@@ -58,6 +61,19 @@ public class LocationData {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void writeData() {
+        String filename = mDirectory + "locations";
+        try {
+            PrintWriter writer = new PrintWriter(new FileWriter(filename));
+            for (Point2D point : mLocations) {
+                writer.println(point);
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
