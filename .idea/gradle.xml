@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="C:\Users\Public\Documents\Android Studio\OBDII" />
-            <option value="C:\Users\Public\Documents\Android Studio\OBDII\OBDII" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/OBDII" />
           </set>
         </option>
       </GradleProjectSettings>
