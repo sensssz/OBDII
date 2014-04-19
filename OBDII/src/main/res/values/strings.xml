@@ -19,6 +19,9 @@
     <string name="sign_in_executing">登录中……</string>
     <string name="sign_in_fail">用户名或密码错误</string>
 
+    <!-- Travel Info -->
+    <string name="arrow">箭头</string>
+
     <!-- Navigation Drawer-->
     <string name="car_route">行车轨迹</string>
     <string name="OBD_data">OBD数据</string>
