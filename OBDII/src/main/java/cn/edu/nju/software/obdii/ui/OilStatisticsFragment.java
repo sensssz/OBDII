@@ -60,13 +60,7 @@ public class OilStatisticsFragment extends Fragment {
             mCurrentRenderer.setDisplayChartValues(true);
             mCurrentRenderer.setDisplayChartValuesDistance(10);
 
-            mCurrentSeries.add(1, 20);
-            mCurrentSeries.add(2, 13);
-            mCurrentSeries.add(3, 14);
-            mCurrentSeries.add(4, 21);
-            mCurrentSeries.add(5, 10);
-            mCurrentSeries.add(6, 11);
-            mCurrentSeries.add(7, 16);
+            refreshData();
 
             mChartView = ChartFactory.getLineChartView(getActivity(), mDataset, mRenderer);
             layout.addView(mChartView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -78,7 +72,13 @@ public class OilStatisticsFragment extends Fragment {
     }
 
     private void refreshData() {
-
+        mCurrentSeries.add(1, 20);
+        mCurrentSeries.add(2, 13);
+        mCurrentSeries.add(3, 14);
+        mCurrentSeries.add(4, 21);
+        mCurrentSeries.add(5, 10);
+        mCurrentSeries.add(6, 11);
+        mCurrentSeries.add(7, 16);
     }
 
 }
