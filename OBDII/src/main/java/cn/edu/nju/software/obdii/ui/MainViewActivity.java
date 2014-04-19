@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -30,11 +32,14 @@ public class MainViewActivity extends Activity {
     private String[] mDrawerOptions;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    private int currentPosition;
-    private Fragment[] fragments;
+    private int mCurrentPosition;
+    private int mNewPosition;
+    private Fragment[] mFragments;
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+
+    private Animation mFadeOutAnimation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,6 +89,8 @@ public class MainViewActivity extends Activity {
                 super.onDrawerClosed(view);
                 getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+
+                changeFragment(mNewPosition);
             }
 
             public void onDrawerOpened(View drawerView) {
@@ -94,17 +101,18 @@ public class MainViewActivity extends Activity {
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        currentPosition = -1;
-        fragments = new Fragment[mDrawerIcons.length];
+        mCurrentPosition = -1;
+        mFragments = new Fragment[mDrawerIcons.length];
 
         String username = getIntent().getStringExtra("username");
-        fragments[0] = new TrajectoryFragment(username);
-        fragments[1] = new TrajectoryFragment(username);
-        fragments[5] = new OilStatisticsFragment();
+        mFragments[0] = new TrajectoryFragment(username);
+        mFragments[1] = new TrajectoryFragment(username);
+        mFragments[5] = new OilStatisticsFragment();
         if (savedInstanceState == null) {
             selectItem(0);
         }
 
+        mFadeOutAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_out);
     }
 
     @Override
@@ -122,18 +130,21 @@ public class MainViewActivity extends Activity {
     private void selectItem(int position) {
         mDrawerList.setItemChecked(position, true);
         setTitle(mDrawerOptions[position]);
+        if (mCurrentPosition != -1 && mCurrentPosition != position) {
+            if (mFragments[mCurrentPosition] != null) {
+                mFragments[mCurrentPosition].getView().startAnimation(mFadeOutAnimation);
+            }
+        }
         mDrawerLayout.closeDrawer(mDrawerList);
-
-        changeFragment(position);
     }
 
     private void changeFragment(int position) {
-        if (currentPosition != position) {
-            if (fragments[position] != null) {
+        if (mCurrentPosition != position) {
+            if (mFragments[position] != null) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, fragments[position]).commit();
+                        .replace(R.id.content_frame, mFragments[position]).commit();
 
-                currentPosition = position;
+                mCurrentPosition = position;
             }
         }
     }
@@ -195,6 +206,7 @@ public class MainViewActivity extends Activity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            mNewPosition = position;
             selectItem(position);
         }
     }

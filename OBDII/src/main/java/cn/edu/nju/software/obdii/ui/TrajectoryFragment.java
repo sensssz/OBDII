@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.baidu.mapapi.map.ItemizedOverlay;
 import com.baidu.mapapi.map.MapView;
@@ -50,8 +49,6 @@ public class TrajectoryFragment extends Fragment {
                 }
             }
         });
-
-        mMapView = new MapView(getActivity());
     }
 
     private int toBaiduFormat(double coordinate) {
@@ -71,18 +68,8 @@ public class TrajectoryFragment extends Fragment {
             mLocationData = new LocationData(getActivity(), mUsername);
         }
 
-        final LinearLayout mapContainer = (LinearLayout) view.findViewById(R.id.map_container);
-//        mMapView = (MapView) view.findViewById(R.id.map);
-
-        mapContainer.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                mapContainer.addView(mMapView, layoutParams);
-                configMapView();
-            }
-        }, 200);
+        mMapView = (MapView) view.findViewById(R.id.map);
+        configMapView();
 
         return view;
     }
@@ -145,7 +132,7 @@ public class TrajectoryFragment extends Fragment {
 
         Log.d("", "onResume");
         if (mMapView != null) {
-//            mMapView.onResume();
+            mMapView.onResume();
         }
     }
 
@@ -155,7 +142,7 @@ public class TrajectoryFragment extends Fragment {
 
         Log.d("", "onPause");
         if (mMapView != null) {
-//            mMapView.onPause();
+            mMapView.onPause();
 
             mCenter = mMapView.getMapCenter();
             mZoomLevel = mMapView.getZoomLevel();
