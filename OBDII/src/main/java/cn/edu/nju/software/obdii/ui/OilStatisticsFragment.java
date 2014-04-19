@@ -41,32 +41,42 @@ public class OilStatisticsFragment extends Fragment {
 
             // set some properties on the main renderer
             mRenderer.setApplyBackgroundColor(true);
-            //mRenderer.setBackgroundColor(Color.argb(251, 233, 220, 1));
+            mRenderer.setBackgroundColor(getResources().getColor(R.color.char_background));
             mRenderer.setAxisTitleTextSize(20);
             mRenderer.setAxesColor(getResources().getColor(R.color.axis_color));
-            mRenderer.setXTitle("次数");
-            mRenderer.setYTitle("耗油（升）");
+
+            mRenderer.setXTitle(getString(R.string.oil_x_label));
+            mRenderer.setYTitle(getString(R.string.oil_y_label));
             mRenderer.setXAxisMax(10);
-            mRenderer.setXAxisMin(1);
+            mRenderer.setXAxisMin(0);
             mRenderer.setYAxisMax(25);
             mRenderer.setYAxisMin(0);
-            mRenderer.setMarginsColor(Color.argb(1, 255, 255, 255));
+            mRenderer.setMarginsColor(getResources().getColor(R.color.background_color));
+            mRenderer.setXLabelsColor(getResources().getColor(R.color.axis_color));
+            mRenderer.setYLabelsColor(0, getResources().getColor(R.color.axis_color));
+
 
             mRenderer.setChartTitleTextSize(30);
-            mRenderer.setLabelsTextSize(20);
+            mRenderer.setLabelsTextSize(30);
+            mRenderer.setLabelsColor(getResources().getColor(R.color.axis_color));
             mRenderer.setLegendTextSize(20);
-            mRenderer.setMargins(new int[] { 40, 40, 100, 0 });
+            mRenderer.setMargins(new int[] { 100, 60, 100, 60});
             mRenderer.setZoomButtonsVisible(false);
             mRenderer.setPointSize(5);
 
             mCurrentSeries = new XYSeries(getString(R.string.oil_consume_average));
+
             mDataset.addSeries(mCurrentSeries);
+
             mCurrentRenderer = new XYSeriesRenderer();
             mRenderer.addSeriesRenderer(mCurrentRenderer);
 
             mCurrentRenderer.setPointStyle(PointStyle.CIRCLE);
             mCurrentRenderer.setFillPoints(true);
             mCurrentRenderer.setDisplayChartValues(true);
+            mCurrentRenderer.setColor(getResources().getColor(R.color.series_color));
+            mCurrentRenderer.setLineWidth(5);
+            mCurrentRenderer.setChartValuesTextSize(15);
             mCurrentRenderer.setDisplayChartValuesDistance(10);
 
             refreshData();

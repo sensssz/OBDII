@@ -9,5 +9,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/background_color"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:id="@+id/oil_chart"/>
 </RelativeLayout>

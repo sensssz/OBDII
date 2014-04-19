@@ -22,6 +22,10 @@
     <!-- Travel Info -->
     <string name="arrow">箭头</string>
 
+    <!-- oil statistics -->
+    <string name="oil_x_label">最近行驶次数</string>
+    <string name="oil_y_label">耗油（升）</string>
+
     <!-- Navigation Drawer-->
     <string name="car_route">行车轨迹</string>
     <string name="OBD_data">OBD数据</string>
