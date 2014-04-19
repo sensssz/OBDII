@@ -99,6 +99,7 @@ public class MainViewActivity extends Activity {
 
         String username = getIntent().getStringExtra("username");
         fragments[0] = new TrajectoryFragment(username);
+        fragments[1] = new TrajectoryFragment(username);
         fragments[5] = new OilStatisticsFragment();
         if (savedInstanceState == null) {
             selectItem(0);
