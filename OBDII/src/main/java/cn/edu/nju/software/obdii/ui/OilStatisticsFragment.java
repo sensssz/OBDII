@@ -41,13 +41,22 @@ public class OilStatisticsFragment extends Fragment {
 
             // set some properties on the main renderer
             mRenderer.setApplyBackgroundColor(true);
-            mRenderer.setBackgroundColor(Color.argb(100, 50, 50, 50));
-            mRenderer.setAxisTitleTextSize(16);
-            mRenderer.setChartTitleTextSize(20);
-            mRenderer.setLabelsTextSize(15);
-            mRenderer.setLegendTextSize(15);
-            mRenderer.setMargins(new int[] { 20, 30, 15, 0 });
-            mRenderer.setZoomButtonsVisible(true);
+            //mRenderer.setBackgroundColor(Color.argb(251, 233, 220, 1));
+            mRenderer.setAxisTitleTextSize(20);
+            mRenderer.setAxesColor(getResources().getColor(R.color.axis_color));
+            mRenderer.setXTitle("次数");
+            mRenderer.setYTitle("耗油（升）");
+            mRenderer.setXAxisMax(10);
+            mRenderer.setXAxisMin(1);
+            mRenderer.setYAxisMax(25);
+            mRenderer.setYAxisMin(0);
+            mRenderer.setMarginsColor(Color.argb(1, 255, 255, 255));
+
+            mRenderer.setChartTitleTextSize(30);
+            mRenderer.setLabelsTextSize(20);
+            mRenderer.setLegendTextSize(20);
+            mRenderer.setMargins(new int[] { 40, 40, 100, 0 });
+            mRenderer.setZoomButtonsVisible(false);
             mRenderer.setPointSize(5);
 
             mCurrentSeries = new XYSeries(getString(R.string.oil_consume_average));

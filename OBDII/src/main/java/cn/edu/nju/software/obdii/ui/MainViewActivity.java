@@ -108,6 +108,8 @@ public class MainViewActivity extends Activity {
         mFragments[0] = new TrajectoryFragment(username);
         mFragments[1] = new TrajectoryFragment(username);
         mFragments[5] = new OilStatisticsFragment();
+        mFragments[6] = new SpeedStatisticsFragment();
+        mFragments[7] = new MileageFragment();
         if (savedInstanceState == null) {
             selectItem(0);
         }
