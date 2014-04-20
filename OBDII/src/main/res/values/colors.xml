@@ -9,6 +9,8 @@
     <color name="card_detailing">#EEE</color>
     <!-- char colors -->
     <color name="axis_color">#000000</color>
-    <color name="series_color">#F9CDAD</color>
     <color name="char_background">#f9f7f4</color>
+    <color name="oil_series_color">#FE4365</color>
+    <color name="speed_series_color">#458994</color>
+    <color name="mileage_series_color">#D9742B</color>
 </resources>

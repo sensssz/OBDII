@@ -22,9 +22,17 @@
     <!-- Travel Info -->
     <string name="arrow">箭头</string>
 
-    <!-- oil statistics -->
+    <!-- average oil -->
     <string name="oil_x_label">最近行驶次数</string>
     <string name="oil_y_label">耗油（升）</string>
+
+    <!-- average speed -->
+    <string name="speed_x_label">最近行驶次数</string>
+    <string name="speed_y_label">速度（km/h）</string>
+
+    <!-- average mileage -->
+    <string name="mileage_x_label">最近行驶次数</string>
+    <string name="mileage_y_label">里程（km）</string>
 
     <!-- Navigation Drawer-->
     <string name="car_route">行车轨迹</string>
