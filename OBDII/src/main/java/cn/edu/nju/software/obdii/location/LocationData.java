@@ -26,9 +26,9 @@ public class LocationData {
         mDirectory = context.getFilesDir() + "/" + Utilities.sha1(username) + "/";
         createDirIfNotExists();
         readData();
-        DataMap.getInstance().addOnLocationUpdateListener(new DataMap.OnLocationUpdateListener() {
+        DataMap.getInstance().addOnLocationUpdateListener(new DataMap.OnLocationDataListener() {
             @Override
-            public void onLocationUpdate(double latitude, double longitude) {
+            public void onLocationDataReceived(double latitude, double longitude) {
                 Point2D point2D = new Point2D(latitude, longitude);
                 mLocations.add(point2D);
                 writeData();
