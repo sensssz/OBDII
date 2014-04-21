@@ -6,8 +6,23 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/background_color"
         android:columnCount="2"
         android:rowCount="8">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:textSize="16sp"
+                android:text="@string/accelerate"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/alert_green"/>
+        </LinearLayout>
 
      </GridLayout>
 

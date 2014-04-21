@@ -44,4 +44,24 @@
     <string name="mileage">里程统计</string>
     <string name="check_alert">检测指标</string>
 
+    <!-- alert check -->
+    <string name="accelerate">急加速</string>
+    <string name="battery_serving">电池供电</string>
+    <string name="battery_over_pressure">电池过压</string>
+    <string name="out_of_matrix_region">出矩阵区域报警</string>
+    <string name="warranty_period">保养期报警</string>
+    <string name="urgent_accelerate">紧急加速</string>
+    <string name="vibrating_alert">震动报警</string>
+    <string name="brake">急刹车</string>
+
+    <string name="speeding_alert">超速报警</string>
+    <string name="battery_lack_pressure">电池欠压</string>
+    <string name="enter_matrix_region">进矩阵报警</string>
+    <string name="collision_alert">碰撞报警</string>
+    <string name="high_temperature">温高报警</string>
+    <string name="OBD_sever_error_alert">OBD严重故障报警</string>
+    <string name="gsm_format">GSM经纬度格式</string>
+    <string name="urgent_brake">紧急刹车</string>
+
+
 </resources>
