@@ -1,4 +1,4 @@
-package cn.edu.nju.software.obdii.location;
+package cn.edu.nju.software.obdii.data.location;
 
 import com.baidu.platform.comapi.basestruct.GeoPoint;
 

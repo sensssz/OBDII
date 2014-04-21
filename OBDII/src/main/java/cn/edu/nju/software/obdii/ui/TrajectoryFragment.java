@@ -15,8 +15,8 @@ import java.util.List;
 
 import cn.edu.nju.software.obdii.R;
 import cn.edu.nju.software.obdii.data.DataMap;
-import cn.edu.nju.software.obdii.location.LocationData;
-import cn.edu.nju.software.obdii.location.Point2D;
+import cn.edu.nju.software.obdii.data.location.LocationData;
+import cn.edu.nju.software.obdii.data.location.Point2D;
 
 /**
  * Show the trajectory of the user's car
@@ -37,7 +37,7 @@ public class TrajectoryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DataMap.getInstance().addOnLocationUpdateListener(new DataMap.OnLocationDataListener() {
+        DataMap.getInstance().addOnLocationDataListener(new DataMap.OnLocationDataListener() {
             @Override
             public void onLocationDataReceived(double latitude, double longitude) {
                 if (isVisible() && mMapView != null && mOverlay != null) {

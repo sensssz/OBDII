@@ -1,4 +1,4 @@
-package cn.edu.nju.software.obdii.location;
+package cn.edu.nju.software.obdii.data.location;
 
 import android.content.Context;
 
@@ -26,7 +26,7 @@ public class LocationData {
         mDirectory = context.getFilesDir() + "/" + Utilities.sha1(username) + "/";
         createDirIfNotExists();
         readData();
-        DataMap.getInstance().addOnLocationUpdateListener(new DataMap.OnLocationDataListener() {
+        DataMap.getInstance().addOnLocationDataListener(new DataMap.OnLocationDataListener() {
             @Override
             public void onLocationDataReceived(double latitude, double longitude) {
                 Point2D point2D = new Point2D(latitude, longitude);
