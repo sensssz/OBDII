@@ -37,9 +37,9 @@ public class TrajectoryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DataMap.getInstance().addOnLocationUpdateListener(new DataMap.OnLocationUpdateListener() {
+        DataMap.getInstance().addOnLocationUpdateListener(new DataMap.OnLocationDataListener() {
             @Override
-            public void onLocationUpdate(double latitude, double longitude) {
+            public void onLocationDataReceived(double latitude, double longitude) {
                 if (isVisible() && mMapView != null && mOverlay != null) {
                     GeoPoint point = new GeoPoint(toBaiduFormat(latitude), toBaiduFormat(longitude));
                     OverlayItem item = new OverlayItem(point, "", "");
