@@ -106,7 +106,7 @@ public class MainViewActivity extends Activity {
 
         String username = getIntent().getStringExtra("username");
         mFragments[0] = new TrajectoryFragment(username);
-        mFragments[1] = new TrajectoryFragment(username);
+        mFragments[2] = new TravelInfoFragment();
         mFragments[5] = new OilStatisticsFragment();
         mFragments[6] = new SpeedStatisticsFragment();
         mFragments[7] = new MileageFragment();
@@ -136,6 +136,8 @@ public class MainViewActivity extends Activity {
             if (mFragments[mCurrentPosition] != null) {
                 mFragments[mCurrentPosition].getView().startAnimation(mFadeOutAnimation);
             }
+        } else if (mCurrentPosition == -1) {
+            changeFragment(position);
         }
         mDrawerLayout.closeDrawer(mDrawerList);
     }

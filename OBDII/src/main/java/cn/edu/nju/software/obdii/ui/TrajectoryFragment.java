@@ -2,11 +2,13 @@ package cn.edu.nju.software.obdii.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.baidu.mapapi.map.ItemizedOverlay;
+import com.baidu.mapapi.map.MapController;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.OverlayItem;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
@@ -14,7 +16,6 @@ import com.baidu.platform.comapi.basestruct.GeoPoint;
 import java.util.List;
 
 import cn.edu.nju.software.obdii.R;
-import cn.edu.nju.software.obdii.data.DataMap;
 import cn.edu.nju.software.obdii.data.location.LocationData;
 import cn.edu.nju.software.obdii.data.location.Point2D;
 
@@ -36,18 +37,19 @@ public class TrajectoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        DataMap.getInstance().addOnLocationDataListener(new DataMap.OnLocationDataListener() {
-            @Override
-            public void onLocationDataReceived(double latitude, double longitude) {
-                if (isVisible() && mMapView != null && mOverlay != null) {
-                    GeoPoint point = new GeoPoint(toBaiduFormat(latitude), toBaiduFormat(longitude));
-                    OverlayItem item = new OverlayItem(point, "", "");
-                    mOverlay.addItem(item);
-                    mMapView.refresh();
-                }
-            }
-        });
+//
+//        DataMap.getInstance().addOnLocationDataListener(new DataMap.OnLocationDataListener() {
+//            @Override
+//            public void onLocationDataReceived(double latitude, double longitude) {
+//                if (isVisible() && mMapView != null && mOverlay != null) {
+//                    GeoPoint point = new GeoPoint(toBaiduFormat(latitude), toBaiduFormat(longitude));
+//                    OverlayItem item = new OverlayItem(point, "", "");
+//                    mOverlay.addItem(item);
+//                    mMapView.getController().setCenter(point);
+//                    mMapView.refresh();
+//                }
+//            }
+//        });
     }
 
     private int toBaiduFormat(double coordinate) {
@@ -65,9 +67,22 @@ public class TrajectoryFragment extends Fragment {
 
         if (mLocationData == null) {
             mLocationData = new LocationData(getActivity(), mUsername);
+            mLocationData.setOnLocationListener(new LocationData.OnLocationListener() {
+                @Override
+                public void onLocationUpdate() {
+                    if (isVisible() && mMapView != null && mOverlay != null) {
+                        configMapView();
+                    }
+                }
+            });
         }
 
         mMapView = (MapView) view.findViewById(R.id.map);
+        if (mOverlay == null) {
+            mOverlay = new ItemizedOverlay(getResources().getDrawable(R.drawable.marker),
+                    mMapView);
+            mMapView.getOverlays().add(mOverlay);
+        }
         configMapView();
 
         return view;
@@ -75,14 +90,14 @@ public class TrajectoryFragment extends Fragment {
 
     private void configMapView() {
         List<Point2D> points = mLocationData.getLocationData();
-        if (mCenter != null) {
-            mMapView.getController().setCenter(mCenter);
-            mMapView.getController().setZoom(mZoomLevel);
-        } else if (points.size() == 0) {
-            mMapView.getController().setZoom(12);
+        if (points.size() == 0) {
+            if (mCenter != null) {
+                mMapView.getController().setCenter(mCenter);
+                mMapView.getController().setZoom(mZoomLevel);
+            } else {
+                mMapView.getController().setZoom(12);
+            }
         } else {
-            mOverlay = new ItemizedOverlay(getResources().getDrawable(R.drawable.marker),
-                    mMapView);
             double latitudeSum = 0;
             double longitudeSum = 0;
             double minLatitude = Double.MAX_VALUE;
@@ -97,13 +112,17 @@ public class TrajectoryFragment extends Fragment {
 
                 if (point.getLatitude() < minLatitude) {
                     minLatitude = point.getLatitude();
-                } else if (point.getLatitude() > maxLatitude) {
+                    Log.d("", "minLatitude = " + minLatitude);
+                }
+                if (point.getLatitude() > maxLatitude) {
                     maxLatitude = point.getLatitude();
+                    Log.d("", "maxLatitude = " + maxLatitude);
                 }
 
                 if (point.getLongitude() < minLongitude) {
                     minLongitude = point.getLongitude();
-                } else if (point.getLongitude() > maxLongitude) {
+                }
+                if (point.getLongitude() > maxLongitude) {
                     maxLongitude = point.getLongitude();
                 }
             }
@@ -113,9 +132,15 @@ public class TrajectoryFragment extends Fragment {
             GeoPoint center = new GeoPoint(latitudeCenter, longitudeCenter);
             mMapView.getController().setCenter(center);
 
-            int latitudeSpan = toBaiduFormat(maxLatitude - minLatitude);
-            int longitudeSpan = toBaiduFormat(maxLongitude - minLongitude);
-            mMapView.getController().zoomToSpan(latitudeSpan, longitudeSpan);
+            if (points.size() > 1) {
+                int latitudeSpan = toBaiduFormat(maxLatitude - minLatitude);
+                int longitudeSpan = toBaiduFormat(maxLongitude - minLongitude);
+//                Log.d("Span", latitudeSpan + ", " + longitudeSpan);
+//                mMapView.getController().zoomToSpanWithAnimation(latitudeSpan, longitudeSpan,
+//                        MapController.DEFAULT_ANIMATION_TIME);
+//            } else {
+                mMapView.getController().setZoom(12);
+            }
 
             mMapView.refresh();
         }

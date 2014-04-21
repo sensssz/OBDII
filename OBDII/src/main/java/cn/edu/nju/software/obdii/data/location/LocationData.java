@@ -1,6 +1,8 @@
 package cn.edu.nju.software.obdii.data.location;
 
 import android.content.Context;
+import android.location.Geocoder;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,6 +20,7 @@ import cn.edu.nju.software.obdii.util.Utilities;
 /**
  */
 public class LocationData {
+    private OnLocationListener mOnLocationListener;
     private List<Point2D> mLocations;
     private String mDirectory;
 
@@ -29,9 +32,14 @@ public class LocationData {
         DataMap.getInstance().addOnLocationDataListener(new DataMap.OnLocationDataListener() {
             @Override
             public void onLocationDataReceived(double latitude, double longitude) {
+                Log.d("", "new location: " + latitude + "," + longitude);
                 Point2D point2D = new Point2D(latitude, longitude);
                 mLocations.add(point2D);
                 writeData();
+
+                if (mOnLocationListener != null) {
+                    mOnLocationListener.onLocationUpdate();
+                }
             }
         });
     }
@@ -88,7 +96,15 @@ public class LocationData {
         }
     }
 
+    public void setOnLocationListener(OnLocationListener onLocationListener) {
+        mOnLocationListener = onLocationListener;
+    }
+
     public List<Point2D> getLocationData() {
         return mLocations;
+    }
+
+    public interface OnLocationListener {
+        public void onLocationUpdate();
     }
 }

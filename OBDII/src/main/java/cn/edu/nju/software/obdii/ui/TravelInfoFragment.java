@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import cn.edu.nju.software.obdii.R;
-import cn.edu.nju.software.obdii.data.DataMap;
-import cn.edu.nju.software.obdii.data.TravelInfo;
 
 /**
  * Display a list of the travel info list
@@ -35,7 +33,7 @@ public class TravelInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.id.travel_info_list, container);
+        View view = inflater.inflate(R.layout.list_travel_info, null);
 
         mTravelInfoList = (ListView) view.findViewById(R.id.travel_info_list);
         mTravelInfoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
