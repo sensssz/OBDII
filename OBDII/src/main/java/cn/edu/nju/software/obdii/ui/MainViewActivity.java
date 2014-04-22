@@ -55,9 +55,9 @@ public class MainViewActivity extends Activity {
                 R.drawable.drawer_travel_info,
                 R.drawable.drawer_alert_check,
                 R.drawable.drawer_statistic,
-                R.drawable.drawer_statistic,
-                R.drawable.drawer_statistic,
-                R.drawable.drawer_statistic
+//                R.drawable.drawer_statistic,
+//                R.drawable.drawer_statistic,
+//                R.drawable.drawer_statistic
         };
         mDrawerOptions = new String[]{ //set title of each drawer item
                 getString(R.string.car_route),
@@ -65,9 +65,9 @@ public class MainViewActivity extends Activity {
                 getString(R.string.travel_info),
                 getString(R.string.check_alert),
                 getString(R.string.statistics),
-                getString(R.string.oil_consume_average),
-                getString(R.string.speed_average),
-                getString(R.string.mileage),
+//                getString(R.string.oil_consume_average),
+//                getString(R.string.speed_average),
+//                getString(R.string.mileage),
 
         };
         mDrawerList.setAdapter(new MyAdapter(
@@ -108,9 +108,9 @@ public class MainViewActivity extends Activity {
         mFragments[0] = new TrajectoryFragment(username);
         mFragments[2] = new TravelInfoFragment();
         mFragments[4] = new StatisticsFragment();
-        mFragments[5] = new OilStatisticsFragment();
-        mFragments[6] = new SpeedStatisticsFragment();
-        mFragments[7] = new MileageFragment();
+//        mFragments[5] = new OilStatisticsFragment();
+//        mFragments[6] = new SpeedStatisticsFragment();
+//        mFragments[7] = new MileageFragment();
         if (savedInstanceState == null) {
             selectItem(0);
         }
@@ -191,19 +191,11 @@ public class MainViewActivity extends Activity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-
-            if (position > 4) {
-                convertView = mInflater.inflate(R.layout.drawer_item_subtitle, null);
-                TextView textView = (TextView) convertView.findViewById(R.id.subtitle_text);
-                textView.setText(mTexts[position]);
-            } else {
-                convertView = mInflater.inflate(mViewSourceId, null);
-                ImageView imageView = (ImageView) convertView.findViewById(R.id.option_icon);
-                imageView.setImageResource(mImgs[position]);
-                TextView textView = (TextView) convertView.findViewById(R.id.option_text);
-                textView.setText(mTexts[position]);
-            }
-
+            convertView = mInflater.inflate(mViewSourceId, null);
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.option_icon);
+            imageView.setImageResource(mImgs[position]);
+            TextView textView = (TextView) convertView.findViewById(R.id.option_text);
+            textView.setText(mTexts[position]);
             return convertView;
         }
     }

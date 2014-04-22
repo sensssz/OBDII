@@ -7,57 +7,51 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-        <TableLayout
+        android:layout_height="wrap_content">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            >
-            <TableRow
+            android:orientation="vertical">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="40dp"
+                android:layout_height="200dp"
+                android:orientation="vertical"
                 android:background="@drawable/card">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:id="@+id/oil_layout">
+                    android:layout_marginLeft="15dp"
+                    android:id="@+id/oil_layout"/>
+            </LinearLayout>
 
-                </LinearLayout>
-            </TableRow>
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="40dp"
+                android:layout_height="200dp"
+                android:orientation="vertical"
                 android:background="@drawable/card">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:id="@+id/speed_layout">
+                    android:layout_marginLeft="15dp"
+                    android:id="@+id/speed_layout"/>
+            </LinearLayout>
 
-                </LinearLayout>
-            </TableRow>
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="40dp"
+                android:layout_height="200dp"
+                android:orientation="vertical"
                 android:background="@drawable/card">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:id="@+id/mileage_layout">
+                    android:layout_marginLeft="15dp"
+                    android:id="@+id/mileage_layout"/>
+            </LinearLayout>
 
-                </LinearLayout>
-            </TableRow>
-
-        </TableLayout>
-
+        </LinearLayout>
     </ScrollView>
 
 

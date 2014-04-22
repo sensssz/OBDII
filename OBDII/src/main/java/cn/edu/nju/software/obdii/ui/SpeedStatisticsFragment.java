@@ -67,7 +67,7 @@ public class SpeedStatisticsFragment extends Fragment {
     private void setRendererStyle() {
         // set some properties on the main renderer
         mRenderer.setApplyBackgroundColor(true);
-        mRenderer.setBackgroundColor(getResources().getColor(R.color.char_background));
+        mRenderer.setBackgroundColor(getResources().getColor(R.color.chart_background));
         mRenderer.setAxisTitleTextSize(20);
         mRenderer.setAxesColor(getResources().getColor(R.color.axis_color));
 

@@ -21,113 +21,127 @@ import cn.edu.nju.software.obdii.R;
  * Created by rogers on 4/22/14.
  */
 public class StatisticsFragment extends Fragment {
-    private XYMultipleSeriesDataset mOilDataSet;
+    private XYMultipleSeriesDataset mOilDataset;
     private XYMultipleSeriesRenderer mOilRenderer;
-    private XYSeries mOilSeries;
+    private XYSeries mOilCurrentSeries;
     private XYSeriesRenderer mOilCurrentRenderer;
     private GraphicalView mOilChartView;
 
-    private XYMultipleSeriesDataset mSpeedDataSet;
+    private XYMultipleSeriesDataset mSpeedDataset;
     private XYMultipleSeriesRenderer mSpeedRenderer;
-    private XYSeries mSpeedSeries;
+    private XYSeries mSpeedCurrentSeries;
     private XYSeriesRenderer mSpeedCurrentRenderer;
     private GraphicalView mSpeedChartView;
 
-    private XYMultipleSeriesDataset mMileageDataSet;
+    private XYMultipleSeriesDataset mMileageDataset;
     private XYMultipleSeriesRenderer mMileageRenderer;
-    private XYSeries mMileageSeries;
+    private XYSeries mMileageCurrentSeries;
     private XYSeriesRenderer mMileageCurrentRenderer;
     private GraphicalView mMileageChartView;
 
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_statistics, container,false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_statistics, container, false);
+        mOilDataset = new XYMultipleSeriesDataset();
+        mOilRenderer = new XYMultipleSeriesRenderer();
 
-        if(savedInstanceState != null) {
-            //initialize oil chart
-            mOilDataSet = new XYMultipleSeriesDataset();
-            mOilRenderer = new XYMultipleSeriesRenderer();
+        mSpeedDataset = new XYMultipleSeriesDataset();
+        mSpeedRenderer = new XYMultipleSeriesRenderer();
+
+        mMileageDataset = new XYMultipleSeriesDataset();
+        mMileageRenderer = new XYMultipleSeriesRenderer();
+
+        if (savedInstanceState == null) {
+            //oil chart
             LinearLayout oilLayout = (LinearLayout) view.findViewById(R.id.oil_layout);
             mOilCurrentRenderer = new XYSeriesRenderer();
             mOilRenderer.addSeriesRenderer(mOilCurrentRenderer);
             setRendererStyle(mOilRenderer, mOilCurrentRenderer, getResources().getColor(R.color.oil_series_color));
+            //set title for axis
             mOilRenderer.setXTitle(getString(R.string.oil_x_label));
             mOilRenderer.setYTitle(getString(R.string.oil_y_label));
+            //set limit for axis
             mOilRenderer.setXAxisMax(10);
             mOilRenderer.setXAxisMin(0);
             mOilRenderer.setYAxisMax(25);
             mOilRenderer.setYAxisMin(0);
-            mOilSeries = new XYSeries(getString(R.string.oil_consume_average));
-            mOilDataSet.addSeries(mOilSeries);
+            //add line series
+            mOilCurrentSeries = new XYSeries(getString(R.string.oil_consume_average));
+            mOilDataset.addSeries(mOilCurrentSeries);
             loadOilData();
-            mOilChartView = ChartFactory.getLineChartView(getActivity(), mOilDataSet, mOilRenderer);
+            mOilChartView = ChartFactory.getLineChartView(getActivity(), mOilDataset, mOilRenderer);
             oilLayout.addView(mOilChartView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
 
-            //initialize speed chart
-            mSpeedDataSet = new XYMultipleSeriesDataset();
-            mSpeedRenderer = new XYMultipleSeriesRenderer();
+            //speed chart
             LinearLayout speedLayout = (LinearLayout) view.findViewById(R.id.speed_layout);
             mSpeedCurrentRenderer = new XYSeriesRenderer();
             mSpeedRenderer.addSeriesRenderer(mSpeedCurrentRenderer);
             setRendererStyle(mSpeedRenderer, mSpeedCurrentRenderer, getResources().getColor(R.color.speed_series_color));
+            //set title for axis
             mSpeedRenderer.setXTitle(getString(R.string.speed_x_label));
             mSpeedRenderer.setYTitle(getString(R.string.speed_y_label));
+            //set limit for axis
             mSpeedRenderer.setXAxisMax(10);
             mSpeedRenderer.setXAxisMin(0);
             mSpeedRenderer.setYAxisMax(300);
             mSpeedRenderer.setYAxisMin(0);
-            mSpeedSeries = new XYSeries(getString(R.string.speed_average));
-            mSpeedDataSet.addSeries(mSpeedSeries);
+            //add line series
+            mSpeedCurrentSeries = new XYSeries(getString(R.string.speed_average));
+            mSpeedDataset.addSeries(mSpeedCurrentSeries);
             loadSpeedData();
-            mSpeedChartView = ChartFactory.getLineChartView(getActivity(), mSpeedDataSet, mSpeedRenderer);
+            mSpeedChartView = ChartFactory.getLineChartView(getActivity(), mSpeedDataset, mSpeedRenderer);
             speedLayout.addView(mSpeedChartView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
 
-            //initialize mileage chart
-            mMileageDataSet = new XYMultipleSeriesDataset();
-            mMileageRenderer = new XYMultipleSeriesRenderer();
+            //mileage chart
             LinearLayout mileageLayout = (LinearLayout) view.findViewById(R.id.mileage_layout);
             mMileageCurrentRenderer = new XYSeriesRenderer();
             mMileageRenderer.addSeriesRenderer(mMileageCurrentRenderer);
             setRendererStyle(mMileageRenderer, mMileageCurrentRenderer, getResources().getColor(R.color.mileage_series_color));
+            //set title for axis
             mMileageRenderer.setXTitle(getString(R.string.mileage_x_label));
             mMileageRenderer.setYTitle(getString(R.string.mileage_y_label));
+            //set limit for axis
             mMileageRenderer.setXAxisMax(10);
             mMileageRenderer.setXAxisMin(0);
             mMileageRenderer.setYAxisMax(200);
             mMileageRenderer.setYAxisMin(0);
-            mMileageSeries = new XYSeries(getString(R.string.mileage));
-            mMileageDataSet.addSeries(mMileageSeries);
+            //add line series
+            mMileageCurrentSeries = new XYSeries(getString(R.string.mileage));
+            mMileageDataset.addSeries(mMileageCurrentSeries);
             loadMileageData();
-            mMileageChartView = ChartFactory.getLineChartView(getActivity(), mMileageDataSet, mMileageRenderer);
+            mMileageChartView = ChartFactory.getLineChartView(getActivity(), mMileageDataset, mMileageRenderer);
             mileageLayout.addView(mMileageChartView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
-        }
 
+        }
         return view;
     }
 
-    private void setRendererStyle(XYMultipleSeriesRenderer renderer, XYSeriesRenderer currentRenderer, int color ) {
+    private void setRendererStyle(XYMultipleSeriesRenderer renderer, XYSeriesRenderer currentRenderer, int color) {
         // set some properties on the main renderer
         renderer.setApplyBackgroundColor(true);
-        renderer.setBackgroundColor(getResources().getColor(R.color.char_background));
+        renderer.setBackgroundColor(getResources().getColor(R.color.card_background));
         renderer.setAxisTitleTextSize(20);
         renderer.setAxesColor(getResources().getColor(R.color.axis_color));
 
-        renderer.setMarginsColor(getResources().getColor(R.color.background_color));
+        renderer.setMarginsColor(getResources().getColor(R.color.card_background));
         renderer.setXLabelsColor(getResources().getColor(R.color.axis_color));
         renderer.setYLabelsColor(0, getResources().getColor(R.color.axis_color));
+        renderer.setInScroll(true);//in order to use in the scroll view
 
         renderer.setChartTitleTextSize(30);
-        renderer.setLabelsTextSize(30);
+        renderer.setLabelsTextSize(25);
         renderer.setLabelsColor(getResources().getColor(R.color.axis_color));
         renderer.setLegendTextSize(20);
-        renderer.setMargins(new int[] { 10, 10, 10, 10});
+        renderer.setMargins(new int[] { 30, 100, 30, 50});
         renderer.setZoomButtonsVisible(false);
         renderer.setPointSize(5);
+        renderer.setPanEnabled(false,false);//block moving on both x and y side
+        renderer.setXLabelsPadding(20);
+        renderer.setYLabelsPadding(20);//set the padding between label and axis
 
         // set some properties on the current renderer
         currentRenderer.setPointStyle(PointStyle.CIRCLE);
@@ -137,39 +151,42 @@ public class StatisticsFragment extends Fragment {
         currentRenderer.setLineWidth(5);
         currentRenderer.setChartValuesTextSize(20);
         currentRenderer.setDisplayChartValuesDistance(10);
+        currentRenderer.setShowLegendItem(false);
     }
+
 
     protected void loadOilData() {
         //should read file to load history data
-        mOilSeries.add(1, 20);
-        mOilSeries.add(2, 13);
-        mOilSeries.add(3, 14);
-        mOilSeries.add(4, 21);
-        mOilSeries.add(5, 10);
-        mOilSeries.add(6, 11);
-        mOilSeries.add(7, 16);
+        mOilCurrentSeries.add(1, 20);
+        mOilCurrentSeries.add(2, 13);
+        mOilCurrentSeries.add(3, 12);
+        mOilCurrentSeries.add(4, 15);
+        mOilCurrentSeries.add(5, 10);
+        mOilCurrentSeries.add(6, 18);
+        mOilCurrentSeries.add(7, 9);
     }
+
     protected void loadSpeedData() {
-        //should read file to load history data
-        mSpeedSeries.add(1, 78);
-        mSpeedSeries.add(2, 80);
-        mSpeedSeries.add(3, 120);
-        mSpeedSeries.add(4, 60);
-        mSpeedSeries.add(5, 90);
-        mSpeedSeries.add(6, 170);
-        mSpeedSeries.add(7, 100);
+        mSpeedCurrentSeries.add(1, 78);
+        mSpeedCurrentSeries.add(2, 80);
+        mSpeedCurrentSeries.add(3, 120);
+        mSpeedCurrentSeries.add(4, 60);
+        mSpeedCurrentSeries.add(5, 90);
+        mSpeedCurrentSeries.add(6, 170);
+        mSpeedCurrentSeries.add(7, 100);
     }
 
     protected void loadMileageData() {
-        //should read file to load history data
-        mMileageSeries.add(1, 20);
-        mMileageSeries.add(2, 40);
-        mMileageSeries.add(3, 120);
-        mMileageSeries.add(4, 70);
-        mMileageSeries.add(5, 10);
-        mMileageSeries.add(6, 180);
-        mMileageSeries.add(7, 80);
+        mMileageCurrentSeries.add(1, 20);
+        mMileageCurrentSeries.add(2, 40);
+        mMileageCurrentSeries.add(3, 120);
+        mMileageCurrentSeries.add(4, 70);
+        mMileageCurrentSeries.add(5, 10);
+        mMileageCurrentSeries.add(6, 180);
+        mMileageCurrentSeries.add(7, 80);
     }
+
+
 
 
 }
