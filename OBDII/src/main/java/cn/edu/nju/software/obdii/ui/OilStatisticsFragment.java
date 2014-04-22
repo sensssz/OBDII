@@ -23,8 +23,8 @@ import cn.edu.nju.software.obdii.R;
  */
 public class OilStatisticsFragment extends Fragment {
 
-    private XYMultipleSeriesDataset mDataset = new XYMultipleSeriesDataset();
-    private XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
+    private XYMultipleSeriesDataset mDataset;
+    private XYMultipleSeriesRenderer mRenderer;
     private XYSeries mCurrentSeries;
     private XYSeriesRenderer mCurrentRenderer;
     private GraphicalView mChartView;
@@ -33,6 +33,8 @@ public class OilStatisticsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_oil, container, false);
+        mDataset = new XYMultipleSeriesDataset();
+        mRenderer = new XYMultipleSeriesRenderer();
 
         if (savedInstanceState == null) {
             LinearLayout layout = (LinearLayout) view.findViewById(R.id.oil_chart);
