@@ -107,6 +107,7 @@ public class MainViewActivity extends Activity {
         String username = getIntent().getStringExtra("username");
         mFragments[0] = new TrajectoryFragment(username);
         mFragments[2] = new TravelInfoFragment();
+        mFragments[4] = new StatisticsFragment();
         mFragments[5] = new OilStatisticsFragment();
         mFragments[6] = new SpeedStatisticsFragment();
         mFragments[7] = new MileageFragment();
