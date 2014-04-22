@@ -140,8 +140,8 @@ public class StatisticsFragment extends Fragment {
         renderer.setZoomButtonsVisible(false);
         renderer.setPointSize(5);
         renderer.setPanEnabled(false,false);//block moving on both x and y side
-        renderer.setXLabelsPadding(20);
-        renderer.setYLabelsPadding(20);//set the padding between label and axis
+        renderer.setXLabelsPadding(5);
+        renderer.setYLabelsPadding(30);//set the padding between label and axis
 
         // set some properties on the current renderer
         currentRenderer.setPointStyle(PointStyle.CIRCLE);

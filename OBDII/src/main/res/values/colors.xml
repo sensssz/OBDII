@@ -8,7 +8,7 @@
     <color name="card_shadow_2">#DDDDDD</color>
     <color name="card_detailing">#EEE</color>
     <!-- char colors -->
-    <color name="axis_color">#000000</color>
+    <color name="axis_color">#ff828282</color>
     <color name="chart_background">#f9f7f4</color>
     <color name="oil_series_color">#FE4365</color>
     <color name="speed_series_color">#458994</color>
