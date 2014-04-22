@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfo;
+import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfoManager;
+
 /**
  * Stores all data received from server
  */
@@ -104,6 +107,7 @@ public class DataMap {
 
     private void handleTravelInfo(String message) {
         String[] travelInfoData = message.split(";");
+        TravelInfoManager.getInstance().addTravelInfo(new TravelInfo(travelInfoData));
     }
 
     public String getData(DataType dataType) {

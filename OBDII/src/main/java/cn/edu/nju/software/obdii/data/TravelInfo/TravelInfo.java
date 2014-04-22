@@ -56,8 +56,16 @@ public class TravelInfo implements Parcelable {
                 mFatigueDrivingLength, mSerial);
     }
 
+    public TravelInfo(String[] data) {
+        init(data);
+    }
+
     private TravelInfo(Parcel in) {
         String[] data = in.createStringArray();
+        init(data);
+    }
+
+    public void init(String[] data) {
         long startTime = Long.parseLong(data[0]);
         long endTime = Long.parseLong(data[1]);
         init(startTime, endTime, data[2], data[3],

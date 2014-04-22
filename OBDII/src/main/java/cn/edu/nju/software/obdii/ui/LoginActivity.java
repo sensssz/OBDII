@@ -106,6 +106,7 @@ public class LoginActivity extends InstrumentedActivity {
                         intent.putExtra("username", username);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
+                        finish();
                     } else {
                         Utilities.showMessage(LoginActivity.this, R.string.sign_in_fail);
                     }

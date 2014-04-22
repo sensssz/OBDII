@@ -2,8 +2,8 @@ package cn.edu.nju.software.obdii.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -23,8 +23,8 @@ import cn.edu.nju.software.obdii.data.location.Point2D;
  * Show the trajectory of the user's car
  */
 public class TrajectoryFragment extends Fragment {
-    private MapView mMapView;
     private ItemizedOverlay mOverlay;
+    private MapView mMapView;
     private LocationData mLocationData;
     private String mUsername;
     private GeoPoint mCenter;
@@ -32,24 +32,6 @@ public class TrajectoryFragment extends Fragment {
 
     public TrajectoryFragment(String username) {
         mUsername = username;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//
-//        DataMap.getInstance().addOnLocationDataListener(new DataMap.OnLocationDataListener() {
-//            @Override
-//            public void onLocationDataReceived(double latitude, double longitude) {
-//                if (isVisible() && mMapView != null && mOverlay != null) {
-//                    GeoPoint point = new GeoPoint(toBaiduFormat(latitude), toBaiduFormat(longitude));
-//                    OverlayItem item = new OverlayItem(point, "", "");
-//                    mOverlay.addItem(item);
-//                    mMapView.getController().setCenter(point);
-//                    mMapView.refresh();
-//                }
-//            }
-//        });
     }
 
     private int toBaiduFormat(double coordinate) {
@@ -70,80 +52,96 @@ public class TrajectoryFragment extends Fragment {
             mLocationData.setOnLocationListener(new LocationData.OnLocationListener() {
                 @Override
                 public void onLocationUpdate() {
-                    if (isVisible() && mMapView != null && mOverlay != null) {
-                        configMapView();
+                    if (isVisible() && mMapView != null) {
+                        configMapView(true);
                     }
                 }
             });
         }
 
         mMapView = (MapView) view.findViewById(R.id.map);
-        if (mOverlay == null) {
-            mOverlay = new ItemizedOverlay(getResources().getDrawable(R.drawable.marker),
-                    mMapView);
-            mMapView.getOverlays().add(mOverlay);
-        }
-        configMapView();
+        mMapView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP &&
+                        mLocationData.getLocationData().size() > 0) {
+                    mCenter = mMapView.getMapCenter();
+                    mZoomLevel = mMapView.getZoomLevel();
+                }
+                return false;
+            }
+        });
+        mMapView.post(new Runnable() {
+            @Override
+            public void run() {
+                configMapView(false);
+            }
+        });
 
         return view;
     }
 
-    private void configMapView() {
+//    @Override
+//    public void onViewCreated(View view, Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//
+//        configMapView();
+//    }
+
+    private void configMapView(boolean newPoint) {
         List<Point2D> points = mLocationData.getLocationData();
-        if (points.size() == 0) {
-            if (mCenter != null) {
-                mMapView.getController().setCenter(mCenter);
-                mMapView.getController().setZoom(mZoomLevel);
-            } else {
-                mMapView.getController().setZoom(12);
+        if (mOverlay == null) {
+            mOverlay = new ItemizedOverlay(getResources().getDrawable(R.drawable.marker),
+                    mMapView);
+        }
+        double latitudeSum = 0;
+        double longitudeSum = 0;
+        double minLatitude = Double.MAX_VALUE;
+        double maxLatitude = Double.MIN_VALUE;
+        double minLongitude = Double.MAX_VALUE;
+        double maxLongitude = Double.MIN_VALUE;
+        int size = mLocationData.getLocationData().size();
+
+        for (Point2D point : mLocationData.getLocationData()) {
+            mOverlay.addItem(toOverlayItem(point.toGeoPoint()));
+
+            latitudeSum += point.getLatitude();
+            longitudeSum += point.getLongitude();
+
+            if (point.getLatitude() < minLatitude) {
+                minLatitude = point.getLatitude();
             }
+            if (point.getLatitude() > maxLatitude) {
+                maxLatitude = point.getLatitude();
+            }
+
+            if (point.getLongitude() < minLongitude) {
+                minLongitude = point.getLongitude();
+            }
+            if (point.getLongitude() > maxLongitude) {
+                maxLongitude = point.getLongitude();
+            }
+        }
+        mMapView.getOverlays().clear();
+        mMapView.getOverlays().add(mOverlay);
+
+        if (mCenter != null) {
+            mMapView.getController().setCenter(mCenter);
+            mMapView.getController().setZoom(mZoomLevel);
+        } else if (points.size() == 0) {
+            mMapView.getController().setZoom(12);
         } else {
-            double latitudeSum = 0;
-            double longitudeSum = 0;
-            double minLatitude = Double.MAX_VALUE;
-            double maxLatitude = Double.MIN_VALUE;
-            double minLongitude = Double.MAX_VALUE;
-            double maxLongitude = Double.MIN_VALUE;
-            for (Point2D point : mLocationData.getLocationData()) {
-                mOverlay.addItem(toOverlayItem(point.toGeoPoint()));
-
-                latitudeSum += point.getLatitude();
-                longitudeSum += point.getLongitude();
-
-                if (point.getLatitude() < minLatitude) {
-                    minLatitude = point.getLatitude();
-                    Log.d("", "minLatitude = " + minLatitude);
-                }
-                if (point.getLatitude() > maxLatitude) {
-                    maxLatitude = point.getLatitude();
-                    Log.d("", "maxLatitude = " + maxLatitude);
-                }
-
-                if (point.getLongitude() < minLongitude) {
-                    minLongitude = point.getLongitude();
-                }
-                if (point.getLongitude() > maxLongitude) {
-                    maxLongitude = point.getLongitude();
-                }
-            }
+            int latitudeSpan = toBaiduFormat(maxLatitude - minLatitude);
+            int longitudeSpan = toBaiduFormat(maxLongitude - minLongitude);
+            mMapView.getController().zoomToSpanWithAnimation(latitudeSpan, longitudeSpan,
+                    MapController.DEFAULT_ANIMATION_TIME);
 
             int latitudeCenter = toBaiduFormat(latitudeSum / points.size());
             int longitudeCenter = toBaiduFormat(longitudeSum / points.size());
             GeoPoint center = new GeoPoint(latitudeCenter, longitudeCenter);
             mMapView.getController().setCenter(center);
-
-            if (points.size() > 1) {
-                int latitudeSpan = toBaiduFormat(maxLatitude - minLatitude);
-                int longitudeSpan = toBaiduFormat(maxLongitude - minLongitude);
-//                Log.d("Span", latitudeSpan + ", " + longitudeSpan);
-//                mMapView.getController().zoomToSpanWithAnimation(latitudeSpan, longitudeSpan,
-//                        MapController.DEFAULT_ANIMATION_TIME);
-//            } else {
-                mMapView.getController().setZoom(12);
-            }
-
-            mMapView.refresh();
         }
+        mMapView.refresh();
     }
 
     @Override
@@ -165,6 +163,8 @@ public class TrajectoryFragment extends Fragment {
             mCenter = mMapView.getMapCenter();
             mZoomLevel = mMapView.getZoomLevel();
         }
+
+        mOverlay = null;
     }
 
     @Override
