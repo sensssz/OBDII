@@ -16,7 +16,8 @@ import com.baidu.platform.comapi.basestruct.GeoPoint;
 import java.util.List;
 
 import cn.edu.nju.software.obdii.R;
-import cn.edu.nju.software.obdii.data.location.LocationData;
+import cn.edu.nju.software.obdii.data.DataDispatcher;
+import cn.edu.nju.software.obdii.data.location.LocationDataManager;
 import cn.edu.nju.software.obdii.data.location.Point2D;
 
 /**
@@ -25,14 +26,9 @@ import cn.edu.nju.software.obdii.data.location.Point2D;
 public class TrajectoryFragment extends Fragment {
     private ItemizedOverlay mOverlay;
     private MapView mMapView;
-    private LocationData mLocationData;
-    private String mUsername;
+    private LocationDataManager mLocationDataManager;
     private GeoPoint mCenter;
     private float mZoomLevel;
-
-    public TrajectoryFragment(String username) {
-        mUsername = username;
-    }
 
     private int toBaiduFormat(double coordinate) {
         return (int) (coordinate * 1E6);
@@ -47,12 +43,12 @@ public class TrajectoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trajectory, container, false);
 
-        if (mLocationData == null) {
-            mLocationData = new LocationData(getActivity(), mUsername);
-            mLocationData.setOnLocationListener(new LocationData.OnLocationListener() {
+        if (mLocationDataManager == null) {
+            mLocationDataManager = DataDispatcher.getInstance().getLocationData();
+            mLocationDataManager.setOnLocationListener(new LocationDataManager.OnLocationListener() {
                 @Override
                 public void onLocationUpdate() {
-                    if (isVisible() && mMapView != null) {
+                    if (isVisible()) {
                         configMapView(true);
                     }
                 }
@@ -64,7 +60,7 @@ public class TrajectoryFragment extends Fragment {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP &&
-                        mLocationData.getLocationData().size() > 0) {
+                        mLocationDataManager.getLocationData().size() > 0) {
                     mCenter = mMapView.getMapCenter();
                     mZoomLevel = mMapView.getZoomLevel();
                 }
@@ -89,8 +85,9 @@ public class TrajectoryFragment extends Fragment {
 //    }
 
     private void configMapView(boolean newPoint) {
-        List<Point2D> points = mLocationData.getLocationData();
+        List<Point2D> points = mLocationDataManager.getLocationData();
         if (mOverlay == null) {
+            newPoint = false;
             mOverlay = new ItemizedOverlay(getResources().getDrawable(R.drawable.marker),
                     mMapView);
         }
@@ -100,10 +97,15 @@ public class TrajectoryFragment extends Fragment {
         double maxLatitude = Double.MIN_VALUE;
         double minLongitude = Double.MAX_VALUE;
         double maxLongitude = Double.MIN_VALUE;
-        int size = mLocationData.getLocationData().size();
+        int size = mLocationDataManager.getLocationData().size();
 
-        for (Point2D point : mLocationData.getLocationData()) {
-            mOverlay.addItem(toOverlayItem(point.toGeoPoint()));
+        if (newPoint) {
+            addPointToOverlay(mLocationDataManager.getLocationData().get(size - 1));
+        } else {
+            addPointsToOverlay(mLocationDataManager.getLocationData());
+        }
+
+        for (Point2D point : mLocationDataManager.getLocationData()) {
 
             latitudeSum += point.getLatitude();
             longitudeSum += point.getLongitude();
@@ -142,6 +144,16 @@ public class TrajectoryFragment extends Fragment {
             mMapView.getController().setCenter(center);
         }
         mMapView.refresh();
+    }
+
+    private void addPointToOverlay(Point2D point) {
+        mOverlay.addItem(toOverlayItem(point.toGeoPoint()));
+    }
+
+    private void addPointsToOverlay(List<Point2D> points) {
+        for (Point2D point : points) {
+            mOverlay.addItem(toOverlayItem(point.toGeoPoint()));
+        }
     }
 
     @Override

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import cn.edu.nju.software.obdii.data.DataMap;
+import cn.edu.nju.software.obdii.data.DataDispatcher;
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -21,7 +21,7 @@ public class DataReceiver extends BroadcastReceiver {
             if (bundle != null) {
                 String title = bundle.getString(JPushInterface.EXTRA_TITLE);
                 String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-                DataMap.getInstance().onDataReceived(title, message);
+                DataDispatcher.getInstance().onDataReceived(title, message);
             }
         }
     }

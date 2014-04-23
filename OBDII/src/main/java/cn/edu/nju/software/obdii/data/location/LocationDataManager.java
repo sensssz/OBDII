@@ -1,8 +1,5 @@
 package cn.edu.nju.software.obdii.data.location;
 
-import android.content.Context;
-import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,45 +10,21 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.edu.nju.software.obdii.data.DataMap;
-import cn.edu.nju.software.obdii.util.Utilities;
-
 /**
  */
-public class LocationData {
+public class LocationDataManager {
     private OnLocationListener mOnLocationListener;
     private List<Point2D> mLocations;
-    private String mDirectory;
+    private String mUserDirectory;
 
-    public LocationData(Context context, String username) {
+    public LocationDataManager(String userDirectory) {
         mLocations = new ArrayList<Point2D>();
-        mDirectory = context.getFilesDir() + "/" + Utilities.sha1(username) + "/";
-        createDirIfNotExists();
+        mUserDirectory = userDirectory;
         readData();
-        DataMap.getInstance().addOnLocationDataListener(new DataMap.OnLocationDataListener() {
-            @Override
-            public void onLocationDataReceived(double latitude, double longitude) {
-                Log.d("OBDII", "new location: " + latitude + "," + longitude);
-                Point2D point2D = new Point2D(latitude, longitude);
-                mLocations.add(point2D);
-                writeData();
-
-                if (mOnLocationListener != null) {
-                    mOnLocationListener.onLocationUpdate();
-                }
-            }
-        });
-    }
-
-    private void createDirIfNotExists() {
-        File directory = new File(mDirectory);
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
     }
 
     private void readData() {
-        String filename = mDirectory + "locations";
+        String filename = mUserDirectory + "locations";
         File file = new File(filename);
         if (file.exists()) {
             try {
@@ -72,7 +45,7 @@ public class LocationData {
     }
 
     private void writeData() {
-        String filename = mDirectory + "locations";
+        String filename = mUserDirectory + "locations";
         try {
             PrintWriter writer = new PrintWriter(new FileWriter(filename));
             for (Point2D point : mLocations) {
@@ -92,6 +65,16 @@ public class LocationData {
             return new Point2D(latitude, longitude);
         } catch (NumberFormatException exception) {
             return null;
+        }
+    }
+
+    public void onLocationReceived(double latitude, double longitude) {
+        Point2D point2D = new Point2D(latitude, longitude);
+        mLocations.add(point2D);
+        writeData();
+
+        if (mOnLocationListener != null) {
+            mOnLocationListener.onLocationUpdate();
         }
     }
 

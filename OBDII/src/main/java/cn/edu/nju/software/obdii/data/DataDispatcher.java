@@ -1,5 +1,8 @@
 package cn.edu.nju.software.obdii.data;
 
+import android.content.Context;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,11 +10,13 @@ import java.util.Map;
 
 import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfo;
 import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfoManager;
+import cn.edu.nju.software.obdii.data.location.LocationDataManager;
+import cn.edu.nju.software.obdii.util.Utilities;
 
 /**
  * Stores all data received from server
  */
-public class DataMap {
+public class DataDispatcher {
     //    private static final String TAG = "DataMap";
     private static final String LOCATION = "0004";
     private static final String ERROR_CODE = "0005";
@@ -19,9 +24,11 @@ public class DataMap {
     private static final String OBD = "0008";
     private static final String STATUS = "000b";
 
-    private static DataMap sInstance = new DataMap();
+    private static DataDispatcher sInstance = new DataDispatcher();
 
     private OBDData mOBDData;
+    private LocationDataManager mLocationDataManager;
+    private TravelInfoManager mTravelInfoManager;
     private Map<String, String> mDataMap;
     private List<OnLocationDataListener> mOnLocationDataListeners;
     private List<OnErrorCodeListener> mOnErrorCodeListeners;
@@ -29,7 +36,7 @@ public class DataMap {
     private List<OnOBDDataListener> mOnOBDDataListeners;
     private List<OnStatusListener> mOnStatusListeners;
 
-    private DataMap() {
+    private DataDispatcher() {
         mOBDData = new OBDData();
         mDataMap = new HashMap<String, String>();
         mOnLocationDataListeners = new ArrayList<OnLocationDataListener>();
@@ -39,7 +46,7 @@ public class DataMap {
         mOnStatusListeners = new ArrayList<OnStatusListener>();
     }
 
-    public static DataMap getInstance() {
+    public static DataDispatcher getInstance() {
         return sInstance;
     }
 
@@ -54,6 +61,20 @@ public class DataMap {
             }
         }
         return 0;
+    }
+
+    public void setUsername(Context context, String username) {
+        String userDirectory = context.getFilesDir() + "/" + Utilities.sha1(username) + "/";
+        createDirIfNotExists(userDirectory);
+        mLocationDataManager = new LocationDataManager(userDirectory);
+        mTravelInfoManager = new TravelInfoManager(userDirectory);
+    }
+
+    private void createDirIfNotExists(String userDirectory) {
+        File directory = new File(userDirectory);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
     }
 
     public void addOnLocationDataListener(OnLocationDataListener onLocationDataListener) {
@@ -93,8 +114,8 @@ public class DataMap {
         String[] coordinates = message.split(",");
         double latitude = Double.parseDouble(coordinates[0]);
         double longitude = Double.parseDouble(coordinates[1]);
-        for (OnLocationDataListener onLocationDataListener : mOnLocationDataListeners) {
-            onLocationDataListener.onLocationDataReceived(latitude, longitude);
+        if (mLocationDataManager != null) {
+            mLocationDataManager.onLocationReceived(latitude, longitude);
         }
     }
 
@@ -107,7 +128,7 @@ public class DataMap {
 
     private void handleTravelInfo(String message) {
         String[] travelInfoData = message.split(";");
-        TravelInfoManager.getInstance().addTravelInfo(new TravelInfo(travelInfoData));
+        mTravelInfoManager.onTravelInfoReceived(new TravelInfo(travelInfoData));
     }
 
     public String getData(DataType dataType) {
@@ -117,6 +138,14 @@ public class DataMap {
 
     public String getData(String dataType) {
         return mDataMap.get(dataType);
+    }
+
+    public LocationDataManager getLocationData() {
+        return mLocationDataManager;
+    }
+
+    public TravelInfoManager getTravelInfoManager() {
+        return mTravelInfoManager;
     }
 
     public interface OnLocationDataListener {

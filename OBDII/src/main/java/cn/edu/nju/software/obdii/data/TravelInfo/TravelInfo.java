@@ -118,4 +118,29 @@ public class TravelInfo implements Parcelable {
                 mTotalOilConsumption, mAverageOilConsumption,
                 mFatigueDrivingLength, mSerial});
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(mStartTime).append(",")
+                .append(mEndTime).append(",")
+                .append(mDistance).append(",")
+                .append(mMaxSpeed).append(",")
+                .append(mTimeoutLength).append(",")
+                .append(mBrakingTimes).append(",")
+                .append(mUrgentBrakingTimes).append(",")
+                .append(mAccelerateTimes).append(",")
+                .append(mUrgentAccelerateTimes).append(",")
+                .append(mAverageSpeed).append(",")
+                .append(mHighestTemperature).append(",")
+                .append(mHighestRotateSpeed).append(",")
+                .append(mVoltage).append(",")
+                .append(mTotalOilConsumption).append(",")
+                .append(mAverageOilConsumption).append(",")
+                .append(mFatigueDrivingLength).append(",")
+                .append(mSerial);
+
+        return stringBuilder.toString();
+    }
 }

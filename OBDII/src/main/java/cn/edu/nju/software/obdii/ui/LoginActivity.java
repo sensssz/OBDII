@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.nju.software.obdii.R;
+import cn.edu.nju.software.obdii.data.DataDispatcher;
 import cn.edu.nju.software.obdii.network.HttpClient;
 import cn.edu.nju.software.obdii.network.Url;
 import cn.edu.nju.software.obdii.util.Utilities;
@@ -102,9 +103,8 @@ public class LoginActivity extends InstrumentedActivity {
                     String[] results = signInResult.split(",");
                     if (results[0].equals("1")) {
                         JPushInterface.setAlias(LoginActivity.this, results[1], null);
+                        DataDispatcher.getInstance().setUsername(LoginActivity.this, username);
                         Intent intent = new Intent(LoginActivity.this, MainViewActivity.class);
-                        intent.putExtra("username", username);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         finish();
                     } else {

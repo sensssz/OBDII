@@ -98,8 +98,7 @@ public class MainViewActivity extends Activity {
         mCurrentPosition = -1;
         mFragments = new Fragment[mDrawerIcons.length];
 
-        String username = getIntent().getStringExtra("username");
-        mFragments[0] = new TrajectoryFragment(username);
+        mFragments[0] = new TrajectoryFragment();
         mFragments[2] = new TravelInfoFragment();
         mFragments[3] = new AlertCheckFragment();
         mFragments[4] = new StatisticsFragment();
