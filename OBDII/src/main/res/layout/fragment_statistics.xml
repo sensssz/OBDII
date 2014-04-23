@@ -14,9 +14,18 @@
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="240dp"
                 android:orientation="vertical"
                 android:background="@drawable/card">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="@string/oil_consume_average"
+                    android:textSize="20sp"
+                    android:textColor="@color/title_color"
+                    android:paddingLeft="15dp"
+                    android:gravity="center_vertical"
+                    />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -27,9 +36,18 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="240dp"
                 android:orientation="vertical"
                 android:background="@drawable/card">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="@string/speed_average"
+                    android:textSize="20sp"
+                    android:textColor="@color/title_color"
+                    android:paddingLeft="15dp"
+                    android:gravity="center_vertical"
+                    />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -40,9 +58,18 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="260dp"
                 android:orientation="vertical"
                 android:background="@drawable/card">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="@string/mileage"
+                    android:textSize="20sp"
+                    android:textColor="@color/title_color"
+                    android:paddingLeft="15dp"
+                    android:gravity="center_vertical"
+                    />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
