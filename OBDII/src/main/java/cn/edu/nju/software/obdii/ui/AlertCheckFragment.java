@@ -21,6 +21,5 @@ public class AlertCheckFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_alertcheck, container, false);
         mAlerts = new boolean[16];
         return view;
-
     }
 }
