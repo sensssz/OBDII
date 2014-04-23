@@ -63,5 +63,23 @@
     <string name="gsm_format">GSM经纬度格式</string>
     <string name="urgent_brake">紧急刹车</string>
 
+    <string name="description_accelerate">急加速描述</string>
+    <string name="description_battery_serving">电池供电描述</string>
+    <string name="description_battery_over_pressure">电池过压描述</string>
+    <string name="description_out_of_matrix_region">出矩阵区域报警描述</string>
+    <string name="description_warranty_period">保养期报警描述</string>
+    <string name="description_urgent_accelerate">紧急加速描述</string>
+    <string name="description_vibrating_alert">震动报警描述</string>
+    <string name="description_brake">急刹车描述</string>
+
+    <string name="description_speeding_alert">超速报警描述</string>
+    <string name="description_battery_lack_pressure">电池欠压描述</string>
+    <string name="description_enter_matrix_region">进矩阵报警描述</string>
+    <string name="description_collision_alert">碰撞报警描述</string>
+    <string name="description_high_temperature">温高报警描述</string>
+    <string name="description_OBD_sever_error_alert">OBD严重故障报警描述</string>
+    <string name="description_gsm_format">GSM经纬度格式描述</string>
+    <string name="description_urgent_brake">紧急刹车描述</string>
+
 
 </resources>
