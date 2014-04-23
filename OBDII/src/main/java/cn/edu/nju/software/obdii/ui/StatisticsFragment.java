@@ -140,6 +140,7 @@ public class StatisticsFragment extends Fragment {
         renderer.setZoomButtonsVisible(false);
         renderer.setPointSize(5);
         renderer.setPanEnabled(false,false);//block moving on both x and y side
+        renderer.setZoomEnabled(false,false);//block zoom
         renderer.setXLabelsPadding(5);
         renderer.setYLabelsPadding(30);//set the padding between label and axis
 
@@ -167,6 +168,7 @@ public class StatisticsFragment extends Fragment {
     }
 
     protected void loadSpeedData() {
+        //should read file to load history data
         mSpeedCurrentSeries.add(1, 78);
         mSpeedCurrentSeries.add(2, 80);
         mSpeedCurrentSeries.add(3, 120);
@@ -177,6 +179,7 @@ public class StatisticsFragment extends Fragment {
     }
 
     protected void loadMileageData() {
+        //should read file to load history data
         mMileageCurrentSeries.add(1, 20);
         mMileageCurrentSeries.add(2, 40);
         mMileageCurrentSeries.add(3, 120);
