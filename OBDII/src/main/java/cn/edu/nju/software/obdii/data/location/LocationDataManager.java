@@ -62,14 +62,15 @@ public class LocationDataManager {
         try {
             double latitude = Double.parseDouble(coordinates[0]);
             double longitude = Double.parseDouble(coordinates[1]);
-            return new Point2D(latitude, longitude);
+            String timestamp = coordinates[2];
+            return new Point2D(latitude, longitude, timestamp);
         } catch (NumberFormatException exception) {
             return null;
         }
     }
 
-    public void onLocationReceived(double latitude, double longitude) {
-        Point2D point2D = new Point2D(latitude, longitude);
+    public void onLocationReceived(double latitude, double longitude, String timestamp) {
+        Point2D point2D = new Point2D(latitude, longitude, timestamp);
         mLocations.add(point2D);
         writeData();
 
