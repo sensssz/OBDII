@@ -76,7 +76,7 @@ public class StatisticsFragment extends Fragment {
             mOilRenderer.setXTitle(getString(R.string.oil_x_label));
             mOilRenderer.setYTitle(getString(R.string.oil_y_label));
             //set limit for axis
-            mOilRenderer.setXAxisMax(30);
+            mOilRenderer.setXAxisMax(10);
             mOilRenderer.setXAxisMin(0);
             mOilRenderer.setYAxisMax(3000);
             mOilRenderer.setYAxisMin(0);
@@ -97,7 +97,7 @@ public class StatisticsFragment extends Fragment {
             mSpeedRenderer.setXTitle(getString(R.string.speed_x_label));
             mSpeedRenderer.setYTitle(getString(R.string.speed_y_label));
             //set limit for axis
-            mSpeedRenderer.setXAxisMax(30);
+            mSpeedRenderer.setXAxisMax(10);
             mSpeedRenderer.setXAxisMin(0);
             mSpeedRenderer.setYAxisMax(150);
             mSpeedRenderer.setYAxisMin(0);
@@ -118,7 +118,7 @@ public class StatisticsFragment extends Fragment {
             mMileageRenderer.setXTitle(getString(R.string.mileage_x_label));
             mMileageRenderer.setYTitle(getString(R.string.mileage_y_label));
             //set limit for axis
-            mMileageRenderer.setXAxisMax(30);
+            mMileageRenderer.setXAxisMax(10);
             mMileageRenderer.setXAxisMin(0);
             mMileageRenderer.setYAxisMax(10000);
             mMileageRenderer.setYAxisMin(0);
@@ -159,8 +159,8 @@ public class StatisticsFragment extends Fragment {
         renderer.setMargins(new int[] { 30, 100, 30, 50});
         renderer.setZoomButtonsVisible(false);
         renderer.setPointSize(5);
-        renderer.setPanEnabled(false,false);//block moving on both x and y side
-        renderer.setZoomEnabled(false,false);//block zoom
+        renderer.setPanEnabled(true, false);//block moving on both x and y side
+        renderer.setZoomEnabled(false, false);//block zoom
         renderer.setXLabelsPadding(5);
         renderer.setYLabelsPadding(30);//set the padding between label and axis
 
@@ -184,13 +184,6 @@ public class StatisticsFragment extends Fragment {
             mOilCurrentSeries.add(i, oilAverage);
             ++i;
         }
-//        mOilCurrentSeries.add(1, 20);
-//        mOilCurrentSeries.add(2, 13);
-//        mOilCurrentSeries.add(3, 12);
-//        mOilCurrentSeries.add(4, 15);
-//        mOilCurrentSeries.add(5, 10);
-//        mOilCurrentSeries.add(6, 18);
-//        mOilCurrentSeries.add(7, 9);
 
 
     }
@@ -203,13 +196,6 @@ public class StatisticsFragment extends Fragment {
             mSpeedCurrentSeries.add(i, speedAverage);
             ++i;
         }
-//        mSpeedCurrentSeries.add(1, 78);
-//        mSpeedCurrentSeries.add(2, 80);
-//        mSpeedCurrentSeries.add(3, 120);
-//        mSpeedCurrentSeries.add(4, 60);
-//        mSpeedCurrentSeries.add(5, 90);
-//        mSpeedCurrentSeries.add(6, 170);
-//        mSpeedCurrentSeries.add(7, 100);
     }
 
     protected void loadMileageData() {
@@ -220,13 +206,6 @@ public class StatisticsFragment extends Fragment {
             mMileageCurrentSeries.add(i, mileage);
             ++i;
         }
-//        mMileageCurrentSeries.add(1, 20);
-//        mMileageCurrentSeries.add(2, 40);
-//        mMileageCurrentSeries.add(3, 120);
-//        mMileageCurrentSeries.add(4, 70);
-//        mMileageCurrentSeries.add(5, 10);
-//        mMileageCurrentSeries.add(6, 180);
-//        mMileageCurrentSeries.add(7, 80);
     }
 
     private void addData(TravelInfo t) {
