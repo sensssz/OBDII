@@ -78,7 +78,7 @@ public class StatisticsFragment extends Fragment {
             //set limit for axis
             mOilRenderer.setXAxisMax(30);
             mOilRenderer.setXAxisMin(0);
-            mOilRenderer.setYAxisMax(100);
+            mOilRenderer.setYAxisMax(3000);
             mOilRenderer.setYAxisMin(0);
             //add line series
             mOilCurrentSeries = new XYSeries(getString(R.string.oil_consume_average));

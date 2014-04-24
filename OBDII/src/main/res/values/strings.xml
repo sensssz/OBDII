@@ -24,7 +24,7 @@
 
     <!-- average oil -->
     <string name="oil_x_label">最近行驶次数</string>
-    <string name="oil_y_label">耗油（百公里/升）</string>
+    <string name="oil_y_label">耗油（0.01百公里/升）</string>
 
     <!-- average speed -->
     <string name="speed_x_label">最近行驶次数</string>
