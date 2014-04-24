@@ -16,7 +16,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:gravity="center"
-        android:text="2014/04/19\n21:37:15"
+        android:textColor="@color/title_color"
         android:textSize="17sp"/>
 
     <ImageView
@@ -39,7 +39,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
         android:gravity="center"
-        android:text="2014/04/19\n22:37:15"
+        android:textColor="@color/title_color"
         android:textSize="17sp"/>
 
 </RelativeLayout>

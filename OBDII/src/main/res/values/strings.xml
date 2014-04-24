@@ -37,7 +37,7 @@
     <!-- Navigation Drawer-->
     <string name="car_route">行车轨迹</string>
     <string name="OBD_data">OBD数据</string>
-    <string name="travel_info">行驶信息</string>
+    <string name="travel_info">行程信息</string>
     <string name="statistics">数据统计</string>
     <string name="oil_consume_average">平均油耗</string>
     <string name="speed_average">平均速度</string>
@@ -81,5 +81,7 @@
     <string name="description_gsm_format">GSM经纬度格式描述</string>
     <string name="description_urgent_brake">紧急刹车描述</string>
 
+    <!-- Travel info details -->
+    <string name="travel_info_detail">行程详情</string>
 
 </resources>

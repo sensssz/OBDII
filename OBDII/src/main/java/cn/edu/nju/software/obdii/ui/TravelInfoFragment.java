@@ -10,9 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,13 +18,14 @@ import java.util.Map;
 import cn.edu.nju.software.obdii.R;
 import cn.edu.nju.software.obdii.data.DataDispatcher;
 import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfo;
+import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfoManager;
 
 /**
  * Display a list of the travel info list
  */
 public class TravelInfoFragment extends Fragment {
     private ListView mTravelInfoList;
-    private SimpleAdapter adapter;
+    private SimpleAdapter mAdapter;
     private List<Map<String, String>> mAdapterData;
     private List<TravelInfo> mTravelInfo;
 
@@ -34,23 +33,43 @@ public class TravelInfoFragment extends Fragment {
         mAdapterData = new ArrayList<Map<String, String>>();
         mTravelInfo = DataDispatcher.getInstance()
                 .getTravelInfoManager().getTravelInfoList();
+
+        initAdapterData();
+
+        DataDispatcher.getInstance().getTravelInfoManager()
+                .addTravelInfoListener(new TravelInfoManager.OnTravelInfoListener() {
+                    @Override
+                    public void onTravelInfoReceived(TravelInfo travelInfo) {
+                        mAdapterData.add(travelInfoToMap(travelInfo));
+                        if (mAdapter != null) {
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
     }
 
     public void initAdapterData() {
         for (TravelInfo travelInfo : mTravelInfo) {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("start", travelInfo.getStartTime());
-            map.put("end", travelInfo.getEndTime());
-            mAdapterData.add(map);
+            mAdapterData.add(travelInfoToMap(travelInfo));
         }
     }
 
+    private Map<String, String> travelInfoToMap(TravelInfo travelInfo) {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("from_time", format(travelInfo.getStartTime()));
+        map.put("to_time", format(travelInfo.getEndTime()));
+        return map;
+    }
+
     private String format(String time) {
-        String dateFormat = "yyyy/MM/dd\nHH:mm:ss";
-        DateFormat formatter = DateFormat.getDateInstance();
-        long timeInMilliSeconds = Long.parseLong(time) * 1000;
-        Date date = new Date(timeInMilliSeconds);
-        return formatter.format(date);
+        StringBuilder stringBuilder = new StringBuilder("20");
+        stringBuilder.append(time.substring(0, 2)).append("/")
+                .append(time.substring(2, 4)).append("/")
+                .append(time.substring(4, 6)).append("\n")
+                .append(time.substring(6, 8)).append(":")
+                .append(time.substring(8, 10)).append(":")
+                .append(time.substring(10, 12));
+        return stringBuilder.toString();
     }
 
     @Override
@@ -69,13 +88,13 @@ public class TravelInfoFragment extends Fragment {
             }
         });
 
-        if (adapter == null) {
-            adapter = new SimpleAdapter(getActivity(), mAdapterData,
+        if (mAdapter == null) {
+            mAdapter = new SimpleAdapter(getActivity(), mAdapterData,
                     R.layout.item_travel_info,
                     new String[]{"from_time", "to_time"},
                     new int[]{R.id.from_time, R.id.to_time});
         }
-        mTravelInfoList.setAdapter(adapter);
+        mTravelInfoList.setAdapter(mAdapter);
 
         return view;
     }

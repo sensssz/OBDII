@@ -85,10 +85,6 @@ public class DataDispatcher {
         mOnErrorCodeListeners.add(onErrorCodeListener);
     }
 
-    public void addOnTravelInfoListener(OnTravelInfoListener onTravelInfoListener) {
-        mOnTravelInfoListeners.add(onTravelInfoListener);
-    }
-
     public void addOnOBDDataListener(OnOBDDataListener onOBDDataListener) {
         if (!mOnOBDDataListeners.contains(onOBDDataListener)) {
             mOnOBDDataListeners.add(onOBDDataListener);
@@ -105,6 +101,7 @@ public class DataDispatcher {
         } else if (title.startsWith(ERROR_CODE)) {
             handleErrorCode(message);
         } else if (title.startsWith(TRAVEL_INFO)) {
+            handleTravelInfo(message);
         } else if (title.startsWith(OBD)) {
         } else if (title.startsWith(STATUS)) {
         }
@@ -128,7 +125,9 @@ public class DataDispatcher {
 
     private void handleTravelInfo(String message) {
         String[] travelInfoData = message.split(";");
-        mTravelInfoManager.onTravelInfoReceived(new TravelInfo(travelInfoData));
+        if (mTravelInfoManager != null) {
+            mTravelInfoManager.onTravelInfoReceived(new TravelInfo(travelInfoData));
+        }
     }
 
     public String getData(DataType dataType) {
