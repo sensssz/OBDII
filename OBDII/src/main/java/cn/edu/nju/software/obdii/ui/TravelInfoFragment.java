@@ -10,11 +10,16 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import cn.edu.nju.software.obdii.R;
+import cn.edu.nju.software.obdii.data.DataDispatcher;
+import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfo;
 
 /**
  * Display a list of the travel info list
@@ -22,12 +27,30 @@ import cn.edu.nju.software.obdii.R;
 public class TravelInfoFragment extends Fragment {
     private ListView mTravelInfoList;
     private SimpleAdapter adapter;
-    private List<Map<String, String>> mData;
-    private List<String> mTravelInfo;
+    private List<Map<String, String>> mAdapterData;
+    private List<TravelInfo> mTravelInfo;
 
     public TravelInfoFragment() {
-        mData = new ArrayList<Map<String, String>>();
-        mTravelInfo = new ArrayList<String>();
+        mAdapterData = new ArrayList<Map<String, String>>();
+        mTravelInfo = DataDispatcher.getInstance()
+                .getTravelInfoManager().getTravelInfoList();
+    }
+
+    public void initAdapterData() {
+        for (TravelInfo travelInfo : mTravelInfo) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("start", travelInfo.getStartTime());
+            map.put("end", travelInfo.getEndTime());
+            mAdapterData.add(map);
+        }
+    }
+
+    private String format(String time) {
+        String dateFormat = "yyyy/MM/dd\nHH:mm:ss";
+        DateFormat formatter = DateFormat.getDateInstance();
+        long timeInMilliSeconds = Long.parseLong(time) * 1000;
+        Date date = new Date(timeInMilliSeconds);
+        return formatter.format(date);
     }
 
     @Override
@@ -39,7 +62,7 @@ public class TravelInfoFragment extends Fragment {
         mTravelInfoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String travelInfo = mTravelInfo.get(position);
+                TravelInfo travelInfo = mTravelInfo.get(position);
                 Intent intent = new Intent(getActivity(), TravelInfoActivity.class);
                 intent.putExtra("travel_info", travelInfo);
                 startActivity(intent);
@@ -47,7 +70,7 @@ public class TravelInfoFragment extends Fragment {
         });
 
         if (adapter == null) {
-            adapter = new SimpleAdapter(getActivity(), mData,
+            adapter = new SimpleAdapter(getActivity(), mAdapterData,
                     R.layout.item_travel_info,
                     new String[]{"from_time", "to_time"},
                     new int[]{R.id.from_time, R.id.to_time});

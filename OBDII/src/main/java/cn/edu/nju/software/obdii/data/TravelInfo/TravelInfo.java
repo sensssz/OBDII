@@ -17,8 +17,8 @@ public class TravelInfo implements Parcelable {
         }
     };
 
-    private long mStartTime;
-    private long mEndTime;
+    private String mStartTime;
+    private String mEndTime;
     private String mDistance;
     private String mMaxSpeed;
     private String mTimeoutLength;
@@ -38,7 +38,7 @@ public class TravelInfo implements Parcelable {
     public TravelInfo() {
     }
 
-    public TravelInfo(long mStartTime, long mEndTime, String mDistance,
+    public TravelInfo(String mStartTime, String mEndTime, String mDistance,
                       String mMaxSpeed, String mTimeoutLength,
                       String mBrakingTimes, String mUrgentBrakingTimes,
                       String mAccelerateTimes, String mUrgentAccelerateTimes,
@@ -66,15 +66,13 @@ public class TravelInfo implements Parcelable {
     }
 
     public void init(String[] data) {
-        long startTime = Long.parseLong(data[0]);
-        long endTime = Long.parseLong(data[1]);
-        init(startTime, endTime, data[2], data[3],
+        init(data[0], data[1], data[2], data[3],
                 data[4], data[5], data[6], data[7], data[8],
                 data[9], data[10], data[11], data[12], data[13],
                 data[14], data[15], data[16]);
     }
 
-    public void init(long mStartTime, long mEndTime, String mDistance,
+    public void init(String mStartTime, String mEndTime, String mDistance,
                      String mMaxSpeed, String mTimeoutLength,
                      String mBrakingTimes, String mUrgentBrakingTimes,
                      String mAccelerateTimes, String mUrgentAccelerateTimes,
@@ -109,7 +107,7 @@ public class TravelInfo implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeStringArray(new String[]{
-                mStartTime + "", mEndTime + "",
+                mStartTime, mEndTime,
                 mDistance, mMaxSpeed, mTimeoutLength,
                 mBrakingTimes, mUrgentBrakingTimes,
                 mAccelerateTimes, mUrgentAccelerateTimes,
@@ -142,5 +140,13 @@ public class TravelInfo implements Parcelable {
                 .append(mSerial);
 
         return stringBuilder.toString();
+    }
+
+    public String getStartTime() {
+        return mStartTime;
+    }
+
+    public String getEndTime() {
+        return mEndTime;
     }
 }
