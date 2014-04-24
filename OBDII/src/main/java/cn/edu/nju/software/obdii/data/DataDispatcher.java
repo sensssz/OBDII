@@ -97,7 +97,7 @@ public class DataDispatcher {
 
     public void onDataReceived(String title, String message) {
         if (title.startsWith(LOCATION)) {
-            handleLocationData(message);
+            handleLocationData(title, message);
         } else if (title.startsWith(ERROR_CODE)) {
             handleErrorCode(message);
         } else if (title.startsWith(TRAVEL_INFO)) {
@@ -107,13 +107,20 @@ public class DataDispatcher {
         }
     }
 
-    private void handleLocationData(String message) {
+    private void handleLocationData(String title, String message) {
         String[] coordinates = message.split(",");
         double latitude = Double.parseDouble(coordinates[0]);
         double longitude = Double.parseDouble(coordinates[1]);
+        String timestamp = getTimestamp(title);
         if (mLocationDataManager != null) {
-            mLocationDataManager.onLocationReceived(latitude, longitude);
+            mLocationDataManager.onLocationReceived(latitude, longitude, timestamp);
         }
+    }
+
+    private String getTimestamp(String title) {
+        int indexOfLeft = title.indexOf("(");
+        int indexOfRight = title.indexOf(")");
+        return title.substring(indexOfLeft + 1, indexOfRight);
     }
 
     private void handleErrorCode(String message) {

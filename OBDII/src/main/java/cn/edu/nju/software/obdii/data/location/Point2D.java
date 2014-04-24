@@ -8,26 +8,24 @@ import com.baidu.platform.comapi.basestruct.GeoPoint;
 public class Point2D {
     private double mLatitude;
     private double mLongitude;
+    private String mTimestamp;
 
-    public Point2D(double mLatitude, double mLongitude) {
-        this.mLatitude = mLatitude;
-        this.mLongitude = mLongitude;
+    public Point2D(double latitude, double longitude, String time) {
+        this.mLatitude = latitude;
+        this.mLongitude = longitude;
+        this.mTimestamp = time;
     }
 
     public double getLatitude() {
         return mLatitude;
     }
 
-    public void setLatitude(double mLatitude) {
-        this.mLatitude = mLatitude;
-    }
-
     public double getLongitude() {
         return mLongitude;
     }
 
-    public void setLongitude(double mLongitude) {
-        this.mLongitude = mLongitude;
+    public String getTimestamp() {
+        return mTimestamp;
     }
 
     public GeoPoint toGeoPoint() {
@@ -40,6 +38,6 @@ public class Point2D {
 
     @Override
     public String toString() {
-        return mLatitude + "," + mLongitude;
+        return mLatitude + "," + mLongitude + "," + mTimestamp;
     }
 }
