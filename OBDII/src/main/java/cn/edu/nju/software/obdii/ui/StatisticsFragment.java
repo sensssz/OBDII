@@ -251,9 +251,9 @@ public class StatisticsFragment extends Fragment {
             mTravelInfoList.add(t);
             int i = mTravelInfoList.size();
 
-            mOilCurrentSeries.remove(0);
-            mSpeedCurrentSeries.remove(0);
-            mMileageCurrentSeries.remove(0);
+            mOilCurrentSeries.remove(1);
+            mSpeedCurrentSeries.remove(1);
+            mMileageCurrentSeries.remove(1);
 
             mOilCurrentSeries.add(i, oilAverage);
             mSpeedCurrentSeries.add(i, speedAverage);
