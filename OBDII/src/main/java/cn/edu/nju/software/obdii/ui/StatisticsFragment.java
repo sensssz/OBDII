@@ -99,7 +99,7 @@ public class StatisticsFragment extends Fragment {
             //set limit for axis
             mSpeedRenderer.setXAxisMax(10);
             mSpeedRenderer.setXAxisMin(0);
-            mSpeedRenderer.setYAxisMax(150);
+            mSpeedRenderer.setYAxisMax(100);
             mSpeedRenderer.setYAxisMin(0);
             //add line series
             mSpeedCurrentSeries = new XYSeries(getString(R.string.speed_average));
@@ -120,7 +120,7 @@ public class StatisticsFragment extends Fragment {
             //set limit for axis
             mMileageRenderer.setXAxisMax(10);
             mMileageRenderer.setXAxisMin(0);
-            mMileageRenderer.setYAxisMax(10000);
+            mMileageRenderer.setYAxisMax(1000);
             mMileageRenderer.setYAxisMin(0);
             //add line series
             mMileageCurrentSeries = new XYSeries(getString(R.string.mileage));
