@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:background="@drawable/popup"
-              android:orientation="vertical">
+    android:background="@drawable/popup">
 
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -21,9 +21,20 @@
         android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/time"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:textColor="@android:color/white"
         android:textSize="17sp"/>
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/query_progress"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/address"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
+
+</RelativeLayout>
