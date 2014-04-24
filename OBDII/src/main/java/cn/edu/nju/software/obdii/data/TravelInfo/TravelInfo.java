@@ -19,6 +19,75 @@ public class TravelInfo implements Parcelable {
 
     private String mStartTime;
     private String mEndTime;
+
+    public String getmStartTime() {
+        return mStartTime;
+    }
+
+    public String getmEndTime() {
+        return mEndTime;
+    }
+
+    public String getmDistance() {
+        return mDistance;
+    }
+
+    public String getmMaxSpeed() {
+        return mMaxSpeed;
+    }
+
+    public String getmTimeoutLength() {
+        return mTimeoutLength;
+    }
+
+    public String getmBrakingTimes() {
+        return mBrakingTimes;
+    }
+
+    public String getmUrgentBrakingTimes() {
+        return mUrgentBrakingTimes;
+    }
+
+    public String getmAccelerateTimes() {
+        return mAccelerateTimes;
+    }
+
+    public String getmUrgentAccelerateTimes() {
+        return mUrgentAccelerateTimes;
+    }
+
+    public String getmAverageSpeed() {
+        return mAverageSpeed;
+    }
+
+    public String getmHighestTemperature() {
+        return mHighestTemperature;
+    }
+
+    public String getmHighestRotateSpeed() {
+        return mHighestRotateSpeed;
+    }
+
+    public String getmVoltage() {
+        return mVoltage;
+    }
+
+    public String getmTotalOilConsumption() {
+        return mTotalOilConsumption;
+    }
+
+    public String getmAverageOilConsumption() {
+        return mAverageOilConsumption;
+    }
+
+    public String getmFatigueDrivingLength() {
+        return mFatigueDrivingLength;
+    }
+
+    public String getmSerial() {
+        return mSerial;
+    }
+
     private String mDistance;
     private String mMaxSpeed;
     private String mTimeoutLength;

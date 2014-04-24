@@ -15,7 +15,12 @@ import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
+import java.util.List;
+
 import cn.edu.nju.software.obdii.R;
+import cn.edu.nju.software.obdii.data.DataDispatcher;
+import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfo;
+import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfoManager;
 
 /**
  * Created by rogers on 4/22/14.
@@ -39,6 +44,11 @@ public class StatisticsFragment extends Fragment {
     private XYSeriesRenderer mMileageCurrentRenderer;
     private GraphicalView mMileageChartView;
 
+    private TravelInfoManager mTravelInfoManager;
+    private List<TravelInfo> mTravelInfoList;
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,7 +62,11 @@ public class StatisticsFragment extends Fragment {
         mMileageDataset = new XYMultipleSeriesDataset();
         mMileageRenderer = new XYMultipleSeriesRenderer();
 
+        mTravelInfoManager = DataDispatcher.getInstance().getTravelInfoManager();
+        mTravelInfoList = mTravelInfoManager.getTravelInfoList();
+
         if (savedInstanceState == null) {
+
             //oil chart
             LinearLayout oilLayout = (LinearLayout) view.findViewById(R.id.oil_layout);
             mOilCurrentRenderer = new XYSeriesRenderer();
@@ -62,9 +76,9 @@ public class StatisticsFragment extends Fragment {
             mOilRenderer.setXTitle(getString(R.string.oil_x_label));
             mOilRenderer.setYTitle(getString(R.string.oil_y_label));
             //set limit for axis
-            mOilRenderer.setXAxisMax(10);
+            mOilRenderer.setXAxisMax(30);
             mOilRenderer.setXAxisMin(0);
-            mOilRenderer.setYAxisMax(25);
+            mOilRenderer.setYAxisMax(100);
             mOilRenderer.setYAxisMin(0);
             //add line series
             mOilCurrentSeries = new XYSeries(getString(R.string.oil_consume_average));
@@ -83,9 +97,9 @@ public class StatisticsFragment extends Fragment {
             mSpeedRenderer.setXTitle(getString(R.string.speed_x_label));
             mSpeedRenderer.setYTitle(getString(R.string.speed_y_label));
             //set limit for axis
-            mSpeedRenderer.setXAxisMax(10);
+            mSpeedRenderer.setXAxisMax(30);
             mSpeedRenderer.setXAxisMin(0);
-            mSpeedRenderer.setYAxisMax(300);
+            mSpeedRenderer.setYAxisMax(150);
             mSpeedRenderer.setYAxisMin(0);
             //add line series
             mSpeedCurrentSeries = new XYSeries(getString(R.string.speed_average));
@@ -104,9 +118,9 @@ public class StatisticsFragment extends Fragment {
             mMileageRenderer.setXTitle(getString(R.string.mileage_x_label));
             mMileageRenderer.setYTitle(getString(R.string.mileage_y_label));
             //set limit for axis
-            mMileageRenderer.setXAxisMax(10);
+            mMileageRenderer.setXAxisMax(30);
             mMileageRenderer.setXAxisMin(0);
-            mMileageRenderer.setYAxisMax(200);
+            mMileageRenderer.setYAxisMax(10000);
             mMileageRenderer.setYAxisMin(0);
             //add line series
             mMileageCurrentSeries = new XYSeries(getString(R.string.mileage));
@@ -116,6 +130,12 @@ public class StatisticsFragment extends Fragment {
             mileageLayout.addView(mMileageChartView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
 
+            mTravelInfoManager.addTravelInfoListener(new TravelInfoManager.OnTravelInfoListener() {
+                @Override
+                public void onTravelInfoReceived(TravelInfo travelInfo) {
+                    addData(travelInfo);
+                }
+            });
         }
         return view;
     }
@@ -157,36 +177,93 @@ public class StatisticsFragment extends Fragment {
 
 
     protected void loadOilData() {
-        //should read file to load history data
-        mOilCurrentSeries.add(1, 20);
-        mOilCurrentSeries.add(2, 13);
-        mOilCurrentSeries.add(3, 12);
-        mOilCurrentSeries.add(4, 15);
-        mOilCurrentSeries.add(5, 10);
-        mOilCurrentSeries.add(6, 18);
-        mOilCurrentSeries.add(7, 9);
+        //read file to load history data
+        int i = 1;
+        for (TravelInfo t : mTravelInfoList) {
+            double oilAverage = Double.parseDouble(t.getmAverageOilConsumption());
+            mOilCurrentSeries.add(i, oilAverage);
+            ++i;
+        }
+//        mOilCurrentSeries.add(1, 20);
+//        mOilCurrentSeries.add(2, 13);
+//        mOilCurrentSeries.add(3, 12);
+//        mOilCurrentSeries.add(4, 15);
+//        mOilCurrentSeries.add(5, 10);
+//        mOilCurrentSeries.add(6, 18);
+//        mOilCurrentSeries.add(7, 9);
+
+
     }
 
     protected void loadSpeedData() {
         //should read file to load history data
-        mSpeedCurrentSeries.add(1, 78);
-        mSpeedCurrentSeries.add(2, 80);
-        mSpeedCurrentSeries.add(3, 120);
-        mSpeedCurrentSeries.add(4, 60);
-        mSpeedCurrentSeries.add(5, 90);
-        mSpeedCurrentSeries.add(6, 170);
-        mSpeedCurrentSeries.add(7, 100);
+        int i = 1;
+        for (TravelInfo t : mTravelInfoList) {
+            double speedAverage = Double.parseDouble(t.getmAverageSpeed());
+            mSpeedCurrentSeries.add(i, speedAverage);
+            ++i;
+        }
+//        mSpeedCurrentSeries.add(1, 78);
+//        mSpeedCurrentSeries.add(2, 80);
+//        mSpeedCurrentSeries.add(3, 120);
+//        mSpeedCurrentSeries.add(4, 60);
+//        mSpeedCurrentSeries.add(5, 90);
+//        mSpeedCurrentSeries.add(6, 170);
+//        mSpeedCurrentSeries.add(7, 100);
     }
 
     protected void loadMileageData() {
         //should read file to load history data
-        mMileageCurrentSeries.add(1, 20);
-        mMileageCurrentSeries.add(2, 40);
-        mMileageCurrentSeries.add(3, 120);
-        mMileageCurrentSeries.add(4, 70);
-        mMileageCurrentSeries.add(5, 10);
-        mMileageCurrentSeries.add(6, 180);
-        mMileageCurrentSeries.add(7, 80);
+        int i = 1;
+        for (TravelInfo t : mTravelInfoList) {
+            double mileage = Double.parseDouble(t.getmDistance());
+            mMileageCurrentSeries.add(i, mileage);
+            ++i;
+        }
+//        mMileageCurrentSeries.add(1, 20);
+//        mMileageCurrentSeries.add(2, 40);
+//        mMileageCurrentSeries.add(3, 120);
+//        mMileageCurrentSeries.add(4, 70);
+//        mMileageCurrentSeries.add(5, 10);
+//        mMileageCurrentSeries.add(6, 180);
+//        mMileageCurrentSeries.add(7, 80);
+    }
+
+    private void addData(TravelInfo t) {
+        double oilAverage = Double.parseDouble(t.getmAverageOilConsumption());
+        double speedAverage = Double.parseDouble(t.getmAverageSpeed());
+        double mileage = Double.parseDouble(t.getmDistance());
+
+        if (mTravelInfoList.size() < 30) {
+            mTravelInfoList.add(t);
+            int i = mTravelInfoList.size();
+
+            mOilCurrentSeries.add(i, oilAverage);
+            mSpeedCurrentSeries.add(i, speedAverage);
+            mMileageCurrentSeries.add(i, mileage);
+
+            mOilChartView.repaint();
+            mSpeedChartView.repaint();
+            mMileageChartView.repaint();
+        }
+        else {
+            mTravelInfoList.remove(0);
+            mTravelInfoList.add(t);
+            int i = mTravelInfoList.size();
+
+            mOilCurrentSeries.remove(0);
+            mSpeedCurrentSeries.remove(0);
+            mMileageCurrentSeries.remove(0);
+
+            mOilCurrentSeries.add(i, oilAverage);
+            mSpeedCurrentSeries.add(i, speedAverage);
+            mMileageCurrentSeries.add(i, mileage);
+
+            mOilChartView.repaint();
+            mSpeedChartView.repaint();
+            mMileageChartView.repaint();
+        }
+
     }
 
 
