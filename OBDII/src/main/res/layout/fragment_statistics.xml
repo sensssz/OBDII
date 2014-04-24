@@ -24,6 +24,7 @@
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:scaleType="fitXY"
                         android:src="@drawable/oil_average_icon"/>
                     <TextView
                         android:layout_width="match_parent"
@@ -56,6 +57,7 @@
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:scaleType="fitXY"
                         android:src="@drawable/speed_average_icon"/>
                     <TextView
                         android:layout_width="match_parent"
@@ -87,6 +89,7 @@
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:scaleType="fitXY"
                         android:src="@drawable/mileage_icon"/>
                     <TextView
                         android:layout_width="match_parent"
