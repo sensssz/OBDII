@@ -17,15 +17,25 @@
                 android:layout_height="240dp"
                 android:orientation="vertical"
                 android:background="@drawable/card">
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:text="@string/oil_consume_average"
-                    android:textSize="20sp"
-                    android:textColor="@color/title_color"
-                    android:paddingLeft="15dp"
-                    android:gravity="center_vertical"
-                    />
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/oil_average_icon"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:text="@string/oil_consume_average"
+                        android:textSize="20sp"
+                        android:textColor="@color/title_color"
+                        android:paddingLeft="0dp"
+                        android:gravity="center_vertical"
+                        />
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -39,15 +49,24 @@
                 android:layout_height="240dp"
                 android:orientation="vertical"
                 android:background="@drawable/card">
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:text="@string/speed_average"
-                    android:textSize="20sp"
-                    android:textColor="@color/title_color"
-                    android:paddingLeft="15dp"
-                    android:gravity="center_vertical"
-                    />
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/speed_average_icon"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:text="@string/speed_average"
+                        android:textSize="20sp"
+                        android:textColor="@color/title_color"
+                        android:paddingLeft="0dp"
+                        android:gravity="center_vertical"
+                        />
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -61,15 +80,24 @@
                 android:layout_height="260dp"
                 android:orientation="vertical"
                 android:background="@drawable/card">
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:text="@string/mileage"
-                    android:textSize="20sp"
-                    android:textColor="@color/title_color"
-                    android:paddingLeft="15dp"
-                    android:gravity="center_vertical"
-                    />
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/mileage_icon"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:text="@string/mileage"
+                        android:textSize="20sp"
+                        android:textColor="@color/title_color"
+                        android:paddingLeft="0dp"
+                        android:gravity="center_vertical"
+                        />
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
