@@ -61,18 +61,19 @@ public class TravelInfoActivity extends Activity {
         titles.add(getString(R.string.average_oil));
         titles.add(getString(R.string.average_speed));
 
-        contents.add(mTravelInfo.getmMaxSpeed() + "km/h");
-        contents.add(mTravelInfo.getmTimeoutLength() + "秒");
-        contents.add(mTravelInfo.getmBrakingTimes() + "次");
-        contents.add(mTravelInfo.getmUrgentBrakingTimes()+ "次");
-        contents.add(mTravelInfo.getmAccelerateTimes()+ "次");
-        contents.add(mTravelInfo.getmHighestTemperature() + "摄氏度");
-        contents.add(mTravelInfo.getmHighestRotateSpeed() + "转/分钟");
-        contents.add(mTravelInfo.getmVoltage() + "0.1V");
-        contents.add(mTravelInfo.getmTotalOilConsumption() + "0.01升");
-        contents.add(mTravelInfo.getmFatigueDrivingLength() + "min");
-        contents.add(mTravelInfo.getmAverageOilConsumption() + "0.01百公里升");
-        contents.add(mTravelInfo.getmAverageSpeed() + "km/h");
+        contents.add(mTravelInfo.getmMaxSpeed() + "（km/h）");
+        contents.add(mTravelInfo.getmTimeoutLength() + "（秒）");
+        contents.add(mTravelInfo.getmBrakingTimes() + "（次）");
+        contents.add(mTravelInfo.getmUrgentBrakingTimes() + "（次）");
+        contents.add(mTravelInfo.getmAccelerateTimes() + "（次）");
+        contents.add(mTravelInfo.getmUrgentAccelerateTimes() + "（次）");
+        contents.add(mTravelInfo.getmHighestTemperature() + "（摄氏度）");
+        contents.add(mTravelInfo.getmHighestRotateSpeed() + "（转/分钟）");
+        contents.add(mTravelInfo.getmVoltage() + "（0.1V）");
+        contents.add(mTravelInfo.getmTotalOilConsumption() + "（0.01升）");
+        contents.add(mTravelInfo.getmFatigueDrivingLength() + "（分钟）");
+        contents.add(mTravelInfo.getmAverageOilConsumption() + "（0.01百公里升）");
+        contents.add(mTravelInfo.getmAverageSpeed() + "（km/h）");
 
         mAdapter = new MyAdapter(getApplicationContext(), R.layout.detail_travel_info_list_item, titles, contents);
         mListView.setAdapter(mAdapter);
@@ -87,6 +88,18 @@ public class TravelInfoActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private String format(String time) {
+        StringBuilder stringBuilder = new StringBuilder("20");
+        stringBuilder.append(time.substring(0, 2)).append("/")
+                .append(time.substring(2, 4)).append("/")
+                .append(time.substring(4, 6)).append("\n")
+                .append(time.substring(6, 8)).append(":")
+                .append(time.substring(8, 10)).append(":")
+                .append(time.substring(10, 12));
+        return stringBuilder.toString();
+    }
+
     private class MyAdapter extends ArrayAdapter<String> {
         private ArrayList<String> mTitles;
         private ArrayList<String> mContents;
@@ -110,15 +123,5 @@ public class TravelInfoActivity extends Activity {
             return convertView;
 
         }
-    }
-    private String format(String time) {
-        StringBuilder stringBuilder = new StringBuilder("20");
-        stringBuilder.append(time.substring(0, 2)).append("/")
-                .append(time.substring(2, 4)).append("/")
-                .append(time.substring(4, 6)).append("\n")
-                .append(time.substring(6, 8)).append(":")
-                .append(time.substring(8, 10)).append(":")
-                .append(time.substring(10, 12));
-        return stringBuilder.toString();
     }
 }

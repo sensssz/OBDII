@@ -99,6 +99,7 @@ public class MainViewActivity extends Activity {
         mFragments = new Fragment[mDrawerIcons.length];
 
         mFragments[0] = new TrajectoryFragment();
+        mFragments[1] = new OBDFragment();
         mFragments[2] = new TravelInfoFragment();
         mFragments[3] = new AlertCheckFragment();
         mFragments[4] = new StatisticsFragment();
