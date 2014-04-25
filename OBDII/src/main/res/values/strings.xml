@@ -84,4 +84,18 @@
     <!-- Travel info details -->
     <string name="travel_info_detail">行程详情</string>
 
+    <string name="max_speed">最大速度：</string>
+    <string name="timeout_length">超时时长：</string>
+    <string name="brake_times">急刹车次数：</string>
+    <string name="urgent_brake_time">紧急刹车次数：</string>
+    <string name="accelerate_times">急加速次数：</string>
+    <string name="urgent_accelerate_times">紧急加速次数：</string>
+    <string name="engine_highest_temperature">发动机最高水温：</string>
+    <string name="engine_highest_rotation_speed">发动机最高转速：</string>
+    <string name="voltage">电压值：</string>
+    <string name="total_oil_consuming">总油耗：</string>
+    <string name="fatigue_driving_time">疲劳驾驶时长：</string>
+    <string name="average_oil">平均油耗：</string>
+    <string name="average_speed">平均速度：</string>
+
 </resources>
