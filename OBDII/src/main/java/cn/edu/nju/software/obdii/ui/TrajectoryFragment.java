@@ -8,12 +8,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.baidu.mapapi.map.MapController;
+import com.baidu.mapapi.map.MKMapTouchListener;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.OverlayItem;
 import com.baidu.mapapi.map.PopupClickListener;
@@ -131,13 +129,15 @@ public class TrajectoryFragment extends Fragment {
             @Override
             public void onItemClicked(final int index) {
                 mCurrentSelected = index;
-                GeoPoint geoPoint = mGeoPoints.get(index);
+                final GeoPoint geoPoint = mGeoPoints.get(index);
                 String timestamp = mLocationDataManager.getLocationData().get(index).getTimestamp();
                 String address = mAddresses.get(index);
                 mTimeView.setText(timestamp);
                 if (address != null) {
+                    mQueryProgress.setVisibility(View.INVISIBLE);
                     mAddressView.setText(address);
                 } else {
+                    mAddressView.setText("");
                     mQueryProgress.setVisibility(View.VISIBLE);
                     MKSearch search = new MKSearch();
                     search.init(((OBDApplication) getActivity().getApplication())
@@ -161,14 +161,15 @@ public class TrajectoryFragment extends Fragment {
 
                                 @Override
                                 public void onGetAddrResult(MKAddrInfo mkAddrInfo, int errorNumber) {
-                                    Log.d("OBDII", "get addr result");
                                     if (errorNumber == 0) {
-                                        Log.d("OBDII", "address is " + mkAddrInfo);
                                         mAddresses.set(index, mkAddrInfo.strAddr);
                                         if (mCurrentSelected == index) {
                                             mQueryProgress.setVisibility(View.INVISIBLE);
                                             mAddressView.setText(mkAddrInfo.strAddr);
+                                            mPopupOverlay.showPopup(mPopupView, geoPoint, dpToPx(12));
                                         }
+                                    } else {
+                                        Log.d("OBDII", "error occurred");
                                     }
                                 }
 
@@ -192,6 +193,22 @@ public class TrajectoryFragment extends Fragment {
                     search.reverseGeocode(geoPoint);
                 }
                 mPopupOverlay.showPopup(mPopupView, geoPoint, dpToPx(12));
+            }
+        });
+
+        mMapView.regMapTouchListner(new MKMapTouchListener() {
+            @Override
+            public void onMapClick(GeoPoint geoPoint) {
+                mPopupOverlay.hidePop();
+                mCurrentSelected = -1;
+            }
+
+            @Override
+            public void onMapDoubleClick(GeoPoint geoPoint) {
+            }
+
+            @Override
+            public void onMapLongClick(GeoPoint geoPoint) {
             }
         });
 
