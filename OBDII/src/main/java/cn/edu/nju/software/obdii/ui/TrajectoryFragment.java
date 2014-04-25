@@ -134,6 +134,7 @@ public class TrajectoryFragment extends Fragment {
                 String address = mAddresses.get(index);
                 mTimeView.setText(timestamp);
                 if (address != null) {
+                    mQueryProgress.setVisibility(View.INVISIBLE);
                     mAddressView.setText(address);
                 } else {
                     mAddressView.setText("");
