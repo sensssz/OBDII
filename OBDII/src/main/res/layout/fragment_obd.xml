@@ -29,7 +29,7 @@
         android:layout_alignRight="@+id/dial"
         android:layout_alignTop="@+id/dial"
         android:gravity="center"
-        android:text="24.58Km/h"
+        android:text="@string/default_speed"
         android:textSize="30sp"
         android:textStyle="bold"/>
 

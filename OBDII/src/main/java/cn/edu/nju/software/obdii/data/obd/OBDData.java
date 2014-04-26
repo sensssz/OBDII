@@ -12,6 +12,25 @@ public class OBDData {
     private String mPressure;
     private String mAirTemperature;
 
+    private OnOBDUpdateListener mOnOBDUpdateListener;
+
+    public OBDData() {
+        mSpeed = "0(km/h)";
+    }
+
+    public static int dataValueToInt(String dataValue) {
+        if (dataValue.length() > 0) {
+            try {
+                int indexOfOpenParenthesis = dataValue.indexOf("(");
+                String valuePart = dataValue.substring(0, indexOfOpenParenthesis);
+                return Integer.parseInt(valuePart);
+            } catch (NumberFormatException exception) {
+                exception.printStackTrace();
+            }
+        }
+        return 0;
+    }
+
     public String getmSpeed() {
         return mSpeed;
     }
@@ -70,28 +89,30 @@ public class OBDData {
 
     public void set(String dataType, String dataValue) {
         DataType type = DataConfig.getTypeByName(dataType);
-        switch (type) {
-            case SPEED:
-                mSpeed = dataValue;
-                break;
-            case VOLTAGE:
-                mVoltage = dataValue;
-                break;
-            case COOLANT_TEMPERATURE:
-                mCoolantTemperature = dataValue;
-                break;
-            case ROTATE_SPEED:
-                mRotateSpeed = dataValue;
-                break;
-            case OIL_LEFT:
-                mOilLeft = dataValue;
-                break;
-            case PRESSURE:
-                mPressure = dataValue;
-                break;
-            case AIR_TEMPERATURE:
-                mAirTemperature = dataValue;
-                break;
+        if (type != null) {
+            switch (type) {
+                case SPEED:
+                    mSpeed = dataValue;
+                    break;
+                case VOLTAGE:
+                    mVoltage = dataValue;
+                    break;
+                case COOLANT_TEMPERATURE:
+                    mCoolantTemperature = dataValue;
+                    break;
+                case ROTATE_SPEED:
+                    mRotateSpeed = dataValue;
+                    break;
+                case OIL_LEFT:
+                    mOilLeft = dataValue;
+                    break;
+                case PRESSURE:
+                    mPressure = dataValue;
+                    break;
+                case AIR_TEMPERATURE:
+                    mAirTemperature = dataValue;
+                    break;
+            }
         }
     }
 
@@ -99,16 +120,23 @@ public class OBDData {
         return dataValueToInt(mSpeed);
     }
 
-    private int dataValueToInt(String dataValue) {
-        if (dataValue.length() > 0) {
-            try {
-                int indexOfOpenParenthesis = dataValue.indexOf("(");
-                String valuePart = dataValue.substring(0, indexOfOpenParenthesis);
-                return Integer.parseInt(valuePart);
-            } catch (NumberFormatException exception) {
-                exception.printStackTrace();
-            }
-        }
-        return 0;
+    public void setOnOBDUpdateListener(OnOBDUpdateListener onOBDUpdateListener) {
+        mOnOBDUpdateListener = onOBDUpdateListener;
+    }
+
+    public interface OnOBDUpdateListener {
+        public void onSpeedUpdate(String speed);
+
+        public void onVoltageUpdate(String voltage);
+
+        public void onCoolantTemperatureUpdate(String coolantTemperature);
+
+        public void onRotateSpeedUpdate(String rotateSpeed);
+
+        public void onOilLeftUpdate(String oilLeft);
+
+        public void onPressureUpdate(String pressure);
+
+        public void onAirTemperatureUpdate(String airTemperature);
     }
 }

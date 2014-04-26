@@ -9,6 +9,7 @@
         android:fromDegrees="0"
         android:pivotX="50%"
         android:pivotY="50%"
+        android:startOffset="2000"
         android:toDegrees="270"/>
 
     <rotate
@@ -16,7 +17,6 @@
         android:fromDegrees="270"
         android:pivotX="50%"
         android:pivotY="50%"
-        android:startOffset="2000"
         android:toDegrees="0"/>
 
 </set>

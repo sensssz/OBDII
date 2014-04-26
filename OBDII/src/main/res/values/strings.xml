@@ -100,5 +100,7 @@
     <!-- OBD -->
     <string name="dial_desc">速度表盘</string>
     <string name="pointer_desc">速度指针</string>
+    <string name="default_speed">0km/h</string>
+    <string name="speed_unit">km/h</string>
 
 </resources>
