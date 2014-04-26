@@ -83,7 +83,6 @@
 
     <!-- Travel info details -->
     <string name="travel_info_detail">行程详情</string>
-
     <string name="max_speed">最大速度：</string>
     <string name="timeout_length">超时时长：</string>
     <string name="brake_times">急刹车次数：</string>
@@ -97,5 +96,9 @@
     <string name="fatigue_driving_time">疲劳驾驶时长：</string>
     <string name="average_oil">平均油耗：</string>
     <string name="average_speed">平均速度：</string>
+
+    <!-- OBD -->
+    <string name="dial_desc">速度表盘</string>
+    <string name="pointer_desc">速度指针</string>
 
 </resources>

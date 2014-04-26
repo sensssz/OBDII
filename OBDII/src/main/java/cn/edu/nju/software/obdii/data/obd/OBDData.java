@@ -95,7 +95,11 @@ public class OBDData {
         }
     }
 
-    public int dataValueToInt(String dataValue) {
+    public int getSpeedInInt() {
+        return dataValueToInt(mSpeed);
+    }
+
+    private int dataValueToInt(String dataValue) {
         if (dataValue.length() > 0) {
             try {
                 int indexOfOpenParenthesis = dataValue.indexOf("(");

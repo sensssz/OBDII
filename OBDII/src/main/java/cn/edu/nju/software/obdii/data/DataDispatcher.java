@@ -3,10 +3,6 @@ package cn.edu.nju.software.obdii.data;
 import android.content.Context;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfo;
 import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfoManager;
@@ -89,7 +85,7 @@ public class DataDispatcher {
     }
 
     private void handleOBDInfo(String message) {
-        String[] data = message.split(",");
+        String[] data = message.split(":");
         mOBDData.set(data[0], data[1]);
     }
 
@@ -99,5 +95,9 @@ public class DataDispatcher {
 
     public TravelInfoManager getTravelInfoManager() {
         return mTravelInfoManager;
+    }
+
+    public OBDData getOBDData() {
+        return mOBDData;
     }
 }
