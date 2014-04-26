@@ -11,6 +11,7 @@ import java.util.Map;
 import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfo;
 import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfoManager;
 import cn.edu.nju.software.obdii.data.location.LocationDataManager;
+import cn.edu.nju.software.obdii.data.obd.OBDData;
 import cn.edu.nju.software.obdii.util.Utilities;
 
 /**
@@ -29,38 +30,13 @@ public class DataDispatcher {
     private OBDData mOBDData;
     private LocationDataManager mLocationDataManager;
     private TravelInfoManager mTravelInfoManager;
-    private Map<String, String> mDataMap;
-    private List<OnLocationDataListener> mOnLocationDataListeners;
-    private List<OnErrorCodeListener> mOnErrorCodeListeners;
-    private List<OnTravelInfoListener> mOnTravelInfoListeners;
-    private List<OnOBDDataListener> mOnOBDDataListeners;
-    private List<OnStatusListener> mOnStatusListeners;
 
     private DataDispatcher() {
         mOBDData = new OBDData();
-        mDataMap = new HashMap<String, String>();
-        mOnLocationDataListeners = new ArrayList<OnLocationDataListener>();
-        mOnErrorCodeListeners = new ArrayList<OnErrorCodeListener>();
-        mOnTravelInfoListeners = new ArrayList<OnTravelInfoListener>();
-        mOnOBDDataListeners = new ArrayList<OnOBDDataListener>();
-        mOnStatusListeners = new ArrayList<OnStatusListener>();
     }
 
     public static DataDispatcher getInstance() {
         return sInstance;
-    }
-
-    public static int dataValueToInt(String dataValue) {
-        if (dataValue.length() > 0) {
-            try {
-                int indexOfOpenParenthesis = dataValue.indexOf("(");
-                String valuePart = dataValue.substring(0, indexOfOpenParenthesis);
-                return Integer.parseInt(valuePart);
-            } catch (NumberFormatException exception) {
-                exception.printStackTrace();
-            }
-        }
-        return 0;
     }
 
     public void setUsername(Context context, String username) {
@@ -77,32 +53,14 @@ public class DataDispatcher {
         }
     }
 
-    public void addOnLocationDataListener(OnLocationDataListener onLocationDataListener) {
-        mOnLocationDataListeners.add(onLocationDataListener);
-    }
-
-    public void addOnErrorCodeListener(OnErrorCodeListener onErrorCodeListener) {
-        mOnErrorCodeListeners.add(onErrorCodeListener);
-    }
-
-    public void addOnOBDDataListener(OnOBDDataListener onOBDDataListener) {
-        if (!mOnOBDDataListeners.contains(onOBDDataListener)) {
-            mOnOBDDataListeners.add(onOBDDataListener);
-        }
-    }
-
-    public void addOnStatusListener(OnStatusListener onStatusListener) {
-        mOnStatusListeners.add(onStatusListener);
-    }
-
     public void onDataReceived(String title, String message) {
         if (title.startsWith(LOCATION)) {
             handleLocationData(title, message);
         } else if (title.startsWith(ERROR_CODE)) {
-            handleErrorCode(message);
         } else if (title.startsWith(TRAVEL_INFO)) {
             handleTravelInfo(message);
         } else if (title.startsWith(OBD)) {
+            handleOBDInfo(message);
         } else if (title.startsWith(STATUS)) {
         }
     }
@@ -123,13 +81,6 @@ public class DataDispatcher {
         return title.substring(indexOfLeft + 1, indexOfRight);
     }
 
-    private void handleErrorCode(String message) {
-        String[] errorMessageParts = message.split(":");
-        for (OnErrorCodeListener onErrorCodeListener : mOnErrorCodeListeners) {
-            onErrorCodeListener.onErrorCodeReceived(errorMessageParts[0], errorMessageParts[1]);
-        }
-    }
-
     private void handleTravelInfo(String message) {
         String[] travelInfoData = message.split(";");
         if (mTravelInfoManager != null) {
@@ -137,13 +88,9 @@ public class DataDispatcher {
         }
     }
 
-    public String getData(DataType dataType) {
-        String dataTypeName = DataConfig.getNameByType(dataType);
-        return getData(dataTypeName);
-    }
-
-    public String getData(String dataType) {
-        return mDataMap.get(dataType);
+    private void handleOBDInfo(String message) {
+        String[] data = message.split(",");
+        mOBDData.set(data[0], data[1]);
     }
 
     public LocationDataManager getLocationData() {
@@ -152,25 +99,5 @@ public class DataDispatcher {
 
     public TravelInfoManager getTravelInfoManager() {
         return mTravelInfoManager;
-    }
-
-    public interface OnLocationDataListener {
-        public void onLocationDataReceived(double latitude, double longitude);
-    }
-
-    public interface OnErrorCodeListener {
-        public void onErrorCodeReceived(String errorCode, String errorMessage);
-    }
-
-    public interface OnTravelInfoListener {
-        public void onTravelInfoReceived(String travelInfo);
-    }
-
-    public interface OnOBDDataListener {
-        public void onOBDDataReceived(String dataType, String dataValue);
-    }
-
-    public interface OnStatusListener {
-        public void onStatusChanged(String status);
     }
 }

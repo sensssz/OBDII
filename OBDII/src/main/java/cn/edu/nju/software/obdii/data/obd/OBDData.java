@@ -1,4 +1,4 @@
-package cn.edu.nju.software.obdii.data;
+package cn.edu.nju.software.obdii.data.obd;
 
 /**
  * Represent OBD data
@@ -66,5 +66,45 @@ public class OBDData {
 
     public void setmAirTemperature(String mAirTemperature) {
         this.mAirTemperature = mAirTemperature;
+    }
+
+    public void set(String dataType, String dataValue) {
+        DataType type = DataConfig.getTypeByName(dataType);
+        switch (type) {
+            case SPEED:
+                mSpeed = dataValue;
+                break;
+            case VOLTAGE:
+                mVoltage = dataValue;
+                break;
+            case COOLANT_TEMPERATURE:
+                mCoolantTemperature = dataValue;
+                break;
+            case ROTATE_SPEED:
+                mRotateSpeed = dataValue;
+                break;
+            case OIL_LEFT:
+                mOilLeft = dataValue;
+                break;
+            case PRESSURE:
+                mPressure = dataValue;
+                break;
+            case AIR_TEMPERATURE:
+                mAirTemperature = dataValue;
+                break;
+        }
+    }
+
+    public int dataValueToInt(String dataValue) {
+        if (dataValue.length() > 0) {
+            try {
+                int indexOfOpenParenthesis = dataValue.indexOf("(");
+                String valuePart = dataValue.substring(0, indexOfOpenParenthesis);
+                return Integer.parseInt(valuePart);
+            } catch (NumberFormatException exception) {
+                exception.printStackTrace();
+            }
+        }
+        return 0;
     }
 }
