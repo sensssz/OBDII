@@ -20,7 +20,7 @@ import cn.edu.nju.software.obdii.data.obd.OBDData;
  * Display OBD information
  */
 public class OBDFragment extends Fragment {
-    private static final long TOTAL_ANIMATION_TIME = 2000;
+    private static final long TOTAL_ANIMATION_TIME = 4000;
     private static final float SPEED_MIN_VALUE = 0;
     private static final float SPEED_MAX_VALUE = 200;
     private static final float SPEED_MAX_ANGLE = 244f;
@@ -42,6 +42,8 @@ public class OBDFragment extends Fragment {
 
         mPointer = (ImageView) view.findViewById(R.id.pointer);
         mSpeedView = (TextView) view.findViewById(R.id.speed);
+
+        updateSpeed();
 
         DataDispatcher.getInstance().getOBDData().setOnOBDUpdateListener(new OBDData.OnOBDUpdateListener() {
             @Override
@@ -84,6 +86,26 @@ public class OBDFragment extends Fragment {
         return view;
     }
 
+    private void updateSpeed() {
+        final int currentSpeed = OBDData.dataValueToInt(DataDispatcher
+                .getInstance().getOBDData().getSpeed());
+        mPointer.post(new Runnable() {
+            @Override
+            public void run() {
+                float speed = currentSpeed;
+                if (speed > SPEED_MAX_VALUE) {
+                    speed = SPEED_MAX_VALUE;
+                }
+                float toDegree = speed * DEGREE_PER_SPEED;
+                mPointer.setRotation(toDegree);
+                String speedText = currentSpeed + getString(R.string.speed_unit);
+                mSpeedView.setText(speedText);
+                mSpeedAngle = toDegree;
+                mSpeed = speed;
+            }
+        });
+    }
+
     private void updateSpeed(final int currentSpeed) {
         mPointer.post(new Runnable() {
             @Override
@@ -112,14 +134,14 @@ public class OBDFragment extends Fragment {
     }
 
     private ValueAnimator getSpeedTextAnimator(float toSpeed, float toDegree, long duration) {
-        PropertyValuesHolder speedHolder = PropertyValuesHolder.ofFloat("speed", mSpeed, toSpeed);
+        PropertyValuesHolder speedHolder = PropertyValuesHolder.ofInt("speed", (int) mSpeed, (int) toSpeed);
         PropertyValuesHolder angleHolder = PropertyValuesHolder.ofFloat("angle", mSpeedAngle, toDegree);
         ValueAnimator animator = ValueAnimator.ofPropertyValuesHolder(speedHolder, angleHolder);
         animator.setDuration(duration);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                float speed = (Float) valueAnimator.getAnimatedValue("speed");
+                int speed = (Integer) valueAnimator.getAnimatedValue("speed");
                 float angle = (Float) valueAnimator.getAnimatedValue("angle");
                 String speedText = speed + getString(R.string.speed_unit);
                 mSpeedView.setText(speedText);

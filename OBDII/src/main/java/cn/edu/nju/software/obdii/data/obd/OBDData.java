@@ -31,59 +31,59 @@ public class OBDData {
         return 0;
     }
 
-    public String getmSpeed() {
+    public String getSpeed() {
         return mSpeed;
     }
 
-    public void setmSpeed(String mSpeed) {
+    public void setSpeed(String mSpeed) {
         this.mSpeed = mSpeed;
     }
 
-    public String getmVoltage() {
+    public String getVoltage() {
         return mVoltage;
     }
 
-    public void setmVoltage(String mVoltage) {
+    public void setVoltage(String mVoltage) {
         this.mVoltage = mVoltage;
     }
 
-    public String getmCoolantTemperature() {
+    public String getCoolantTemperature() {
         return mCoolantTemperature;
     }
 
-    public void setmCoolantTemperature(String mCoolantTemperature) {
+    public void setCoolantTemperature(String mCoolantTemperature) {
         this.mCoolantTemperature = mCoolantTemperature;
     }
 
-    public String getmRotateSpeed() {
+    public String getRotateSpeed() {
         return mRotateSpeed;
     }
 
-    public void setmRotateSpeed(String mRotateSpeed) {
+    public void setRotateSpeed(String mRotateSpeed) {
         this.mRotateSpeed = mRotateSpeed;
     }
 
-    public String getmOilLeft() {
+    public String getOilLeft() {
         return mOilLeft;
     }
 
-    public void setmOilLeft(String mOilLeft) {
+    public void setOilLeft(String mOilLeft) {
         this.mOilLeft = mOilLeft;
     }
 
-    public String getmPressure() {
+    public String getPressure() {
         return mPressure;
     }
 
-    public void setmPressure(String mPressure) {
+    public void setPressure(String mPressure) {
         this.mPressure = mPressure;
     }
 
-    public String getmAirTemperature() {
+    public String getAirTemperature() {
         return mAirTemperature;
     }
 
-    public void setmAirTemperature(String mAirTemperature) {
+    public void setAirTemperature(String mAirTemperature) {
         this.mAirTemperature = mAirTemperature;
     }
 
@@ -93,6 +93,9 @@ public class OBDData {
             switch (type) {
                 case SPEED:
                     mSpeed = dataValue;
+                    if (mOnOBDUpdateListener != null) {
+                        mOnOBDUpdateListener.onSpeedUpdate(dataValue);
+                    }
                     break;
                 case VOLTAGE:
                     mVoltage = dataValue;
