@@ -4,18 +4,17 @@ package cn.edu.nju.software.obdii.data.obd;
  * Represent OBD data
  */
 public class OBDData {
-    private String mSpeed;
-    private String mVoltage;
-    private String mCoolantTemperature;
-    private String mRotateSpeed;
-    private String mOilLeft;
-    private String mPressure;
-    private String mAirTemperature;
+    private int mSpeed;
+    private int mVoltage;
+    private int mCoolantTemperature;
+    private int mRotateSpeed;
+    private int mOilLeft;
+    private int mPressure;
+    private int mAirTemperature;
 
     private OnOBDUpdateListener mOnOBDUpdateListener;
 
     public OBDData() {
-        mSpeed = "0(km/h)";
     }
 
     public static int dataValueToInt(String dataValue) {
@@ -31,96 +30,93 @@ public class OBDData {
         return 0;
     }
 
-    public String getSpeed() {
+    public int getSpeed() {
         return mSpeed;
     }
 
-    public void setSpeed(String mSpeed) {
+    public void setSpeed(int mSpeed) {
         this.mSpeed = mSpeed;
     }
 
-    public String getVoltage() {
+    public int getVoltage() {
         return mVoltage;
     }
 
-    public void setVoltage(String mVoltage) {
+    public void setVoltage(int mVoltage) {
         this.mVoltage = mVoltage;
     }
 
-    public String getCoolantTemperature() {
+    public int getCoolantTemperature() {
         return mCoolantTemperature;
     }
 
-    public void setCoolantTemperature(String mCoolantTemperature) {
+    public void setCoolantTemperature(int mCoolantTemperature) {
         this.mCoolantTemperature = mCoolantTemperature;
     }
 
-    public String getRotateSpeed() {
+    public int getRotateSpeed() {
         return mRotateSpeed;
     }
 
-    public void setRotateSpeed(String mRotateSpeed) {
+    public void setRotateSpeed(int mRotateSpeed) {
         this.mRotateSpeed = mRotateSpeed;
     }
 
-    public String getOilLeft() {
+    public int getOilLeft() {
         return mOilLeft;
     }
 
-    public void setOilLeft(String mOilLeft) {
+    public void setOilLeft(int mOilLeft) {
         this.mOilLeft = mOilLeft;
     }
 
-    public String getPressure() {
+    public int getPressure() {
         return mPressure;
     }
 
-    public void setPressure(String mPressure) {
+    public void setPressure(int mPressure) {
         this.mPressure = mPressure;
     }
 
-    public String getAirTemperature() {
+    public int getAirTemperature() {
         return mAirTemperature;
     }
 
-    public void setAirTemperature(String mAirTemperature) {
+    public void setAirTemperature(int mAirTemperature) {
         this.mAirTemperature = mAirTemperature;
     }
 
     public void set(String dataType, String dataValue) {
+        int value = dataValueToInt(dataValue);
         DataType type = DataConfig.getTypeByName(dataType);
         if (type != null) {
             switch (type) {
                 case SPEED:
-                    mSpeed = dataValue;
+                    mSpeed = value;
                     if (mOnOBDUpdateListener != null) {
-                        mOnOBDUpdateListener.onSpeedUpdate(dataValue);
+                        mOnOBDUpdateListener.onSpeedUpdate(value);
                     }
                     break;
                 case VOLTAGE:
-                    mVoltage = dataValue;
+                    mVoltage = value;
                     break;
                 case COOLANT_TEMPERATURE:
-                    mCoolantTemperature = dataValue;
+                    mCoolantTemperature = value;
                     break;
                 case ROTATE_SPEED:
-                    mRotateSpeed = dataValue;
+                    mRotateSpeed = value;
                     break;
                 case OIL_LEFT:
-                    mOilLeft = dataValue;
+                    mOilLeft = value;
                     break;
                 case PRESSURE:
-                    mPressure = dataValue;
+                    mPressure = value;
                     break;
                 case AIR_TEMPERATURE:
-                    mAirTemperature = dataValue;
+                    mAirTemperature = value;
                     break;
             }
         }
-    }
-
-    public int getSpeedInInt() {
-        return dataValueToInt(mSpeed);
     }
 
     public void setOnOBDUpdateListener(OnOBDUpdateListener onOBDUpdateListener) {
@@ -128,18 +124,18 @@ public class OBDData {
     }
 
     public interface OnOBDUpdateListener {
-        public void onSpeedUpdate(String speed);
+        public void onSpeedUpdate(int speed);
 
-        public void onVoltageUpdate(String voltage);
+        public void onVoltageUpdate(int voltage);
 
-        public void onCoolantTemperatureUpdate(String coolantTemperature);
+        public void onCoolantTemperatureUpdate(int coolantTemperature);
 
-        public void onRotateSpeedUpdate(String rotateSpeed);
+        public void onRotateSpeedUpdate(int rotateSpeed);
 
-        public void onOilLeftUpdate(String oilLeft);
+        public void onOilLeftUpdate(int oilLeft);
 
-        public void onPressureUpdate(String pressure);
+        public void onPressureUpdate(int pressure);
 
-        public void onAirTemperatureUpdate(String airTemperature);
+        public void onAirTemperatureUpdate(int airTemperature);
     }
 }

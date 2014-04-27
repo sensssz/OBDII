@@ -47,38 +47,37 @@ public class OBDFragment extends Fragment {
 
         DataDispatcher.getInstance().getOBDData().setOnOBDUpdateListener(new OBDData.OnOBDUpdateListener() {
             @Override
-            public void onSpeedUpdate(String speed) {
-                int speedInt = OBDData.dataValueToInt(speed);
-                updateSpeed(speedInt);
+            public void onSpeedUpdate(int speed) {
+                updateSpeed(speed);
             }
 
             @Override
-            public void onVoltageUpdate(String voltage) {
-
-            }
-
-            @Override
-            public void onCoolantTemperatureUpdate(String coolantTemperature) {
+            public void onVoltageUpdate(int voltage) {
 
             }
 
             @Override
-            public void onRotateSpeedUpdate(String rotateSpeed) {
+            public void onCoolantTemperatureUpdate(int coolantTemperature) {
 
             }
 
             @Override
-            public void onOilLeftUpdate(String oilLeft) {
+            public void onRotateSpeedUpdate(int rotateSpeed) {
 
             }
 
             @Override
-            public void onPressureUpdate(String pressure) {
+            public void onOilLeftUpdate(int oilLeft) {
 
             }
 
             @Override
-            public void onAirTemperatureUpdate(String airTemperature) {
+            public void onPressureUpdate(int pressure) {
+
+            }
+
+            @Override
+            public void onAirTemperatureUpdate(int airTemperature) {
 
             }
         });
@@ -87,23 +86,8 @@ public class OBDFragment extends Fragment {
     }
 
     private void updateSpeed() {
-        final int currentSpeed = OBDData.dataValueToInt(DataDispatcher
-                .getInstance().getOBDData().getSpeed());
-        mPointer.post(new Runnable() {
-            @Override
-            public void run() {
-                float speed = currentSpeed;
-                if (speed > SPEED_MAX_VALUE) {
-                    speed = SPEED_MAX_VALUE;
-                }
-                float toDegree = speed * DEGREE_PER_SPEED;
-                mPointer.setRotation(toDegree);
-                String speedText = currentSpeed + getString(R.string.speed_unit);
-                mSpeedView.setText(speedText);
-                mSpeedAngle = toDegree;
-                mSpeed = speed;
-            }
-        });
+        final int currentSpeed = DataDispatcher.getInstance().getOBDData().getSpeed();
+        updateSpeed(currentSpeed);
     }
 
     private void updateSpeed(final int currentSpeed) {

@@ -100,9 +100,19 @@
     <!-- OBD -->
     <string name="dial_desc">速度表盘</string>
     <string name="pointer_desc">速度指针</string>
-    <string name="default_speed">0 km/h</string>
-    <string name="speed_unit">&#032;km/h</string>
+    <string name="speed_unit">km/h</string>
     <string name="obd_voltage">电池电压</string>
-
+    <string name="voltage_unit">(0.1V)</string>
+    <string name="obd_coolant_temperature">发动机冷却液温度</string>
+    <string name="temperature_unit">°C</string>
+    <string name="obd_rotate_speed">发送机转速</string>
+    <string name="rotate_speed_unit">(转每分)</string>
+    <string name="arrow_right_desc">右箭头</string>
+    <string name="arrow_left_desc">左箭头</string>
+    <string name="obd_oil_left">燃油液位输入</string>
+    <string name="oil_left_unit">%</string>
+    <string name="obd_pressure">大气压</string>
+    <string name="pressure_unit">KPa</string>
+    <string name="obd_air_temperature">环境空气温度</string>
 
 </resources>
