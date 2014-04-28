@@ -4,6 +4,7 @@ import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.lang.reflect.Field;
 
 import cn.edu.nju.software.obdii.R;
 import cn.edu.nju.software.obdii.data.DataDispatcher;
@@ -32,8 +35,18 @@ public class OBDFragment extends Fragment {
     private ImageView mPointer;
     private TextView mSpeedView;
 
+    private ViewPager mViewPager;
+    private OBDAdapter mOBDAdapter;
+    private OBDPart1Fragment mOBDPart1Fragment;
+    private OBDPart2Fragment mOBDPart2Fragment;
+
     private float mSpeedAngle = 0;
     private float mSpeed = 0;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
@@ -42,6 +55,14 @@ public class OBDFragment extends Fragment {
 
         mPointer = (ImageView) view.findViewById(R.id.pointer);
         mSpeedView = (TextView) view.findViewById(R.id.speed);
+        mViewPager = (ViewPager) view.findViewById(R.id.obd_info_pager);
+
+        mOBDPart1Fragment = new OBDPart1Fragment();
+        mOBDPart2Fragment = new OBDPart2Fragment();
+        mOBDAdapter = new OBDAdapter(getChildFragmentManager(), mOBDPart1Fragment, mOBDPart2Fragment);
+        mOBDPart1Fragment.setViewPager(mViewPager);
+        mOBDPart2Fragment.setViewPager(mViewPager);
+        mViewPager.setAdapter(mOBDAdapter);
 
         updateSpeed();
 
@@ -53,32 +74,32 @@ public class OBDFragment extends Fragment {
 
             @Override
             public void onVoltageUpdate(int voltage) {
-
+                mOBDPart1Fragment.updateVoltage();
             }
 
             @Override
             public void onCoolantTemperatureUpdate(int coolantTemperature) {
-
+                mOBDPart1Fragment.updateCoolantTemperature();
             }
 
             @Override
             public void onRotateSpeedUpdate(int rotateSpeed) {
-
+                mOBDPart1Fragment.updateRotateSpeed();
             }
 
             @Override
             public void onOilLeftUpdate(int oilLeft) {
-
+                mOBDPart2Fragment.updateOilLeft();
             }
 
             @Override
             public void onPressureUpdate(int pressure) {
-
+                mOBDPart2Fragment.updatePressure();
             }
 
             @Override
             public void onAirTemperatureUpdate(int airTemperature) {
-
+                mOBDPart2Fragment.updateAirTemperature();
             }
         });
 
@@ -134,5 +155,21 @@ public class OBDFragment extends Fragment {
             }
         });
         return animator;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

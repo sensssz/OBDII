@@ -19,30 +19,30 @@ import cn.edu.nju.software.obdii.data.DataDispatcher;
 
 /**
  * Show the following OBD information:
- * Voltage, coolant temperature, rotate speed of the engine
+ * OilLeft, coolant temperature, rotate speed of the engine
  */
-public class OBDPart1Fragment extends Fragment {
+public class OBDPart2Fragment extends Fragment {
     private static final long TOTAL_ANIMATION_TIME = 2000;
-    private static final int MAX_VOLTAGE = 20;
-    private static final int MAX_COOLANT_TEMPERATURE = 120;
-    private static final int MAX_ROTATE_SPEED = 167;
+    private static final int MAX_OIL_LEFT = 20;
+    private static final int MAX_PRESSURE = 120;
+    private static final int MAX_AIR_TEMPERATURE = 167;
 
-    private TextView mVoltageText;
-    private View mVoltageDiagram;
-    private TextView mCoolantTemperatureText;
-    private View mCoolantTemperatureDiagram;
-    private TextView mRotateSpeedText;
-    private View mRotateSpeedDiagram;
+    private TextView mOilLeftText;
+    private View mOilLeftDiagram;
+    private TextView mPressureText;
+    private View mPressureDiagram;
+    private TextView mAirTemperatureText;
+    private View mAirTemperatureDiagram;
 
-    private ImageView mArrowRight;
+    private ImageView mArrowLeft;
     private ViewPager mViewPager;
 
-    private int mVoltage;
-    private float mVoltageScale;
-    private int mCoolantTemperature;
-    private float mCoolantTemperatureScale;
-    private int mRotateSpeed;
-    private float mRotateSpeedScale;
+    private int mOilLeft;
+    private float mOilLeftScale;
+    private int mPressure;
+    private float mPressureScale;
+    private int mAirTemperature;
+    private float mAirTemperatureScale;
 
     public void setViewPager(ViewPager viewPager) {
         mViewPager = viewPager;
@@ -51,42 +51,42 @@ public class OBDPart1Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_obd_info_1, container, false);
+        View view = inflater.inflate(R.layout.fragment_obd_info_2, container, false);
 
-        mVoltageText = (TextView) view.findViewById(R.id.voltage_value);
-        mVoltageDiagram = view.findViewById(R.id.voltage_diagram);
-        mCoolantTemperatureText = (TextView) view.findViewById(R.id.coolant_temperature_value);
-        mCoolantTemperatureDiagram = view.findViewById(R.id.coolant_temperature_diagram);
-        mRotateSpeedText = (TextView) view.findViewById(R.id.rotate_speed_value);
-        mRotateSpeedDiagram = view.findViewById(R.id.rotate_speed_diagram);
+        mOilLeftText = (TextView) view.findViewById(R.id.oil_left_value);
+        mOilLeftDiagram = view.findViewById(R.id.oil_left_diagram);
+        mPressureText = (TextView) view.findViewById(R.id.pressure_value);
+        mPressureDiagram = view.findViewById(R.id.pressure_diagram);
+        mAirTemperatureText = (TextView) view.findViewById(R.id.air_temperature_value);
+        mAirTemperatureDiagram = view.findViewById(R.id.air_temperature_diagram);
 
-        mArrowRight = (ImageView) view.findViewById(R.id.arrow_right);
-        mArrowRight.setOnClickListener(new View.OnClickListener() {
+        mArrowLeft = (ImageView) view.findViewById(R.id.arrow_left);
+        mArrowLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mViewPager.setCurrentItem(1, true);
+                mViewPager.setCurrentItem(0, true);
             }
         });
 
-        updateVoltage();
-        updateCoolantTemperature();
-        updateRotateSpeed();
+        updateOilLeft();
+        updatePressure();
+        updateAirTemperature();
 
         return view;
     }
 
-    public void updateVoltage() {
-        final int currentVoltage = DataDispatcher.getInstance().getOBDData().getVoltage();
-        mVoltageDiagram.post(new Runnable() {
+    public void updateOilLeft() {
+        final int currentOilLeft = DataDispatcher.getInstance().getOBDData().getOilLeft();
+        mOilLeftDiagram.post(new Runnable() {
             @Override
             public void run() {
-                updateOBDInfo(mVoltageText, getString(R.string.voltage_unit), mVoltageDiagram,
-                        mVoltageScale, mVoltage, currentVoltage, MAX_VOLTAGE,
+                updateOBDInfo(mOilLeftText, getString(R.string.oil_left_unit), mOilLeftDiagram,
+                        mOilLeftScale, mOilLeft, currentOilLeft, MAX_OIL_LEFT,
                         new ValueAnimator.AnimatorUpdateListener() {
                             @Override
                             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                mVoltage = (Integer) valueAnimator.getAnimatedValue("value");
-                                mVoltageScale = (Float) valueAnimator.getAnimatedValue("scale");
+                                mOilLeft = (Integer) valueAnimator.getAnimatedValue("value");
+                                mOilLeftScale = (Float) valueAnimator.getAnimatedValue("scale");
                             }
                         }
                 );
@@ -94,18 +94,18 @@ public class OBDPart1Fragment extends Fragment {
         });
     }
 
-    public void updateCoolantTemperature() {
-        final int currentCoolantTemperature = DataDispatcher.getInstance().getOBDData().getCoolantTemperature();
-        mCoolantTemperatureDiagram.post(new Runnable() {
+    public void updatePressure() {
+        final int currentPressure = DataDispatcher.getInstance().getOBDData().getPressure();
+        mPressureDiagram.post(new Runnable() {
             @Override
             public void run() {
-                updateOBDInfo(mCoolantTemperatureText, getString(R.string.temperature_unit), mCoolantTemperatureDiagram,
-                        mCoolantTemperatureScale, mCoolantTemperature, currentCoolantTemperature,
-                        MAX_COOLANT_TEMPERATURE, new ValueAnimator.AnimatorUpdateListener() {
+                updateOBDInfo(mPressureText, getString(R.string.pressure_unit), mPressureDiagram,
+                        mPressureScale, mPressure, currentPressure,
+                        MAX_PRESSURE, new ValueAnimator.AnimatorUpdateListener() {
                             @Override
                             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                mCoolantTemperature = (Integer) valueAnimator.getAnimatedValue("value");
-                                mCoolantTemperatureScale = (Float) valueAnimator.getAnimatedValue("scale");
+                                mPressure = (Integer) valueAnimator.getAnimatedValue("value");
+                                mPressureScale = (Float) valueAnimator.getAnimatedValue("scale");
                             }
                         }
                 );
@@ -113,18 +113,18 @@ public class OBDPart1Fragment extends Fragment {
         });
     }
 
-    public void updateRotateSpeed() {
-        final int currentRotateSpeed = DataDispatcher.getInstance().getOBDData().getRotateSpeed();
-        mRotateSpeedDiagram.post(new Runnable() {
+    public void updateAirTemperature() {
+        final int currentAirTemperature = DataDispatcher.getInstance().getOBDData().getAirTemperature();
+        mAirTemperatureDiagram.post(new Runnable() {
             @Override
             public void run() {
-                updateOBDInfo(mRotateSpeedText, getString(R.string.rotate_speed_unit), mRotateSpeedDiagram,
-                        mRotateSpeedScale, mRotateSpeed, currentRotateSpeed, MAX_ROTATE_SPEED,
+                updateOBDInfo(mAirTemperatureText, getString(R.string.temperature_unit), mAirTemperatureDiagram,
+                        mAirTemperatureScale, mAirTemperature, currentAirTemperature, MAX_AIR_TEMPERATURE,
                         new ValueAnimator.AnimatorUpdateListener() {
                             @Override
                             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                mRotateSpeed = (Integer) valueAnimator.getAnimatedValue("value");
-                                mRotateSpeedScale = (Float) valueAnimator.getAnimatedValue("scale");
+                                mAirTemperature = (Integer) valueAnimator.getAnimatedValue("value");
+                                mAirTemperatureScale = (Float) valueAnimator.getAnimatedValue("scale");
                             }
                         }
                 );

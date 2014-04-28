@@ -24,7 +24,7 @@ public class OBDData {
                 String valuePart = dataValue.substring(0, indexOfOpenParenthesis);
                 return Integer.parseInt(valuePart);
             } catch (NumberFormatException exception) {
-                exception.printStackTrace();
+                return 0;
             }
         }
         return 0;
@@ -34,56 +34,28 @@ public class OBDData {
         return mSpeed;
     }
 
-    public void setSpeed(int mSpeed) {
-        this.mSpeed = mSpeed;
-    }
-
     public int getVoltage() {
         return mVoltage;
-    }
-
-    public void setVoltage(int mVoltage) {
-        this.mVoltage = mVoltage;
     }
 
     public int getCoolantTemperature() {
         return mCoolantTemperature;
     }
 
-    public void setCoolantTemperature(int mCoolantTemperature) {
-        this.mCoolantTemperature = mCoolantTemperature;
-    }
-
     public int getRotateSpeed() {
         return mRotateSpeed;
-    }
-
-    public void setRotateSpeed(int mRotateSpeed) {
-        this.mRotateSpeed = mRotateSpeed;
     }
 
     public int getOilLeft() {
         return mOilLeft;
     }
 
-    public void setOilLeft(int mOilLeft) {
-        this.mOilLeft = mOilLeft;
-    }
-
     public int getPressure() {
         return mPressure;
     }
 
-    public void setPressure(int mPressure) {
-        this.mPressure = mPressure;
-    }
-
     public int getAirTemperature() {
         return mAirTemperature;
-    }
-
-    public void setAirTemperature(int mAirTemperature) {
-        this.mAirTemperature = mAirTemperature;
     }
 
     public void set(String dataType, String dataValue) {
@@ -99,21 +71,39 @@ public class OBDData {
                     break;
                 case VOLTAGE:
                     mVoltage = value;
+                    if (mOnOBDUpdateListener != null) {
+                        mOnOBDUpdateListener.onVoltageUpdate(value);
+                    }
                     break;
                 case COOLANT_TEMPERATURE:
                     mCoolantTemperature = value;
+                    if (mOnOBDUpdateListener != null) {
+                        mOnOBDUpdateListener.onCoolantTemperatureUpdate(value);
+                    }
                     break;
                 case ROTATE_SPEED:
                     mRotateSpeed = value;
+                    if (mOnOBDUpdateListener != null) {
+                        mOnOBDUpdateListener.onRotateSpeedUpdate(value);
+                    }
                     break;
                 case OIL_LEFT:
                     mOilLeft = value;
+                    if (mOnOBDUpdateListener != null) {
+                        mOnOBDUpdateListener.onOilLeftUpdate(value);
+                    }
                     break;
                 case PRESSURE:
                     mPressure = value;
+                    if (mOnOBDUpdateListener != null) {
+                        mOnOBDUpdateListener.onPressureUpdate(value);
+                    }
                     break;
                 case AIR_TEMPERATURE:
                     mAirTemperature = value;
+                    if (mOnOBDUpdateListener != null) {
+                        mOnOBDUpdateListener.onAirTemperatureUpdate(value);
+                    }
                     break;
             }
         }
