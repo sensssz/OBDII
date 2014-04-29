@@ -2,9 +2,9 @@ package cn.edu.nju.software.obdii.ui;
 
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
-import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +23,9 @@ import cn.edu.nju.software.obdii.data.DataDispatcher;
  */
 public class OBDPart2Fragment extends Fragment {
     private static final long TOTAL_ANIMATION_TIME = 2000;
-    private static final int MAX_OIL_LEFT = 20;
+    private static final int MAX_OIL_LEFT = 100;
     private static final int MAX_PRESSURE = 120;
-    private static final int MAX_AIR_TEMPERATURE = 167;
+    private static final int MAX_AIR_TEMPERATURE = 50;
 
     private TextView mOilLeftText;
     private View mOilLeftDiagram;

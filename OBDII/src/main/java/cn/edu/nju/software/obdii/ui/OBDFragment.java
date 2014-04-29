@@ -2,8 +2,8 @@ package cn.edu.nju.software.obdii.ui;
 
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +46,9 @@ public class OBDFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mOBDPart1Fragment = new OBDPart1Fragment();
+        mOBDPart2Fragment = new OBDPart2Fragment();
     }
 
     @Override
@@ -57,8 +60,6 @@ public class OBDFragment extends Fragment {
         mSpeedView = (TextView) view.findViewById(R.id.speed);
         mViewPager = (ViewPager) view.findViewById(R.id.obd_info_pager);
 
-        mOBDPart1Fragment = new OBDPart1Fragment();
-        mOBDPart2Fragment = new OBDPart2Fragment();
         mOBDAdapter = new OBDAdapter(getChildFragmentManager(), mOBDPart1Fragment, mOBDPart2Fragment);
         mOBDPart1Fragment.setViewPager(mViewPager);
         mOBDPart2Fragment.setViewPager(mViewPager);

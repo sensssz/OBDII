@@ -1,11 +1,12 @@
 package cn.edu.nju.software.obdii.ui;
 
-import android.app.Activity;
-import android.app.Fragment;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -23,9 +24,9 @@ import android.widget.TextView;
 import cn.edu.nju.software.obdii.R;
 
 /**
- * Created by rogers on 4/15/14.
+ * Main activity. User navigation drawer to navigate between fragments
  */
-public class MainViewActivity extends Activity {
+public class MainViewActivity extends FragmentActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private int[] mDrawerIcons;
@@ -64,9 +65,12 @@ public class MainViewActivity extends Activity {
                 getString(R.string.statistics),
 
         };
-        mDrawerList.setAdapter(new MyAdapter(
-                getActionBar().getThemedContext(), R.layout.drawer_item_title,
-                mDrawerIcons, mDrawerOptions));
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            mDrawerList.setAdapter(new MyAdapter(
+                    getActionBar().getThemedContext(), R.layout.drawer_item_title,
+                    mDrawerIcons, mDrawerOptions));
+        }
 
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -138,7 +142,7 @@ public class MainViewActivity extends Activity {
     private void changeFragment(int position) {
         if (mCurrentPosition != position) {
             if (mFragments[position] != null) {
-                getFragmentManager().beginTransaction()
+                getSupportFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, mFragments[position]).commit();
 
                 mCurrentPosition = position;
@@ -149,7 +153,10 @@ public class MainViewActivity extends Activity {
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getActionBar().setTitle(mTitle);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            getActionBar().setTitle(mTitle);
+        }
     }
 
     @Override

@@ -1,7 +1,7 @@
 package cn.edu.nju.software.obdii.ui;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +23,7 @@ import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfo;
 import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfoManager;
 
 /**
- * Created by rogers on 4/22/14.
+ * Show lines charts of average oil consumption, average speed and distance
  */
 public class StatisticsFragment extends Fragment {
     private XYMultipleSeriesDataset mOilDataset;

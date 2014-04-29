@@ -2,9 +2,9 @@ package cn.edu.nju.software.obdii.ui;
 
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
-import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +25,7 @@ public class OBDPart1Fragment extends Fragment {
     private static final long TOTAL_ANIMATION_TIME = 2000;
     private static final int MAX_VOLTAGE = 20;
     private static final int MAX_COOLANT_TEMPERATURE = 120;
-    private static final int MAX_ROTATE_SPEED = 167;
+    private static final int MAX_ROTATE_SPEED = 10000;
 
     private TextView mVoltageText;
     private View mVoltageDiagram;

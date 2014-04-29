@@ -1,20 +1,19 @@
 package cn.edu.nju.software.obdii.ui;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-
 import cn.edu.nju.software.obdii.R;
 
 /**
- * Created by rogers on 2014/4/21.
+ * Show alerts about the status of the car
  */
 public class AlertCheckFragment extends Fragment {
     boolean mAlerts[]; //save alert states
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
