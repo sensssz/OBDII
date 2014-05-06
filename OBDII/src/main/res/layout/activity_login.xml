@@ -45,16 +45,30 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_above="@+id/sign_in_button"
+        android:layout_above="@+id/buttons_group"
         android:background="?android:attr/dividerHorizontal" />
-
-    <Button
-        android:id="@+id/sign_in_button"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/buttons_group"
         android:layout_alignParentBottom="true"
-        android:background="?android:attr/selectableItemBackground"
-        android:text="@string/sign_in"
-        android:textColor="@color/apptheme_color" />
-
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="@string/sign_in"
+            android:textColor="@color/apptheme_color"
+            android:layout_weight="1"
+            />
+        <Button
+            android:id="@+id/forget_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="@string/forget"
+            android:textColor="@color/apptheme_color"
+            android:layout_weight="1"/>
+    </LinearLayout>
 </RelativeLayout>

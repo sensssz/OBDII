@@ -2,6 +2,7 @@ package cn.edu.nju.software.obdii.ui;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.net.URI;
 
 import cn.edu.nju.software.obdii.R;
 import cn.edu.nju.software.obdii.data.DataDispatcher;
@@ -27,6 +29,8 @@ public class LoginActivity extends InstrumentedActivity {
     private EditText mUsernameEdit;
     private EditText mPasswordEdit;
     private Button mSignInButton;
+    private Button mForgetButton;
+    private String mForgetLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,8 @@ public class LoginActivity extends InstrumentedActivity {
         mUsernameEdit = (EditText) findViewById(R.id.username);
         mPasswordEdit = (EditText) findViewById(R.id.password);
         mSignInButton = (Button) findViewById(R.id.sign_in_button);
-
+        mForgetButton = (Button) findViewById(R.id.forget_button);
+        mForgetLink = "http://www.baidu.com";
         mPasswordEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionID, KeyEvent keyEvent) {
@@ -56,6 +61,15 @@ public class LoginActivity extends InstrumentedActivity {
             @Override
             public void onClick(View view) {
                 signIn();
+            }
+        });
+
+        mForgetButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse(mForgetLink);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
             }
         });
     }
