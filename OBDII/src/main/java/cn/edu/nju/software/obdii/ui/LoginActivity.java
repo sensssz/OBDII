@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.net.URI;
+import java.util.Set;
 
 import cn.edu.nju.software.obdii.R;
 import cn.edu.nju.software.obdii.data.DataDispatcher;
@@ -24,8 +24,11 @@ import cn.edu.nju.software.obdii.network.Url;
 import cn.edu.nju.software.obdii.util.Utilities;
 import cn.jpush.android.api.InstrumentedActivity;
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 public class LoginActivity extends InstrumentedActivity {
+    private static final int ID_LENGTH = 20;
+
     private EditText mUsernameEdit;
     private EditText mPasswordEdit;
     private Button mSignInButton;
@@ -64,7 +67,7 @@ public class LoginActivity extends InstrumentedActivity {
             }
         });
 
-        mForgetButton.setOnClickListener(new View.OnClickListener(){
+        mForgetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Uri uri = Uri.parse(mForgetLink);
@@ -93,7 +96,7 @@ public class LoginActivity extends InstrumentedActivity {
                     String result = null;
                     String encodedUsername = Utilities.urlEncode(username);
                     String MD5edPassword = Utilities.md5(password);
-                    String url = Url.LOGIN_URL + "?username=" + encodedUsername + "&password=" + MD5edPassword;
+                    String url = Url.LOGIN_URL + "?email=" + encodedUsername + "&password=" + MD5edPassword;
                     Log.d("OBDII", url);
                     try {
                         result = HttpClient.getInstance().httpGet(url);
@@ -105,25 +108,31 @@ public class LoginActivity extends InstrumentedActivity {
 
                 @Override
                 protected void onPostExecute(String signInResult) {
-                    signInFinished();
                     if (signInResult == null) {
                         Utilities.showMessage(LoginActivity.this, R.string.connection_fail);
+                        signInFinished();
                         return;
                     }
-                    Log.d("OBDII", signInResult);
                     String[] results = signInResult.split(",");
                     if (results[0].equals("1")) {
                         if (results[1].equals("未绑定设备")) {
                             Toast.makeText(LoginActivity.this, results[1], Toast.LENGTH_LONG).show();
+                            signInFinished();
                         } else {
-                            JPushInterface.setAlias(LoginActivity.this, results[1], null);
-                            DataDispatcher.getInstance().setUsername(LoginActivity.this, username);
-                            Intent intent = new Intent(LoginActivity.this, MainViewActivity.class);
-                            startActivity(intent);
-                            finish();
+                            String ID = results[1].substring(0, ID_LENGTH);
+                            JPushInterface.setAlias(LoginActivity.this, ID, new TagAliasCallback() {
+                                @Override
+                                public void gotResult(int code, String alias, Set<String> strings) {
+                                    DataDispatcher.getInstance().setUsername(LoginActivity.this, username);
+                                    Intent intent = new Intent(LoginActivity.this, MainViewActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
                         }
                     } else {
                         Utilities.showMessage(LoginActivity.this, R.string.sign_in_fail);
+                        signInFinished();
                     }
                 }
             }.execute();

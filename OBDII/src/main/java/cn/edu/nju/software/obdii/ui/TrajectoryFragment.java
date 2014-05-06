@@ -60,10 +60,6 @@ public class TrajectoryFragment extends Fragment {
         mAddresses = new ArrayList<String>();
     }
 
-    private int toBaiduFormat(double coordinate) {
-        return (int) (coordinate * 1E6);
-    }
-
     private OverlayItem toOverlayItem(GeoPoint point) {
         return new OverlayItem(point, "", "");
     }
@@ -233,8 +229,8 @@ public class TrajectoryFragment extends Fragment {
         }
 
         for (Point2D point : mLocationDataManager.getLocationData()) {
-            latitudeSum += point.getLatitude();
-            longitudeSum += point.getLongitude();
+            latitudeSum += point.getLatitudeE6();
+            longitudeSum += point.getLongitudeE6();
         }
 
         if (mCenter != null) {
@@ -247,8 +243,8 @@ public class TrajectoryFragment extends Fragment {
             mZoomLevel = mMapView.getZoomLevel();
 
             if (mLocationDataManager.getLocationData().size() > 0) {
-                int latitudeCenter = toBaiduFormat(latitudeSum / points.size());
-                int longitudeCenter = toBaiduFormat(longitudeSum / points.size());
+                int latitudeCenter = (int) (latitudeSum / points.size());
+                int longitudeCenter = (int) (longitudeSum / points.size());
                 GeoPoint center = new GeoPoint(latitudeCenter, longitudeCenter);
                 mMapView.getController().setCenter(center);
                 mCenter = center;

@@ -1,5 +1,8 @@
 package cn.edu.nju.software.obdii.data.location;
 
+import com.baidu.mapapi.utils.CoordinateConvert;
+import com.baidu.platform.comapi.basestruct.GeoPoint;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,7 +34,7 @@ public class LocationDataManager {
                 BufferedReader reader = new BufferedReader(new FileReader(filename));
                 String line = null;
                 while ((line = reader.readLine()) != null) {
-                    Point2D point2D = toGeoPoint(line);
+                    Point2D point2D = toPoint2D(line);
                     if (point2D != null) {
                         mLocations.add(point2D);
                     }
@@ -57,26 +60,33 @@ public class LocationDataManager {
         }
     }
 
-    private Point2D toGeoPoint(String line) {
+    private Point2D toPoint2D(String line) {
         String[] coordinates = line.split(",");
         try {
-            double latitude = Double.parseDouble(coordinates[0]);
-            double longitude = Double.parseDouble(coordinates[1]);
+            int latitudeE6 = Integer.parseInt(coordinates[0]);
+            int longitudeE6 = Integer.parseInt(coordinates[1]);
             String timestamp = coordinates[2];
-            return new Point2D(latitude, longitude, timestamp);
+            return new Point2D(latitudeE6, longitudeE6, timestamp);
         } catch (NumberFormatException exception) {
             return null;
         }
     }
 
     public void onLocationReceived(double latitude, double longitude, String timestamp) {
-        Point2D point2D = new Point2D(latitude, longitude, timestamp);
+        int latitudeE6 = toBaiduFormat(latitude);
+        int longitudeE6 = toBaiduFormat(longitude);
+        GeoPoint point = new GeoPoint(latitudeE6, longitudeE6);
+        Point2D point2D = new Point2D(CoordinateConvert.fromWgs84ToBaidu(point), timestamp);
         mLocations.add(point2D);
         writeData();
 
         if (mOnLocationListener != null) {
             mOnLocationListener.onLocationUpdate();
         }
+    }
+
+    private int toBaiduFormat(double coordinate) {
+        return (int) (coordinate * 1E6);
     }
 
     public void setOnLocationListener(OnLocationListener onLocationListener) {

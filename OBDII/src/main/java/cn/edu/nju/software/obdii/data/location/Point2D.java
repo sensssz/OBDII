@@ -6,22 +6,20 @@ import com.baidu.platform.comapi.basestruct.GeoPoint;
  * Represent a geographical point with a latitude and a longitude
  */
 public class Point2D {
-    private double mLatitude;
-    private double mLongitude;
+    private int mLatitudeE6;
+    private int mLongitudeE6;
     private String mTimestamp;
 
-    public Point2D(double latitude, double longitude, String time) {
-        this.mLatitude = latitude;
-        this.mLongitude = longitude;
-        this.mTimestamp = time;
+    public Point2D(int latitudeE6, int longitudeE6, String time) {
+        mLatitudeE6 = latitudeE6;
+        mLongitudeE6 = longitudeE6;
+        mTimestamp = time;
     }
 
-    public double getLatitude() {
-        return mLatitude;
-    }
-
-    public double getLongitude() {
-        return mLongitude;
+    public Point2D(GeoPoint geoPoint, String time) {
+        mLatitudeE6 = geoPoint.getLatitudeE6();
+        mLongitudeE6 = geoPoint.getLongitudeE6();
+        mTimestamp = time;
     }
 
     public String getTimestamp() {
@@ -29,15 +27,19 @@ public class Point2D {
     }
 
     public GeoPoint toGeoPoint() {
-        return new GeoPoint(toBaiduFormat(mLatitude), toBaiduFormat(mLongitude));
-    }
-
-    private int toBaiduFormat(double coordinate) {
-        return (int) (coordinate * 1E6);
+        return new GeoPoint(mLatitudeE6, mLongitudeE6);
     }
 
     @Override
     public String toString() {
-        return mLatitude + "," + mLongitude + "," + mTimestamp;
+        return mLatitudeE6 + "," + mLongitudeE6 + "," + mTimestamp;
+    }
+
+    public int getLatitudeE6() {
+        return mLatitudeE6;
+    }
+
+    public int getLongitudeE6() {
+        return mLongitudeE6;
     }
 }
