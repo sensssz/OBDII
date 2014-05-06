@@ -19,13 +19,13 @@ public class DataDispatcher {
     private static final String ERROR_CODE = "0005";
     private static final String TRAVEL_INFO = "0007";
     private static final String OBD = "0008";
-    private static final String STATUS = "000b";
 
     private static DataDispatcher sInstance = new DataDispatcher();
 
     private OBDData mOBDData;
     private LocationDataManager mLocationDataManager;
     private TravelInfoManager mTravelInfoManager;
+    private OnFaultReceivedListener mOnFaultReceivedListener;
 
     private DataDispatcher() {
         mOBDData = new OBDData();
@@ -53,11 +53,11 @@ public class DataDispatcher {
         if (title.startsWith(LOCATION)) {
             handleLocationData(title, message);
         } else if (title.startsWith(ERROR_CODE)) {
+            handleFaults(message);
         } else if (title.startsWith(TRAVEL_INFO)) {
             handleTravelInfo(message);
         } else if (title.startsWith(OBD)) {
             handleOBDInfo(message);
-        } else if (title.startsWith(STATUS)) {
         }
     }
 
@@ -75,6 +75,13 @@ public class DataDispatcher {
         int indexOfLeft = title.indexOf("(");
         int indexOfRight = title.indexOf(")");
         return title.substring(indexOfLeft + 1, indexOfRight);
+    }
+
+    private void handleFaults(String message) {
+        if (mOnFaultReceivedListener != null) {
+            String[] faults = message.split(";");
+            mOnFaultReceivedListener.onFaultReceived(faults);
+        }
     }
 
     private void handleTravelInfo(String message) {
@@ -99,5 +106,13 @@ public class DataDispatcher {
 
     public OBDData getOBDData() {
         return mOBDData;
+    }
+
+    public void setOnFaultReceivedListener(OnFaultReceivedListener onFaultReceivedListener) {
+        this.mOnFaultReceivedListener = onFaultReceivedListener;
+    }
+
+    public interface OnFaultReceivedListener {
+        public void onFaultReceived(String[] faults);
     }
 }

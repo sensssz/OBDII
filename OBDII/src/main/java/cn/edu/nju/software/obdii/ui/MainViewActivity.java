@@ -51,17 +51,17 @@ public class MainViewActivity extends FragmentActivity {
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerIcons = new int[]{ //set icon of each drawer item
-                R.drawable.drawer_car_route,
                 R.drawable.drawer_obd_data,
-                R.drawable.drawer_travel_info,
                 R.drawable.drawer_alert_check,
+                R.drawable.drawer_travel_info,
+                R.drawable.drawer_car_route,
                 R.drawable.drawer_statistic,
         };
         mDrawerOptions = new String[]{ //set title of each drawer item
-                getString(R.string.car_route),
                 getString(R.string.OBD_data),
-                getString(R.string.travel_info),
                 getString(R.string.check_alert),
+                getString(R.string.travel_info),
+                getString(R.string.car_route),
                 getString(R.string.statistics),
 
         };
@@ -102,10 +102,10 @@ public class MainViewActivity extends FragmentActivity {
         mCurrentPosition = -1;
         mFragments = new Fragment[mDrawerIcons.length];
 
-        mFragments[0] = new TrajectoryFragment();
-        mFragments[1] = new OBDFragment();
+        mFragments[0] = new OBDFragment();
+        mFragments[1] = new AlertCheckFragment();
         mFragments[2] = new TravelInfoFragment();
-        mFragments[3] = new AlertCheckFragment();
+        mFragments[3] = new TrajectoryFragment();
         mFragments[4] = new StatisticsFragment();
         if (savedInstanceState == null) {
             selectItem(0);

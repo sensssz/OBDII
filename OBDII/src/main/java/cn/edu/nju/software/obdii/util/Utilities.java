@@ -3,7 +3,9 @@ package cn.edu.nju.software.obdii.util;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -60,4 +62,11 @@ public class Utilities {
         return String.format("%0" + (data.length*2) + "X", new BigInteger(1, data));
     }
 
+    public static String urlEncode(String url) {
+        try {
+            return URLEncoder.encode(url, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            return "";
+        }
+    }
 }
