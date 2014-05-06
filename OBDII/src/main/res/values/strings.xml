@@ -115,4 +115,6 @@
     <string name="pressure_unit">KPa</string>
     <string name="obd_air_temperature">环境空气温度</string>
 
+    <string name="fault_warning">您的爱车出现了以下的故障，请尽快修理</string>
+
 </resources>
