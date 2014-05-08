@@ -40,7 +40,7 @@ public class TravelInfoFragment extends Fragment {
                 .addTravelInfoListener(new TravelInfoManager.OnTravelInfoListener() {
                     @Override
                     public void onTravelInfoReceived(TravelInfo travelInfo) {
-                        mAdapterData.add(travelInfoToMap(travelInfo));
+                        mAdapterData.add(0, travelInfoToMap(travelInfo));
                         if (mAdapter != null) {
                             mAdapter.notifyDataSetChanged();
                         }

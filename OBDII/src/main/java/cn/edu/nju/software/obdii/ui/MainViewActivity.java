@@ -1,7 +1,10 @@
 package cn.edu.nju.software.obdii.ui;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -20,13 +23,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import cn.edu.nju.software.obdii.R;
+import cn.edu.nju.software.obdii.data.DataDispatcher;
 
 /**
  * Main activity. User navigation drawer to navigate between fragments
  */
 public class MainViewActivity extends FragmentActivity {
+    private static final int PRESS_INTERVAL = 2000;
+
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private int[] mDrawerIcons;
@@ -41,6 +48,11 @@ public class MainViewActivity extends FragmentActivity {
     private CharSequence mTitle;
 
     private Animation mFadeOutAnimation;
+
+    private Dialog mDialog;
+    private boolean mDismissed = true;
+
+    private long mLastPressTime = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,6 +124,38 @@ public class MainViewActivity extends FragmentActivity {
         }
 
         mFadeOutAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+
+        DataDispatcher.getInstance().setOnFaultReceivedListener(new DataDispatcher.OnFaultReceivedListener() {
+            @Override
+            public void onFaultReceived(String[] faults) {
+                if (mDialog != null && !mDismissed) {
+                    mDialog.dismiss();
+                    mDismissed = true;
+                }
+
+                if (faults.length > 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainViewActivity.this);
+                    builder.setTitle(R.string.fault_warning)
+                            .setItems(faults, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    if (mDialog != null) {
+                                        mDialog.dismiss();
+                                        mDismissed = true;
+                                    }
+                                }
+                            });
+                    mDialog = builder.create();
+                    mDialog.setCanceledOnTouchOutside(false);
+                    mDialog.show();
+                    mDismissed = false;
+                }
+            }
+        });
     }
 
     @Override
@@ -171,6 +215,17 @@ public class MainViewActivity extends FragmentActivity {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggles
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onBackPressed() {
+        long now = System.currentTimeMillis();
+        if (now - mLastPressTime < PRESS_INTERVAL) {
+            super.onBackPressed();
+        } else {
+            Toast.makeText(this, R.string.press_again_to_exit, Toast.LENGTH_LONG).show();
+        }
+        mLastPressTime = now;
     }
 
     public class MyAdapter extends ArrayAdapter<String> {

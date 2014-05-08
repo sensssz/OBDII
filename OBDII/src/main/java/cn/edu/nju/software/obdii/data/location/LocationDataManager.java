@@ -76,7 +76,7 @@ public class LocationDataManager {
         int latitudeE6 = toBaiduFormat(latitude);
         int longitudeE6 = toBaiduFormat(longitude);
         GeoPoint point = new GeoPoint(latitudeE6, longitudeE6);
-        Point2D point2D = new Point2D(CoordinateConvert.fromWgs84ToBaidu(point), timestamp);
+        Point2D point2D = new Point2D(CoordinateConvert.fromGcjToBaidu(point), timestamp);
         mLocations.add(point2D);
         writeData();
 
