@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/login_main"
     tools:context="${packageName}.${activityClass}">
 
     <LinearLayout
@@ -67,7 +68,6 @@
             android:id="@+id/button_divider"
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_above="@+id/buttons_group"
             android:background="?android:attr/dividerVertical" />
         <Button
             android:id="@+id/sign_in_button"

@@ -14,4 +14,6 @@
     <color name="speed_series_color">#458994</color>
     <color name="mileage_series_color">#D9742B</color>
     <color name="title_color">#ffa7a7a7</color>
+
+    <color name="dim_background">#C0000000</color>
 </resources>

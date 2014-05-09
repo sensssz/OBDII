@@ -2,18 +2,29 @@ package cn.edu.nju.software.obdii.ui;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import cn.edu.nju.software.obdii.R;
@@ -69,9 +80,69 @@ public class LoginActivity extends InstrumentedActivity {
         mForgetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri uri = Uri.parse(mForgetLink);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+//                Uri uri = Uri.parse(mForgetLink);
+//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                startActivity(intent);
+                LayoutInflater inflater = (LayoutInflater) LoginActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
+                final View popView = inflater.inflate(R.layout.popup_forgot, null, false);
+                final PopupWindow forgetWindow = new PopupWindow(popView,
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+                forgetWindow.setAnimationStyle(R.style.popup_anim_style);
+                forgetWindow.showAtLocation(findViewById(R.id.login_main), Gravity.CENTER, 0, 0);
+                forgetWindow.setOutsideTouchable(true);
+
+                Button okButton = (Button)popView.findViewById(R.id.forget_ok);
+                Button cancelButton = (Button)popView.findViewById(R.id.forget_cancel);
+                okButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        EditText editText = (EditText)popView.findViewById(R.id.forget_email);
+                        final String email = editText.getText().toString();
+                        final String url = "http://112.124.47.134/OBDController/mail/forget_password_sendmail.html";
+                        if (email.equals("")) {
+                            Utilities.showMessage(LoginActivity.this, R.string.username_empty);
+                        }
+                        else {
+
+                            new AsyncTask<Void, Void, String>() {
+                                @Override
+                                protected void onPreExecute() {
+
+                                }
+
+                                @Override
+                                protected String doInBackground(Void... voids) {
+                                    String result = "";
+                                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                    params.add(new BasicNameValuePair("email", email));
+                                    try {
+                                        result = HttpClient.getInstance().httpPost(url,params);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    return result;
+                                }
+
+                                @Override
+                                protected void onPostExecute(String signInResult) {
+                                    forgetWindow.dismiss();
+                                    Utilities.showMessage(LoginActivity.this, R.string.email_sent);
+
+                                }
+                            }.execute();
+                        }
+
+                    }
+                });
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(forgetWindow != null){
+                           forgetWindow.dismiss();
+                        }
+
+                    }
+                });
             }
         });
     }

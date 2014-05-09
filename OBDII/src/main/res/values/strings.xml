@@ -121,4 +121,8 @@
 
     <string name="press_again_to_exit">请再按一次退出</string>
 
+    <string name="please_enter_your_email">请输入您的邮箱</string>
+    <string name="cancel">取消</string>
+    <string name="email_sent">已发送邮件，请查收</string>
+
 </resources>
