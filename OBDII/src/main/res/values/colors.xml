@@ -16,4 +16,5 @@
     <color name="title_color">#ffa7a7a7</color>
 
     <color name="dim_background">#C0000000</color>
+    <color name="forget_text">#ff5b5b5b</color>
 </resources>

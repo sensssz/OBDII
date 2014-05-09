@@ -88,7 +88,7 @@ public class LoginActivity extends InstrumentedActivity {
                 LayoutInflater inflater = (LayoutInflater) LoginActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
                 final View popView = inflater.inflate(R.layout.popup_forgot, null, false);
                 final PopupWindow forgetWindow = new PopupWindow(popView,
-                        LinearLayout.LayoutParams.MATCH_PARENT, 300, true);
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
 
                 final FrameLayout frameLayout = (FrameLayout)findViewById(R.id.login_main);
                 frameLayout.getForeground().setAlpha(200);//设置前景色不透明，达到暗化的目的
