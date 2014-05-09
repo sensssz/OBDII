@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -49,12 +50,12 @@ public class LoginActivity extends InstrumentedActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.login_main);
+        frameLayout.getForeground().setAlpha(0);//设置前景色为透明
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setTitle(R.string.sign_in);
         }
-
         mUsernameEdit = (EditText) findViewById(R.id.username);
         mPasswordEdit = (EditText) findViewById(R.id.password);
         mSignInButton = (Button) findViewById(R.id.sign_in_button);
@@ -87,6 +88,10 @@ public class LoginActivity extends InstrumentedActivity {
                 final View popView = inflater.inflate(R.layout.popup_forgot, null, false);
                 final PopupWindow forgetWindow = new PopupWindow(popView,
                         LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+
+                final FrameLayout frameLayout = (FrameLayout)findViewById(R.id.login_main);
+                frameLayout.getForeground().setAlpha(100);//设置前景色不透明，达到暗化的目的
+
                 forgetWindow.setAnimationStyle(R.style.popup_anim_style);
                 forgetWindow.showAtLocation(findViewById(R.id.login_main), Gravity.CENTER, 0, 0);
                 forgetWindow.setOutsideTouchable(true);
@@ -126,6 +131,7 @@ public class LoginActivity extends InstrumentedActivity {
                                 @Override
                                 protected void onPostExecute(String signInResult) {
                                     forgetWindow.dismiss();
+                                    frameLayout.getForeground().setAlpha(0);
                                     Utilities.showMessage(LoginActivity.this, R.string.email_sent);
 
                                 }
@@ -139,6 +145,7 @@ public class LoginActivity extends InstrumentedActivity {
                     public void onClick(View view) {
                         if(forgetWindow != null){
                            forgetWindow.dismiss();
+                           frameLayout.getForeground().setAlpha(0);
                         }
 
                     }

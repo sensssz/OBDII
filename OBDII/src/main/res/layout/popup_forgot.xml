@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerVertical="true"
-        android:background="@color/background_color"
+        android:background="@color/card_background"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
         <EditText

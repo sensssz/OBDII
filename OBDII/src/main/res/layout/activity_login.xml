@@ -1,83 +1,92 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/login_main"
-    tools:context="${packageName}.${activityClass}">
+    android:foreground="@color/dim_background">
 
-    <LinearLayout
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/username"
-        android:gravity="center">
+        tools:context="${packageName}.${activityClass}">
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/username"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@drawable/poster"
+                />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:src="@drawable/poster"
-            />
-    </LinearLayout>
+            android:layout_above="@+id/password"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:hint="@string/username"
+            android:inputType="textEmailAddress"
+            android:singleLine="true" />
 
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/password"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:hint="@string/username"
-        android:inputType="textEmailAddress"
-        android:singleLine="true" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/divider"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:hint="@string/password"
-        android:imeOptions="actionGo"
-        android:inputType="textPassword"
-        android:singleLine="true" />
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_above="@+id/buttons_group"
-        android:background="?android:attr/dividerHorizontal" />
-    <LinearLayout
-        android:id="@+id/buttons_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/forget_button"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:text="@string/forget"
-            android:textColor="@color/apptheme_color" />
+            android:layout_above="@+id/divider"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:hint="@string/password"
+            android:imeOptions="actionGo"
+            android:inputType="textPassword"
+            android:singleLine="true" />
 
         <View
-            android:id="@+id/button_divider"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="?android:attr/dividerVertical" />
-        <Button
-            android:id="@+id/sign_in_button"
-            android:layout_width="wrap_content"
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_above="@+id/buttons_group"
+            android:background="?android:attr/dividerHorizontal" />
+        <LinearLayout
+            android:id="@+id/buttons_group"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:text="@string/sign_in"
-            android:textColor="@color/apptheme_color"
-            />
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/forget_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="@string/forget"
+                android:textColor="@color/apptheme_color" />
 
-    </LinearLayout>
-</RelativeLayout>
+            <View
+                android:id="@+id/button_divider"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="?android:attr/dividerVertical" />
+            <Button
+                android:id="@+id/sign_in_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="@string/sign_in"
+                android:textColor="@color/apptheme_color"
+                />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</FrameLayout>
