@@ -12,9 +12,23 @@ public class OBDData {
     private int mPressure;
     private int mAirTemperature;
 
+    private String mTime;
+
     private OnOBDUpdateListener mOnOBDUpdateListener;
 
     public OBDData() {
+    }
+
+    public OBDData(String line) {
+        String[] data = line.split(",");
+        mSpeed = Integer.parseInt(data[0]);
+        mVoltage = Integer.parseInt(data[1]);
+        mCoolantTemperature = Integer.parseInt(data[2]);
+        mRotateSpeed = Integer.parseInt(data[3]);
+        mOilLeft = Integer.parseInt(data[4]);
+        mPressure = Integer.parseInt(data[5]);
+        mAirTemperature = Integer.parseInt(data[6]);
+        mTime = data[7];
     }
 
     public static int dataValueToInt(String dataValue) {
@@ -58,7 +72,12 @@ public class OBDData {
         return mAirTemperature;
     }
 
-    public void set(String dataType, String dataValue) {
+    public String getTime() {
+        return mTime;
+    }
+
+    public void set(String dataType, String dataValue, String time) {
+        mTime = time;
         int value = dataValueToInt(dataValue);
         DataType type = DataConfig.getTypeByName(dataType);
         if (type != null) {
@@ -107,6 +126,14 @@ public class OBDData {
                     break;
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return mSpeed + "," + mVoltage + "," + mCoolantTemperature + ","
+                + mRotateSpeed + "," + mOilLeft + "," + mPressure + ","
+                + mAirTemperature + "," + mTime;
+
     }
 
     public void setOnOBDUpdateListener(OnOBDUpdateListener onOBDUpdateListener) {

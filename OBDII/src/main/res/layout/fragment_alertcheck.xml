@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_color">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background_color"
+                android:orientation="vertical">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -13,284 +15,308 @@
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card"
                 android:orientation="horizontal"
-                android:background="@drawable/card">
+                android:paddingBottom="20dp">
+
                 <LinearLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
                         android:text="@string/accelerate"/>
                     <ImageView
+                        android:id="@+id/accelerate_state"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:id="@+id/accelerate_state"
                         android:src="@drawable/normal_state"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
                         android:text="@string/urgent_accelerate"/>
                     <ImageView
+                        android:id="@+id/urgent_accelerate_state"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:id="@+id/urgent_accelerate_state"
                         android:src="@drawable/normal_state"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
                         android:text="@string/brake"/>
                     <ImageView
+                        android:id="@+id/brake_state"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:id="@+id/brake_state"
                         android:src="@drawable/normal_state"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
                         android:text="@string/urgent_brake"/>
                     <ImageView
+                        android:id="@+id/urgent_brake_state"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:id="@+id/urgent_brake_state"
                         android:src="@drawable/normal_state"/>
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card"
                 android:orientation="horizontal"
-                android:background="@drawable/card">
+                android:paddingBottom="20dp">
+
                 <LinearLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
                         android:text="@string/battery_serving"/>
                     <ImageView
+                        android:id="@+id/battery_serving_state"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:id="@+id/battery_serving_state"
                         android:src="@drawable/normal_state"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
                         android:text="@string/battery_lack_pressure"/>
                     <ImageView
+                        android:id="@+id/battery_lack_pressure_state"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:id="@+id/battery_lack_pressure_state"
                         android:src="@drawable/normal_state"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
                         android:text="@string/battery_over_pressure"/>
                     <ImageView
+                        android:id="@+id/battery_over_pressure_state"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:id="@+id/battery_over_pressure_state"
                         android:src="@drawable/normal_state"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
                         android:text="@string/gsm_format"/>
                     <ImageView
+                        android:id="@+id/gsm_format_state"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:id="@+id/gsm_format_state"
                         android:src="@drawable/normal_state"/>
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card"
                 android:orientation="horizontal"
-                android:background="@drawable/card">
+                android:paddingBottom="20dp">
+
                 <LinearLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
                         android:text="@string/warranty_period"/>
                     <ImageView
+                        android:id="@+id/warranty_period_state"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:id="@+id/warranty_period_state"
                         android:src="@drawable/normal_state"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
                         android:text="@string/vibrating_alert"/>
                     <ImageView
+                        android:id="@+id/vibrating_alert_state"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:id="@+id/vibrating_alert_state"
                         android:src="@drawable/normal_state"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
                         android:text="@string/speeding_alert"/>
                     <ImageView
+                        android:id="@+id/speeding_alert_state"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:id="@+id/speeding_alert_state"
                         android:src="@drawable/normal_state"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
                         android:text="@string/high_temperature"/>
                     <ImageView
+                        android:id="@+id/high_temperature_state"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:id="@+id/high_temperature_state"
                         android:src="@drawable/normal_state"/>
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card"
                 android:orientation="horizontal"
-                android:background="@drawable/card">
+                android:paddingBottom="20dp">
+
                 <LinearLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
                         android:text="@string/out_of_matrix_region"/>
                     <ImageView
+                        android:id="@+id/out_of_matrix_region_state"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:id="@+id/out_of_matrix_region_state"
                         android:src="@drawable/normal_state"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
                         android:text="@string/enter_matrix_region"/>
                     <ImageView
+                        android:id="@+id/enter_matrix_region_state"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:id="@+id/enter_matrix_region_state"
                         android:src="@drawable/normal_state"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
                         android:text="@string/collision_alert"/>
                     <ImageView
+                        android:id="@+id/collision_alert_state"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:id="@+id/collision_alert_state"
                         android:src="@drawable/normal_state"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
                         android:text="@string/OBD_sever_error_alert"/>
                     <ImageView
+                        android:id="@+id/OBD_sever_error_alert_state"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:id="@+id/OBD_sever_error_alert_state"
                         android:src="@drawable/normal_state"/>
                 </LinearLayout>
             </LinearLayout>

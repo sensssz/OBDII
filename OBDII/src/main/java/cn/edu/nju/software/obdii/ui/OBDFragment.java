@@ -34,6 +34,7 @@ public class OBDFragment extends Fragment {
 
     private ImageView mPointer;
     private TextView mSpeedView;
+    private TextView mTimeView;
 
     private ViewPager mViewPager;
     private OBDAdapter mOBDAdapter;
@@ -59,6 +60,7 @@ public class OBDFragment extends Fragment {
         mPointer = (ImageView) view.findViewById(R.id.pointer);
         mSpeedView = (TextView) view.findViewById(R.id.speed);
         mViewPager = (ViewPager) view.findViewById(R.id.obd_info_pager);
+        mTimeView = (TextView) view.findViewById(R.id.obd_time);
 
         mOBDAdapter = new OBDAdapter(getChildFragmentManager(), mOBDPart1Fragment, mOBDPart2Fragment);
         mOBDPart1Fragment.setViewPager(mViewPager);
@@ -66,41 +68,49 @@ public class OBDFragment extends Fragment {
         mViewPager.setAdapter(mOBDAdapter);
 
         updateSpeed();
+        updateTime();
 
-        DataDispatcher.getInstance().getOBDData().setOnOBDUpdateListener(new OBDData.OnOBDUpdateListener() {
+        DataDispatcher.getInstance().getOBDDataManager().getOBDData().setOnOBDUpdateListener(new OBDData.OnOBDUpdateListener() {
             @Override
             public void onSpeedUpdate(int speed) {
                 updateSpeed(speed);
+                updateTime();
             }
 
             @Override
             public void onVoltageUpdate(int voltage) {
                 mOBDPart1Fragment.updateVoltage();
+                updateTime();
             }
 
             @Override
             public void onCoolantTemperatureUpdate(int coolantTemperature) {
                 mOBDPart1Fragment.updateCoolantTemperature();
+                updateTime();
             }
 
             @Override
             public void onRotateSpeedUpdate(int rotateSpeed) {
                 mOBDPart1Fragment.updateRotateSpeed();
+                updateTime();
             }
 
             @Override
             public void onOilLeftUpdate(int oilLeft) {
                 mOBDPart2Fragment.updateOilLeft();
+                updateTime();
             }
 
             @Override
             public void onPressureUpdate(int pressure) {
                 mOBDPart2Fragment.updatePressure();
+                updateTime();
             }
 
             @Override
             public void onAirTemperatureUpdate(int airTemperature) {
                 mOBDPart2Fragment.updateAirTemperature();
+                updateTime();
             }
         });
 
@@ -108,26 +118,35 @@ public class OBDFragment extends Fragment {
     }
 
     private void updateSpeed() {
-        final int currentSpeed = DataDispatcher.getInstance().getOBDData().getSpeed();
+        final int currentSpeed = DataDispatcher.getInstance().getOBDDataManager().getOBDData().getSpeed();
         updateSpeed(currentSpeed);
     }
 
+    private void updateTime() {
+        if (mTimeView != null) {
+            String time = DataDispatcher.getInstance().getOBDDataManager().getOBDData().getTime();
+            mTimeView.setText(time);
+        }
+    }
+
     private void updateSpeed(final int currentSpeed) {
-        mPointer.post(new Runnable() {
-            @Override
-            public void run() {
-                float speed = currentSpeed;
-                if (speed > SPEED_MAX_VALUE) {
-                    speed = SPEED_MAX_VALUE;
+        if (getActivity() != null) {
+            mPointer.post(new Runnable() {
+                @Override
+                public void run() {
+                    float speed = currentSpeed;
+                    if (speed > SPEED_MAX_VALUE) {
+                        speed = SPEED_MAX_VALUE;
+                    }
+                    float toDegree = speed * DEGREE_PER_SPEED;
+                    long duration = (long) (Math.abs(toDegree - mSpeedAngle) * TIME_PER_DEGREE);
+                    Animation pointerAnimation = getSpeedPointerRotateAnimation(toDegree, duration);
+                    ValueAnimator speedViewAnimator = getSpeedTextAnimator(speed, toDegree, duration);
+                    mPointer.startAnimation(pointerAnimation);
+                    speedViewAnimator.start();
                 }
-                float toDegree = speed * DEGREE_PER_SPEED;
-                long duration = (long) (Math.abs(toDegree - mSpeedAngle) * TIME_PER_DEGREE);
-                Animation pointerAnimation = getSpeedPointerRotateAnimation(toDegree, duration);
-                ValueAnimator speedViewAnimator = getSpeedTextAnimator(speed, toDegree, duration);
-                mPointer.startAnimation(pointerAnimation);
-                speedViewAnimator.start();
-            }
-        });
+            });
+        }
     }
 
     private RotateAnimation getSpeedPointerRotateAnimation(float toDegree, long duration) {

@@ -76,60 +76,66 @@ public class OBDPart1Fragment extends Fragment {
     }
 
     public void updateVoltage() {
-        final int currentVoltage = DataDispatcher.getInstance().getOBDData().getVoltage();
-        mVoltageDiagram.post(new Runnable() {
-            @Override
-            public void run() {
-                updateOBDInfo(mVoltageText, getString(R.string.voltage_unit), mVoltageDiagram,
-                        mVoltageScale, mVoltage, currentVoltage, MAX_VOLTAGE,
-                        new ValueAnimator.AnimatorUpdateListener() {
-                            @Override
-                            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                mVoltage = (Integer) valueAnimator.getAnimatedValue("value");
-                                mVoltageScale = (Float) valueAnimator.getAnimatedValue("scale");
+        if (getActivity() != null) {
+            final int currentVoltage = DataDispatcher.getInstance().getOBDDataManager().getOBDData().getVoltage();
+            mVoltageDiagram.post(new Runnable() {
+                @Override
+                public void run() {
+                    updateOBDInfo(mVoltageText, getString(R.string.voltage_unit), mVoltageDiagram,
+                            mVoltageScale, mVoltage, currentVoltage, MAX_VOLTAGE,
+                            new ValueAnimator.AnimatorUpdateListener() {
+                                @Override
+                                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                    mVoltage = (Integer) valueAnimator.getAnimatedValue("value");
+                                    mVoltageScale = (Float) valueAnimator.getAnimatedValue("scale");
+                                }
                             }
-                        }
-                );
-            }
-        });
+                    );
+                }
+            });
+        }
     }
 
     public void updateCoolantTemperature() {
-        final int currentCoolantTemperature = DataDispatcher.getInstance().getOBDData().getCoolantTemperature();
-        mCoolantTemperatureDiagram.post(new Runnable() {
-            @Override
-            public void run() {
-                updateOBDInfo(mCoolantTemperatureText, getString(R.string.temperature_unit), mCoolantTemperatureDiagram,
-                        mCoolantTemperatureScale, mCoolantTemperature, currentCoolantTemperature,
-                        MAX_COOLANT_TEMPERATURE, new ValueAnimator.AnimatorUpdateListener() {
-                            @Override
-                            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                mCoolantTemperature = (Integer) valueAnimator.getAnimatedValue("value");
-                                mCoolantTemperatureScale = (Float) valueAnimator.getAnimatedValue("scale");
+        if (getActivity() != null) {
+            final int currentCoolantTemperature = DataDispatcher.getInstance().getOBDDataManager().getOBDData().getCoolantTemperature();
+            mCoolantTemperatureDiagram.post(new Runnable() {
+                @Override
+                public void run() {
+                    updateOBDInfo(mCoolantTemperatureText, getString(R.string.temperature_unit), mCoolantTemperatureDiagram,
+                            mCoolantTemperatureScale, mCoolantTemperature, currentCoolantTemperature,
+                            MAX_COOLANT_TEMPERATURE, new ValueAnimator.AnimatorUpdateListener() {
+                                @Override
+                                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                    mCoolantTemperature = (Integer) valueAnimator.getAnimatedValue("value");
+                                    mCoolantTemperatureScale = (Float) valueAnimator.getAnimatedValue("scale");
+                                }
                             }
-                        }
-                );
-            }
-        });
+                    );
+                }
+            });
+        }
     }
 
     public void updateRotateSpeed() {
-        final int currentRotateSpeed = DataDispatcher.getInstance().getOBDData().getRotateSpeed();
-        mRotateSpeedDiagram.post(new Runnable() {
-            @Override
-            public void run() {
-                updateOBDInfo(mRotateSpeedText, getString(R.string.rotate_speed_unit), mRotateSpeedDiagram,
-                        mRotateSpeedScale, mRotateSpeed, currentRotateSpeed, MAX_ROTATE_SPEED,
-                        new ValueAnimator.AnimatorUpdateListener() {
-                            @Override
-                            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                mRotateSpeed = (Integer) valueAnimator.getAnimatedValue("value");
-                                mRotateSpeedScale = (Float) valueAnimator.getAnimatedValue("scale");
+        if (getActivity() != null) {
+            final int currentRotateSpeed = DataDispatcher.getInstance().getOBDDataManager().getOBDData().getRotateSpeed();
+            mRotateSpeedDiagram.post(new Runnable() {
+                @Override
+                public void run() {
+                    updateOBDInfo(mRotateSpeedText, getString(R.string.rotate_speed_unit), mRotateSpeedDiagram,
+                            mRotateSpeedScale, mRotateSpeed, currentRotateSpeed, MAX_ROTATE_SPEED,
+                            new ValueAnimator.AnimatorUpdateListener() {
+                                @Override
+                                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                    mRotateSpeed = (Integer) valueAnimator.getAnimatedValue("value");
+                                    mRotateSpeedScale = (Float) valueAnimator.getAnimatedValue("scale");
+                                }
                             }
-                        }
-                );
-            }
-        });
+                    );
+                }
+            });
+        }
     }
 
     private void updateOBDInfo(final TextView textView, final String unit, View diagram,

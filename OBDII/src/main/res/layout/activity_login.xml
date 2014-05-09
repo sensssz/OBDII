@@ -1,15 +1,16 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    android:id="@+id/login_main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/login_main"
     android:foreground="@color/dim_background">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="${packageName}.${activityClass}">
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context="${packageName}.${activityClass}">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,7 +36,8 @@
             android:layout_marginRight="10dp"
             android:hint="@string/username"
             android:inputType="textEmailAddress"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:text="user@gmail.com"/>
 
         <EditText
             android:id="@+id/password"
@@ -47,20 +49,23 @@
             android:hint="@string/password"
             android:imeOptions="actionGo"
             android:inputType="textPassword"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:text="123456"/>
 
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_above="@+id/buttons_group"
-            android:background="?android:attr/dividerHorizontal" />
+            android:background="?android:attr/dividerHorizontal"/>
+
         <LinearLayout
             android:id="@+id/buttons_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/forget_button"
                 android:layout_width="wrap_content"
@@ -68,13 +73,14 @@
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
                 android:text="@string/forget"
-                android:textColor="@color/apptheme_color" />
+                android:textColor="@color/apptheme_color"/>
 
             <View
                 android:id="@+id/button_divider"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="?android:attr/dividerVertical" />
+                android:background="?android:attr/dividerVertical"/>
+
             <Button
                 android:id="@+id/sign_in_button"
                 android:layout_width="wrap_content"

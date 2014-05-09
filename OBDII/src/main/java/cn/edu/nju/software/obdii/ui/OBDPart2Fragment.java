@@ -76,60 +76,66 @@ public class OBDPart2Fragment extends Fragment {
     }
 
     public void updateOilLeft() {
-        final int currentOilLeft = DataDispatcher.getInstance().getOBDData().getOilLeft();
-        mOilLeftDiagram.post(new Runnable() {
-            @Override
-            public void run() {
-                updateOBDInfo(mOilLeftText, getString(R.string.oil_left_unit), mOilLeftDiagram,
-                        mOilLeftScale, mOilLeft, currentOilLeft, MAX_OIL_LEFT,
-                        new ValueAnimator.AnimatorUpdateListener() {
-                            @Override
-                            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                mOilLeft = (Integer) valueAnimator.getAnimatedValue("value");
-                                mOilLeftScale = (Float) valueAnimator.getAnimatedValue("scale");
+        if (getActivity() != null) {
+            final int currentOilLeft = DataDispatcher.getInstance().getOBDDataManager().getOBDData().getOilLeft();
+            mOilLeftDiagram.post(new Runnable() {
+                @Override
+                public void run() {
+                    updateOBDInfo(mOilLeftText, getString(R.string.oil_left_unit), mOilLeftDiagram,
+                            mOilLeftScale, mOilLeft, currentOilLeft, MAX_OIL_LEFT,
+                            new ValueAnimator.AnimatorUpdateListener() {
+                                @Override
+                                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                    mOilLeft = (Integer) valueAnimator.getAnimatedValue("value");
+                                    mOilLeftScale = (Float) valueAnimator.getAnimatedValue("scale");
+                                }
                             }
-                        }
-                );
-            }
-        });
+                    );
+                }
+            });
+        }
     }
 
     public void updatePressure() {
-        final int currentPressure = DataDispatcher.getInstance().getOBDData().getPressure();
-        mPressureDiagram.post(new Runnable() {
-            @Override
-            public void run() {
-                updateOBDInfo(mPressureText, getString(R.string.pressure_unit), mPressureDiagram,
-                        mPressureScale, mPressure, currentPressure,
-                        MAX_PRESSURE, new ValueAnimator.AnimatorUpdateListener() {
-                            @Override
-                            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                mPressure = (Integer) valueAnimator.getAnimatedValue("value");
-                                mPressureScale = (Float) valueAnimator.getAnimatedValue("scale");
+        if (getActivity() != null) {
+            final int currentPressure = DataDispatcher.getInstance().getOBDDataManager().getOBDData().getPressure();
+            mPressureDiagram.post(new Runnable() {
+                @Override
+                public void run() {
+                    updateOBDInfo(mPressureText, getString(R.string.pressure_unit), mPressureDiagram,
+                            mPressureScale, mPressure, currentPressure,
+                            MAX_PRESSURE, new ValueAnimator.AnimatorUpdateListener() {
+                                @Override
+                                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                    mPressure = (Integer) valueAnimator.getAnimatedValue("value");
+                                    mPressureScale = (Float) valueAnimator.getAnimatedValue("scale");
+                                }
                             }
-                        }
-                );
-            }
-        });
+                    );
+                }
+            });
+        }
     }
 
     public void updateAirTemperature() {
-        final int currentAirTemperature = DataDispatcher.getInstance().getOBDData().getAirTemperature();
-        mAirTemperatureDiagram.post(new Runnable() {
-            @Override
-            public void run() {
-                updateOBDInfo(mAirTemperatureText, getString(R.string.temperature_unit), mAirTemperatureDiagram,
-                        mAirTemperatureScale, mAirTemperature, currentAirTemperature, MAX_AIR_TEMPERATURE,
-                        new ValueAnimator.AnimatorUpdateListener() {
-                            @Override
-                            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                mAirTemperature = (Integer) valueAnimator.getAnimatedValue("value");
-                                mAirTemperatureScale = (Float) valueAnimator.getAnimatedValue("scale");
+        if (getActivity() != null) {
+            final int currentAirTemperature = DataDispatcher.getInstance().getOBDDataManager().getOBDData().getAirTemperature();
+            mAirTemperatureDiagram.post(new Runnable() {
+                @Override
+                public void run() {
+                    updateOBDInfo(mAirTemperatureText, getString(R.string.temperature_unit), mAirTemperatureDiagram,
+                            mAirTemperatureScale, mAirTemperature, currentAirTemperature, MAX_AIR_TEMPERATURE,
+                            new ValueAnimator.AnimatorUpdateListener() {
+                                @Override
+                                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                    mAirTemperature = (Integer) valueAnimator.getAnimatedValue("value");
+                                    mAirTemperatureScale = (Float) valueAnimator.getAnimatedValue("scale");
+                                }
                             }
-                        }
-                );
-            }
-        });
+                    );
+                }
+            });
+        }
     }
 
     private void updateOBDInfo(final TextView textView, final String unit, View diagram,

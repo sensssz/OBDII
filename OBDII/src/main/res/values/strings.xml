@@ -104,7 +104,7 @@
     <string name="speed_unit">km/h</string>
     <string name="obd_voltage">电池电压</string>
     <string name="voltage_unit">(0.1V)</string>
-    <string name="obd_coolant_temperature">发动机冷却液温度</string>
+    <string name="obd_coolant_temperature">冷却液温度</string>
     <string name="temperature_unit">°C</string>
     <string name="obd_rotate_speed">发送机转速</string>
     <string name="rotate_speed_unit">(转每分)</string>

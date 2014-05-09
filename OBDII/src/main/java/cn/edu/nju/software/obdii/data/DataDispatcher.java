@@ -7,7 +7,7 @@ import java.io.File;
 import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfo;
 import cn.edu.nju.software.obdii.data.TravelInfo.TravelInfoManager;
 import cn.edu.nju.software.obdii.data.location.LocationDataManager;
-import cn.edu.nju.software.obdii.data.obd.OBDData;
+import cn.edu.nju.software.obdii.data.obd.OBDDataManager;
 import cn.edu.nju.software.obdii.util.Utilities;
 
 /**
@@ -22,14 +22,10 @@ public class DataDispatcher {
 
     private static DataDispatcher sInstance = new DataDispatcher();
 
-    private OBDData mOBDData;
+    private OBDDataManager mOBDDataManager;
     private LocationDataManager mLocationDataManager;
     private TravelInfoManager mTravelInfoManager;
     private OnFaultReceivedListener mOnFaultReceivedListener;
-
-    private DataDispatcher() {
-        mOBDData = new OBDData();
-    }
 
     public static DataDispatcher getInstance() {
         return sInstance;
@@ -38,6 +34,7 @@ public class DataDispatcher {
     public void setUsername(Context context, String username) {
         String userDirectory = context.getFilesDir() + "/" + Utilities.sha1(username) + "/";
         createDirIfNotExists(userDirectory);
+        mOBDDataManager = new OBDDataManager(userDirectory);
         mLocationDataManager = new LocationDataManager(userDirectory);
         mTravelInfoManager = new TravelInfoManager(userDirectory);
     }
@@ -57,7 +54,7 @@ public class DataDispatcher {
         } else if (title.startsWith(TRAVEL_INFO)) {
             handleTravelInfo(message);
         } else if (title.startsWith(OBD)) {
-            handleOBDInfo(message);
+            handleOBDInfo(title, message);
         }
     }
 
@@ -91,9 +88,9 @@ public class DataDispatcher {
         }
     }
 
-    private void handleOBDInfo(String message) {
+    private void handleOBDInfo(String title, String message) {
         String[] data = message.split(":");
-        mOBDData.set(data[0], data[1]);
+        mOBDDataManager.onOBDDataUpdate(data[0], data[1], getTimestamp(title));
     }
 
     public LocationDataManager getLocationData() {
@@ -104,8 +101,8 @@ public class DataDispatcher {
         return mTravelInfoManager;
     }
 
-    public OBDData getOBDData() {
-        return mOBDData;
+    public OBDDataManager getOBDDataManager() {
+        return mOBDDataManager;
     }
 
     public void setOnFaultReceivedListener(OnFaultReceivedListener onFaultReceivedListener) {

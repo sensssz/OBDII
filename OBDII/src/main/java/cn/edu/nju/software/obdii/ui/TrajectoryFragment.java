@@ -247,6 +247,7 @@ public class TrajectoryFragment extends Fragment {
                 int longitudeCenter = (int) (longitudeSum / points.size());
                 GeoPoint center = new GeoPoint(latitudeCenter, longitudeCenter);
                 mMapView.getController().setCenter(center);
+                mMapView.getController().setZoom(10);
                 mCenter = center;
             }
         }
