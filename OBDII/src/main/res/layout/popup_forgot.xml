@@ -12,6 +12,16 @@
         android:background="@color/card_background"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/please_enter_your_email"
+            android:textColor="@color/axis_color"
+            android:gravity="center_vertical"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/dividerHorizontal" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="48dp"

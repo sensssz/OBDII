@@ -44,7 +44,7 @@ public class LoginActivity extends InstrumentedActivity {
     private EditText mPasswordEdit;
     private Button mSignInButton;
     private Button mForgetButton;
-    private String mForgetLink;
+//    private String mForgetLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class LoginActivity extends InstrumentedActivity {
         mPasswordEdit = (EditText) findViewById(R.id.password);
         mSignInButton = (Button) findViewById(R.id.sign_in_button);
         mForgetButton = (Button) findViewById(R.id.forget_button);
-        mForgetLink = "http://www.baidu.com";
+//        mForgetLink = "http://www.baidu.com";
         mPasswordEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionID, KeyEvent keyEvent) {
