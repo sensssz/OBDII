@@ -95,8 +95,9 @@ public class LoginActivity extends InstrumentedActivity {
 
                 forgetWindow.setAnimationStyle(R.style.popup_anim_style);
                 forgetWindow.showAtLocation(findViewById(R.id.login_main), Gravity.CENTER, 0, 0);
-
-
+                //
+                LoginActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+                //
 
                 Button okButton = (Button)popView.findViewById(R.id.forget_ok);
                 Button cancelButton = (Button)popView.findViewById(R.id.forget_cancel);
@@ -135,6 +136,7 @@ public class LoginActivity extends InstrumentedActivity {
                                     forgetWindow.dismiss();
                                     frameLayout.getForeground().setAlpha(0);
                                     Utilities.showMessage(LoginActivity.this, R.string.email_sent);
+                                    LoginActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
                                 }
                             }.execute();
@@ -148,6 +150,7 @@ public class LoginActivity extends InstrumentedActivity {
                         if(forgetWindow != null){
                            forgetWindow.dismiss();
                            frameLayout.getForeground().setAlpha(0);
+                           LoginActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                         }
 
                     }
