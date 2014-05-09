@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -87,14 +88,15 @@ public class LoginActivity extends InstrumentedActivity {
                 LayoutInflater inflater = (LayoutInflater) LoginActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
                 final View popView = inflater.inflate(R.layout.popup_forgot, null, false);
                 final PopupWindow forgetWindow = new PopupWindow(popView,
-                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+                        LinearLayout.LayoutParams.MATCH_PARENT, 300, true);
 
                 final FrameLayout frameLayout = (FrameLayout)findViewById(R.id.login_main);
-                frameLayout.getForeground().setAlpha(100);//设置前景色不透明，达到暗化的目的
+                frameLayout.getForeground().setAlpha(200);//设置前景色不透明，达到暗化的目的
 
                 forgetWindow.setAnimationStyle(R.style.popup_anim_style);
                 forgetWindow.showAtLocation(findViewById(R.id.login_main), Gravity.CENTER, 0, 0);
-                forgetWindow.setOutsideTouchable(true);
+
+
 
                 Button okButton = (Button)popView.findViewById(R.id.forget_ok);
                 Button cancelButton = (Button)popView.findViewById(R.id.forget_cancel);
