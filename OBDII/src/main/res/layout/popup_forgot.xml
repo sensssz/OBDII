@@ -1,104 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="12dp"
-              android:layout_marginRight="12dp"
-              android:background="@color/card_background"
-              android:isScrollContainer="true"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/topPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@color/card_background"
+        android:isScrollContainer="true"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/title_template"
+            android:id="@+id/topPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dip"
-            android:layout_marginStart="16dip"
-            android:gravity="center_vertical|start"
-            android:minHeight="64dip"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <com.android.internal.widget.DialogTitle
-                android:id="@+id/alertTitle"
-                style="@android:style/TextAppearance.Holo.DialogWindowTitle"
+            <LinearLayout
+                android:id="@+id/title_template"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dip"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text="@string/forget"
+                android:layout_marginEnd="16dip"
+                android:layout_marginStart="16dip"
+                android:gravity="center_vertical|start"
+                android:minHeight="64dip"
+                android:orientation="horizontal">
+
+                <com.android.internal.widget.DialogTitle
+                    android:id="@+id/alertTitle"
+                    style="@android:style/TextAppearance.Holo.DialogWindowTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dip"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="@string/forget"
+                    android:textColor="@color/apptheme_color"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/titleDivider"
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:background="@color/apptheme_color"
+                android:visibility="visible"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/please_enter_your_email"
+            android:textColor="@color/forget_text"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/forget_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:hint="@string/username"
+            android:inputType="textEmailAddress"
+            android:singleLine="true"/>
+
+        <View
+            android:id="@+id/forget_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/dividerHorizontal"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/forget_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="@string/cancel"
+                android:textColor="@color/apptheme_color"/>
+
+            <View
+                android:id="@+id/forget_button_divider"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="?android:attr/dividerVertical"/>
+
+            <Button
+                android:id="@+id/forget_ok"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="@string/ok"
                 android:textColor="@color/apptheme_color"/>
         </LinearLayout>
 
-        <View
-            android:id="@+id/titleDivider"
-            android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:background="@color/apptheme_color"
-            android:visibility="visible"/>
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/please_enter_your_email"
-        android:textColor="@color/forget_text"
-        android:textSize="18sp"/>
-
-    <EditText
-        android:id="@+id/forget_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:hint="@string/username"
-        android:inputType="textEmailAddress"
-        android:singleLine="true"/>
-
-    <View
-        android:id="@+id/forget_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/dividerHorizontal"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/forget_cancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:text="@string/cancel"
-            android:textColor="@color/apptheme_color"/>
-
-        <View
-            android:id="@+id/forget_button_divider"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="?android:attr/dividerVertical"/>
-
-        <Button
-            android:id="@+id/forget_ok"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:text="@string/ok"
-            android:textColor="@color/apptheme_color"/>
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
