@@ -23,7 +23,7 @@ import cn.edu.nju.software.obdii.data.obd.OBDData;
  * Display OBD information
  */
 public class OBDFragment extends Fragment {
-    private static final long TOTAL_ANIMATION_TIME = 4000;
+    private static final long TOTAL_ANIMATION_TIME = 3000;
     private static final float SPEED_MIN_VALUE = 0;
     private static final float SPEED_MAX_VALUE = 200;
     private static final float SPEED_MAX_ANGLE = 244f;

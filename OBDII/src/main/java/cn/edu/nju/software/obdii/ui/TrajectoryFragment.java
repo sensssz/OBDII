@@ -162,6 +162,7 @@ public class TrajectoryFragment extends Fragment {
                                         if (mCurrentSelected == index) {
                                             mQueryProgress.setVisibility(View.INVISIBLE);
                                             mAddressView.setText(mkAddrInfo.strAddr);
+                                            mPopupOverlay.hidePop();
                                             mPopupOverlay.showPopup(mPopupView, geoPoint, dpToPx(12));
                                         }
                                     } else {
