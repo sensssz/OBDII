@@ -47,8 +47,8 @@ public class OBDDataManager {
     }
 
     public void onOBDDataUpdate(String dataType, String dataValue, String time) {
-        writeData();
         mOBDData.set(dataType, dataValue, time);
+        writeData();
     }
 
     public OBDData getOBDData() {

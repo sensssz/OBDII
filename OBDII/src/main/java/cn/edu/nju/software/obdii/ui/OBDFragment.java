@@ -139,6 +139,7 @@ public class OBDFragment extends Fragment {
                         speed = SPEED_MAX_VALUE;
                     }
                     float toDegree = speed * DEGREE_PER_SPEED;
+                    // Calculate the duration of the animation
                     long duration = (long) (Math.abs(toDegree - mSpeedAngle) * TIME_PER_DEGREE);
                     Animation pointerAnimation = getSpeedPointerRotateAnimation(toDegree, duration);
                     ValueAnimator speedViewAnimator = getSpeedTextAnimator(speed, toDegree, duration);
@@ -153,12 +154,15 @@ public class OBDFragment extends Fragment {
         RotateAnimation rotateAnimation = new RotateAnimation(mSpeedAngle, toDegree,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotateAnimation.setDuration(duration);
+        // Enable fill after so that after the animation is
+        // finished, the image view stays in the rotated state
         rotateAnimation.setFillEnabled(true);
         rotateAnimation.setFillAfter(true);
         return rotateAnimation;
     }
 
     private ValueAnimator getSpeedTextAnimator(float toSpeed, float toDegree, long duration) {
+        // Need to animate mSpeed and mSpeedAngle at the same time
         PropertyValuesHolder speedHolder = PropertyValuesHolder.ofInt("speed", (int) mSpeed, (int) toSpeed);
         PropertyValuesHolder angleHolder = PropertyValuesHolder.ofFloat("angle", mSpeedAngle, toDegree);
         ValueAnimator animator = ValueAnimator.ofPropertyValuesHolder(speedHolder, angleHolder);
@@ -169,6 +173,7 @@ public class OBDFragment extends Fragment {
                 int speed = (Integer) valueAnimator.getAnimatedValue("speed");
                 float angle = (Float) valueAnimator.getAnimatedValue("angle");
                 String speedText = speed + getString(R.string.speed_unit);
+                // Update text view
                 mSpeedView.setText(speedText);
                 mSpeed = speed;
                 mSpeedAngle = angle;

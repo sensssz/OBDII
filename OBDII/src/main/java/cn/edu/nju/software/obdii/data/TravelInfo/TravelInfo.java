@@ -19,6 +19,30 @@ public class TravelInfo implements Parcelable {
 
     private String mStartTime;
     private String mEndTime;
+    private String mDistance;
+    private String mMaxSpeed;
+    private String mTimeoutLength;
+    private String mBrakingTimes;
+    private String mUrgentBrakingTimes;
+    private String mAccelerateTimes;
+    private String mUrgentAccelerateTimes;
+    private String mAverageSpeed;
+    private String mHighestTemperature;
+    private String mHighestRotateSpeed;
+    private String mVoltage;
+    private String mTotalOilConsumption;
+    private String mAverageOilConsumption;
+    private String mFatigueDrivingLength;
+    private String mSerial;
+
+    public TravelInfo(String[] data) {
+        init(data);
+    }
+
+    private TravelInfo(Parcel in) {
+        String[] data = in.createStringArray();
+        init(data);
+    }
 
     public String getmStartTime() {
         return mStartTime;
@@ -88,57 +112,18 @@ public class TravelInfo implements Parcelable {
         return mSerial;
     }
 
-    private String mDistance;
-    private String mMaxSpeed;
-    private String mTimeoutLength;
-    private String mBrakingTimes;
-    private String mUrgentBrakingTimes;
-    private String mAccelerateTimes;
-    private String mUrgentAccelerateTimes;
-    private String mAverageSpeed;
-    private String mHighestTemperature;
-    private String mHighestRotateSpeed;
-    private String mVoltage;
-    private String mTotalOilConsumption;
-    private String mAverageOilConsumption;
-    private String mFatigueDrivingLength;
-    private String mSerial;
-
-    public TravelInfo() {
-    }
-
-    public TravelInfo(String mStartTime, String mEndTime, String mDistance,
-                      String mMaxSpeed, String mTimeoutLength,
-                      String mBrakingTimes, String mUrgentBrakingTimes,
-                      String mAccelerateTimes, String mUrgentAccelerateTimes,
-                      String mAverageSpeed, String mHighestTemperature,
-                      String mHighestRotateSpeed, String mVoltage,
-                      String mTotalOilConsumption, String mAverageOilConsumption,
-                      String mFatigueDrivingLength, String mSerial) {
-        init(mStartTime, mEndTime, mDistance,
-                mMaxSpeed, mTimeoutLength,
-                mBrakingTimes, mUrgentBrakingTimes,
-                mAccelerateTimes, mUrgentAccelerateTimes,
-                mAverageSpeed, mHighestTemperature,
-                mHighestRotateSpeed, mVoltage,
-                mTotalOilConsumption, mAverageOilConsumption,
-                mFatigueDrivingLength, mSerial);
-    }
-
-    public TravelInfo(String[] data) {
-        init(data);
-    }
-
-    private TravelInfo(Parcel in) {
-        String[] data = in.createStringArray();
-        init(data);
-    }
-
     public void init(String[] data) {
-        init(data[0], data[1], data[2], data[3],
-                data[4], data[5], data[6], data[7], data[8],
-                data[9], data[10], data[11], data[12], data[13],
-                data[14], data[15], data[16]);
+        if (data[0].compareTo(data[1]) < 0) {
+            init(data[0], data[1], data[2], data[3],
+                    data[4], data[5], data[6], data[7], data[8],
+                    data[9], data[10], data[11], data[12], data[13],
+                    data[14], data[15], data[16]);
+        } else {
+            init(data[1], data[0], data[2], data[3],
+                    data[4], data[5], data[6], data[7], data[8],
+                    data[9], data[10], data[11], data[12], data[13],
+                    data[14], data[15], data[16]);
+        }
     }
 
     public void init(String mStartTime, String mEndTime, String mDistance,

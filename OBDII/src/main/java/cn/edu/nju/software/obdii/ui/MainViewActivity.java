@@ -3,13 +3,18 @@ package cn.edu.nju.software.obdii.ui;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -33,6 +38,7 @@ import cn.edu.nju.software.obdii.data.DataDispatcher;
  */
 public class MainViewActivity extends FragmentActivity {
     private static final int PRESS_INTERVAL = 2000;
+    private static final int NOTIFICATION_ID = 42;
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -53,6 +59,10 @@ public class MainViewActivity extends FragmentActivity {
     private boolean mDismissed = true;
 
     private long mLastPressTime = -1;
+
+    private boolean mInBackground;
+
+    private boolean mNotification = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,14 +89,12 @@ public class MainViewActivity extends FragmentActivity {
         };
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
-            mDrawerList.setAdapter(new MyAdapter(
-                    getActionBar().getThemedContext(), R.layout.drawer_item_title,
+            mDrawerList.setAdapter(new MyAdapter(this, R.layout.drawer_item_title,
                     mDrawerIcons, mDrawerOptions));
+            getActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
@@ -134,28 +142,107 @@ public class MainViewActivity extends FragmentActivity {
                 }
 
                 if (faults.length > 0) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainViewActivity.this);
-                    builder.setTitle(R.string.fault_warning)
-                            .setItems(faults, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            })
-                            .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    if (mDialog != null) {
-                                        mDialog.dismiss();
-                                        mDismissed = true;
-                                    }
-                                }
-                            });
-                    mDialog = builder.create();
-                    mDialog.setCanceledOnTouchOutside(false);
-                    mDialog.show();
-                    mDismissed = false;
+                    showFaultDialog(faults);
+                    if (mInBackground) {
+                        // If the application is put in background
+                        // then show a notification
+                        showFaultNotification(faults);
+                    }
                 }
             }
         });
+
+        Intent intent = getIntent();
+        String[] faults = intent.getStringArrayExtra("faults");
+        if (faults != null) {
+            showFaultDialog(faults);
+            intent.removeExtra("faults");
+        }
+
+//        if (!mNotification) {
+//            showFaultNotification(new String[]{
+//                    "P0133:前侧含氧感知器(O2B1S1)变动率太慢",
+//                    "P0153:氧传感器(O2B2S1)信号变动率太慢",
+//                    "P0301:第1缸间歇性不点火",
+//                    "P0303:第3缸间歇性不点火",
+//                    "P0305:第5缸间歇性不点火",
+//                    "P0420:前方触媒转换器效能不佳",
+//                    "P0430:前方触媒转换器效能不佳"});
+//            mNotification = true;
+//        }
+    }
+
+    /**
+     * Create a dialog that shows a list of faults occurred to the car
+     */
+    private void showFaultDialog(String[] faults) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.fault_warning)
+                .setItems(faults, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (mDialog != null) {
+                            // Dismiss the previous dialog is there is one
+                            mDialog.dismiss();
+                            mDismissed = true;
+                        }
+                    }
+                });
+        mDialog = builder.create();
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.show();
+        mDismissed = false;
+    }
+
+    private void showFaultNotification(String[] faults) {
+        // Create notification
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.logo)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.fault_warning))
+                        .setContentTitle(getString(R.string.fault_warning_notification))
+                        .setContentText(getString(R.string.expand_for_details))
+                        .setAutoCancel(true);
+
+        // Set the big view when the notification is expanded
+        NotificationCompat.InboxStyle inboxStyle =
+                new NotificationCompat.InboxStyle();
+        inboxStyle.setBigContentTitle(getString(R.string.fault_warning));
+        for (String fault : faults) {
+            if (fault != null && fault.length() > 0) {
+                inboxStyle.addLine(fault);
+            }
+        }
+        mBuilder.setStyle(inboxStyle);
+
+        // Start MainViewActivity when the notification is clicked
+        Intent resultIntent = new Intent(this, MainViewActivity.class);
+        // Put the fault data in the intent for the MainViewActivity to show 
+        // after it's started
+        resultIntent.putExtra("faults", faults);
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        // Show notification
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mInBackground = false;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mInBackground = true;
     }
 
     @Override

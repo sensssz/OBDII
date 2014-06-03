@@ -117,6 +117,8 @@
     <string name="obd_air_temperature">环境空气温度</string>
 
     <string name="fault_warning">您的爱车出现了以下的故障，请尽快修理</string>
+    <string name="fault_warning_notification">您的爱车出现了故障，请尽快修理</string>
+    <string name="expand_for_details">展开通知查看详细</string>
     <string name="ok">确定</string>
 
     <string name="press_again_to_exit">请再按一次退出</string>

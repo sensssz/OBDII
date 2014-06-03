@@ -11,7 +11,7 @@ import cn.edu.nju.software.obdii.data.obd.OBDDataManager;
 import cn.edu.nju.software.obdii.util.Utilities;
 
 /**
- * Stores all data received from server
+ * Dispatch data received from the server to different objects
  */
 public class DataDispatcher {
     //    private static final String TAG = "DataMap";
@@ -27,11 +27,19 @@ public class DataDispatcher {
     private TravelInfoManager mTravelInfoManager;
     private OnFaultReceivedListener mOnFaultReceivedListener;
 
+    private DataDispatcher() {
+    }
+
     public static DataDispatcher getInstance() {
         return sInstance;
     }
 
+    /**
+     * Initialize all data using the username
+     */
     public void setUsername(Context context, String username) {
+        // Store all files in the system generated directory
+        // instead of creating one on the SD card
         String userDirectory = context.getFilesDir() + "/" + Utilities.sha1(username) + "/";
         createDirIfNotExists(userDirectory);
         mOBDDataManager = new OBDDataManager(userDirectory);
@@ -90,7 +98,9 @@ public class DataDispatcher {
 
     private void handleOBDInfo(String title, String message) {
         String[] data = message.split(":");
-        mOBDDataManager.onOBDDataUpdate(data[0], data[1], getTimestamp(title));
+        if (mOBDDataManager != null) {
+            mOBDDataManager.onOBDDataUpdate(data[0], data[1], getTimestamp(title));
+        }
     }
 
     public LocationDataManager getLocationData() {

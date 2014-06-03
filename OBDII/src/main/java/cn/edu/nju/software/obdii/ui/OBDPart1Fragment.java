@@ -141,11 +141,14 @@ public class OBDPart1Fragment extends Fragment {
     private void updateOBDInfo(final TextView textView, final String unit, View diagram,
                                float fromScale, int fromValue, int toValue, int maxValue,
                                ValueAnimator.AnimatorUpdateListener listener) {
+        // Set the background in code instead of the xml file
+        // because the view is as large as the container at the start
         diagram.setBackgroundColor(Color.parseColor("#F9CDAD"));
         if (toValue > maxValue) {
             toValue = maxValue;
         }
         float toScale = toValue * 1.0f / maxValue;
+        // Calculate duration of animation
         long duration = (long) (Math.abs(toScale - fromScale) * TOTAL_ANIMATION_TIME);
 
         ScaleAnimation scaleAnimation = getScaleAnimation(diagram, fromScale, toScale, duration);
@@ -168,6 +171,7 @@ public class OBDPart1Fragment extends Fragment {
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int value = (Integer) valueAnimator.getAnimatedValue("value");
                 String text = value + unit;
+                // Update text view
                 textView.setText(text);
             }
         });

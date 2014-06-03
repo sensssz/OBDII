@@ -73,10 +73,12 @@ public class LocationDataManager {
     }
 
     public void onLocationReceived(double latitude, double longitude, String timestamp) {
+        // Convert the data format to Baidu Map format
         int latitudeE6 = toBaiduFormat(latitude);
         int longitudeE6 = toBaiduFormat(longitude);
         GeoPoint point = new GeoPoint(latitudeE6, longitudeE6);
-        Point2D point2D = new Point2D(CoordinateConvert.fromGcjToBaidu(point), timestamp);
+        // Use the Baidu Map API to rectify the coordinate deviation
+        Point2D point2D = new Point2D(CoordinateConvert.fromWgs84ToBaidu(point), timestamp);
         mLocations.add(point2D);
         writeData();
 

@@ -79,6 +79,8 @@ public class OBDData {
     public void set(String dataType, String dataValue, String time) {
         mTime = time;
         int value = dataValueToInt(dataValue);
+        // To avoid using a series of if statements, first convert the 
+        // dataType String to a DataType enum, and then use the switch statement
         DataType type = DataConfig.getTypeByName(dataType);
         if (type != null) {
             switch (type) {
