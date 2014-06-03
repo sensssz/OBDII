@@ -23,7 +23,7 @@ public class AlertCheckFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_alertcheck, container, false);
         mAlerts = new String[16];
-        updateAlerts();
+//        updateAlerts();
 
         return view;
     }
